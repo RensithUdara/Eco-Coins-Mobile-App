@@ -41,14 +41,14 @@ class NotificationService {
     // Initialize plugin
     await _notificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse,
+      onSelectNotification: _onSelectNotification,
     );
   }
 
-  /// Handle notification response
-  void _onDidReceiveNotificationResponse(NotificationResponse response) {
+  /// Handle notification selection
+  Future<void> _onSelectNotification(String? payload) async {
     // Handle notification tap
-    if (response.payload != null) {
+    if (payload != null) {
       // Handle payload
     }
   }
@@ -70,7 +70,7 @@ class NotificationService {
       showWhen: true,
     );
 
-    const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
+    const IOSNotificationDetails iosDetails = IOSNotificationDetails(
       presentAlert: true,
       presentBadge: true,
       presentSound: true,
@@ -107,7 +107,7 @@ class NotificationService {
       showWhen: true,
     );
 
-    const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
+    const IOSNotificationDetails iosDetails = IOSNotificationDetails(
       presentAlert: true,
       presentBadge: true,
       presentSound: true,
@@ -124,7 +124,7 @@ class NotificationService {
       'Your $treeSpecies tree needs a $maintenanceType. Earn more EcoCoins!',
       tz.TZDateTime.from(scheduledDate, tz.local),
       notificationDetails,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       payload: 'maintenance_$id',
