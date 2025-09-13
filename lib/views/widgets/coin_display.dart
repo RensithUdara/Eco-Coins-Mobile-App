@@ -21,7 +21,8 @@ class CoinDisplay extends StatelessWidget {
           // Main card
           Container(
             margin: const EdgeInsets.only(top: 15),
-            padding: EdgeInsets.fromLTRB(20, isLarge ? 30.0 : 20.0, 20, isLarge ? 24.0 : 18.0),
+            padding: EdgeInsets.fromLTRB(
+                20, isLarge ? 30.0 : 20.0, 20, isLarge ? 24.0 : 18.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20.0),
@@ -86,7 +87,8 @@ class CoinDisplay extends StatelessWidget {
                         AssetPaths.coinIcon,
                         height: isLarge ? 32 : 24,
                         width: isLarge ? 32 : 24,
-                        errorBuilder: (context, error, stackTrace) => const Icon(
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(
                           Icons.monetization_on,
                           color: ColorConstants.secondary,
                           size: 28,
@@ -98,7 +100,7 @@ class CoinDisplay extends StatelessWidget {
               ],
             ),
           ),
-          
+
           // Top decoration with pattern
           Positioned(
             top: 0,
@@ -146,48 +148,91 @@ class CoinStatistics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildStatCard(
-            context,
-            treesPlanted.toString(),
-            'Trees Planted',
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildStatCard(
+              context,
+              treesPlanted.toString(),
+              'Trees Planted',
+              Icons.nature,
+              ColorConstants.primary,
+            ),
           ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: _buildStatCard(
-            context,
-            estimatedValue.toString(),
-            'Est. Value',
+          const SizedBox(width: 16),
+          Expanded(
+            child: _buildStatCard(
+              context,
+              estimatedValue.toString(),
+              'Est. Value',
+              Icons.trending_up,
+              ColorConstants.info,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   /// Build a statistic card
-  Widget _buildStatCard(BuildContext context, String value, String label) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: ColorConstants.textPrimary,
+  Widget _buildStatCard(BuildContext context, String value, String label,
+      IconData icon, Color iconColor) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 1,
+            blurRadius: 8,
+            offset: const Offset(0, 3),
           ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 14,
-            color: ColorConstants.textSecondary,
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: iconColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              icon,
+              size: 24,
+              color: iconColor,
+            ),
           ),
-        ),
-      ],
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: ColorConstants.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
