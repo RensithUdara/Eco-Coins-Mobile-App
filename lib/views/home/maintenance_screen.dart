@@ -872,125 +872,269 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Build maintenance details card
   Widget _buildMaintenanceDetailsCard() {
-    return Card(
-      shape: RoundedRectangleBorder(
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Notes field with improved styling
-            const Row(
-              children: [
-                Icon(Icons.edit_note, color: ColorConstants.primary),
-                SizedBox(width: 8),
-                Text(
-                  'Maintenance Notes',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: ColorConstants.textPrimary,
+      child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+          side: BorderSide(color: ColorConstants.primaryLight.withOpacity(0.2), width: 1),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: ColorConstants.primaryLight.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.assignment_rounded,
+                      color: ColorConstants.primary,
+                      size: 24,
+                    ),
                   ),
-                ),
-                Spacer(),
-                Text(
-                  'Required',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontStyle: FontStyle.italic,
-                    color: ColorConstants.info,
+                  const SizedBox(width: 12),
+                  const Text(
+                    'Maintenance Details',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: ColorConstants.textPrimary,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: _notesController,
-              decoration: InputDecoration(
-                hintText: 'Add notes about your maintenance activity...',
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey[300]!),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide:
-                      const BorderSide(color: ColorConstants.primary, width: 2),
-                ),
-                contentPadding: const EdgeInsets.all(16),
+                ],
               ),
-              maxLines: 4,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some notes';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 24),
+              const SizedBox(height: 8),
+              const Divider(),
+              const SizedBox(height: 16),
+              
+              // Notes field with improved styling
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[50],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: ColorConstants.primary.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: const Icon(Icons.edit_note, color: ColorConstants.primary, size: 18),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          'Maintenance Notes',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: ColorConstants.textPrimary,
+                          ),
+                        ),
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: ColorConstants.info.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: ColorConstants.info.withOpacity(0.3)),
+                          ),
+                          child: const Text(
+                            'Required',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: ColorConstants.info,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      controller: _notesController,
+                      decoration: InputDecoration(
+                        hintText: 'Add notes about your maintenance activity...',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Colors.grey[300]!),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide:
+                              const BorderSide(color: ColorConstants.primary, width: 2),
+                        ),
+                        contentPadding: const EdgeInsets.all(16),
+                        prefixIcon: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+                          child: Icon(
+                            Icons.description,
+                            color: ColorConstants.primary,
+                          ),
+                        ),
+                      ),
+                      maxLines: 4,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some notes';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Provide detailed information about what you did for your tree',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontStyle: FontStyle.italic,
+                        color: ColorConstants.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              
+              const SizedBox(height: 24),
 
-            // Date field with improved styling
-            const Row(
-              children: [
-                Icon(Icons.calendar_today, color: ColorConstants.primary),
-                SizedBox(width: 8),
-                Text(
-                  'Maintenance Date',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: ColorConstants.textPrimary,
-                  ),
-                ),
-                Spacer(),
-                Text(
-                  'Today',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: ColorConstants.success,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: _dateController,
-              readOnly: true,
-              decoration: InputDecoration(
-                hintText: 'YYYY - MM - DD',
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
+              // Date field with improved styling
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[50],
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey[300]!),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide:
-                      const BorderSide(color: ColorConstants.primary, width: 2),
-                ),
-                contentPadding: const EdgeInsets.all(16),
-                suffixIcon: Container(
-                  margin: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: ColorConstants.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.calendar_today,
-                        color: ColorConstants.primary),
-                    onPressed: _selectDate,
-                  ),
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: ColorConstants.primary.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: const Icon(Icons.calendar_today, color: ColorConstants.primary, size: 18),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          'Maintenance Date',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: ColorConstants.textPrimary,
+                          ),
+                        ),
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: ColorConstants.success.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: ColorConstants.success.withOpacity(0.3)),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.today,
+                                size: 12,
+                                color: ColorConstants.success,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                DateFormat('dd MMM').format(DateTime.now()),
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorConstants.success,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    InkWell(
+                      onTap: _selectDate,
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: ColorConstants.primaryLight.withOpacity(0.5)),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.calendar_month,
+                              color: ColorConstants.primary,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              DateFormat('EEEE, MMMM d, yyyy').format(_selectedDate),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: ColorConstants.textPrimary,
+                              ),
+                            ),
+                            const Spacer(),
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: ColorConstants.primary.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: const Icon(
+                                Icons.edit_calendar,
+                                color: ColorConstants.primary,
+                                size: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // Hidden text field for validation
+                    Opacity(
+                      opacity: 0,
+                      child: TextFormField(
+                        controller: _dateController,
+                        enabled: false,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              onTap: _selectDate,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
