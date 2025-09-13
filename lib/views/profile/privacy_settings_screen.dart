@@ -1,6 +1,46 @@
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 
+/// Custom painter for bubble pattern in header background
+class BubblePatternPainter extends CustomPainter {
+  final double animationValue;
+  
+  BubblePatternPainter({required this.animationValue});
+  
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0;
+    
+    final bubbleSizes = [10.0, 15.0, 8.0, 12.0, 7.0];
+    final positions = [
+      Offset(size.width * 0.1, size.height * 0.2),
+      Offset(size.width * 0.3, size.height * 0.7),
+      Offset(size.width * 0.5, size.height * 0.3),
+      Offset(size.width * 0.7, size.height * 0.6),
+      Offset(size.width * 0.9, size.height * 0.4),
+    ];
+    
+    for (int i = 0; i < bubbleSizes.length; i++) {
+      // Calculate dynamic radius with animation
+      final radius = bubbleSizes[i] * (0.8 + 0.2 * (i % 2 == 0 ? animationValue : 1 - animationValue));
+      
+      // Calculate position with slight movement
+      final offsetX = positions[i].dx + (i % 2 == 0 ? 5 : -5) * animationValue;
+      final offsetY = positions[i].dy + (i % 3 == 0 ? 3 : -3) * animationValue;
+      
+      canvas.drawCircle(Offset(offsetX, offsetY), radius, paint);
+    }
+  }
+  
+  @override
+  bool shouldRepaint(BubblePatternPainter oldDelegate) {
+    return oldDelegate.animationValue != animationValue;
+  }
+}
+
 /// Privacy Settings Screen allows users to manage their privacy preferences
 class PrivacySettingsScreen extends StatefulWidget {
   const PrivacySettingsScreen({super.key});
