@@ -28,7 +28,7 @@ class MaintenanceController with ChangeNotifier {
   List<Tree> get treesForMaintenance => _treesForMaintenance;
   MaintenanceOperationState get state => _state;
   String? get errorMessage => _errorMessage;
-  
+
   /// Add maintenance record
   Future<bool> addMaintenance({
     required int userId,
@@ -40,7 +40,7 @@ class MaintenanceController with ChangeNotifier {
   }) async {
     _state = MaintenanceOperationState.loading;
     notifyListeners();
-    
+
     try {
       // Implementation will come later
       await Future.delayed(const Duration(seconds: 2));
