@@ -18,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isPasswordVisible = false;
+  bool _rememberMe = false;
 
   @override
   void dispose() {
@@ -34,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final success = await authController.login(
         email: _emailController.text.trim(),
         password: _passwordController.text,
+        rememberMe: _rememberMe,
       );
 
       if (success && mounted) {
@@ -185,6 +187,27 @@ class _LoginScreenState extends State<LoginScreen> {
               }
               return null;
             },
+          ),
+          const SizedBox(height: 16),
+          // Remember Me checkbox
+          Row(
+            children: [
+              Checkbox(
+                value: _rememberMe,
+                activeColor: ColorConstants.primary,
+                onChanged: (bool? value) {
+                  setState(() {
+                    _rememberMe = value ?? false;
+                  });
+                },
+              ),
+              const Text(
+                'Remember Me',
+                style: TextStyle(
+                  color: ColorConstants.textPrimary,
+                ),
+              ),
+            ],
           ),
         ],
       ),
