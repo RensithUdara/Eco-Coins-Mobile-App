@@ -41,7 +41,7 @@ dependencies:
   
   # Database
   sqflite: ^2.3.2
-  path_provider: ^2.1.8
+  path_provider: ^2.1.5
   
   # UI/UX
   flutter_svg: ^2.0.11
