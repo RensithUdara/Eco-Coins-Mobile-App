@@ -50,75 +50,18 @@ class _AuthWrapperState extends State<AuthWrapper> {
       );
     }
 
-    // Listen to auth state changes and navigate accordingly
-    return Consumer<AuthController>(
-      builder: (context, authController, _) {
-        if (authController.state == AuthState.authenticated) {
-          return Navigator(
-            onGenerateRoute: (_) => MaterialPageRoute(
-              builder: (_) => const DashboardPlaceholder(),
-            ),
-          );
-        } else {
-          return Navigator(
-            onGenerateRoute: (_) => MaterialPageRoute(
-              builder: (_) => const LoginPlaceholder(),
-            ),
-          );
-        }
-      },
-    );
-  }
-}
-
-/// Placeholder widget that will navigate to the dashboard
-class DashboardPlaceholder extends StatefulWidget {
-  const DashboardPlaceholder({super.key});
-
-  @override
-  State<DashboardPlaceholder> createState() => _DashboardPlaceholderState();
-}
-
-class _DashboardPlaceholderState extends State<DashboardPlaceholder> {
-  @override
-  void initState() {
-    super.initState();
-    // Navigate after frame is built
+    // Navigate based on auth state
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Navigator.pushReplacementNamed(context, AppConstants.dashboardRoute);
+      final authController =
+          Provider.of<AuthController>(context, listen: false);
+      if (authController.state == AuthState.authenticated) {
+        Navigator.pushReplacementNamed(context, AppConstants.dashboardRoute);
+      } else {
+        Navigator.pushReplacementNamed(context, AppConstants.loginRoute);
+      }
     });
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-}
-
-/// Placeholder widget that will navigate to the login screen
-class LoginPlaceholder extends StatefulWidget {
-  const LoginPlaceholder({super.key});
-
-  @override
-  State<LoginPlaceholder> createState() => _LoginPlaceholderState();
-}
-
-class _LoginPlaceholderState extends State<LoginPlaceholder> {
-  @override
-  void initState() {
-    super.initState();
-    // Navigate after frame is built
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Navigator.pushReplacementNamed(context, AppConstants.loginRoute);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+    // Return a loading indicator while navigating
     return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(),
