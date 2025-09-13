@@ -1,6 +1,7 @@
 import 'package:eco_coins_mobile_app/models/user_model.dart';
 import 'package:eco_coins_mobile_app/services/database_service.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Authentication state
 enum AuthState {
