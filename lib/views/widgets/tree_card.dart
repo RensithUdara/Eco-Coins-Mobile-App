@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+
 import 'package:eco_coins_mobile_app/models/tree_model.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:eco_coins_mobile_app/utils/helpers.dart';
-import 'dart:io';
+import 'package:flutter/material.dart';
 
 /// Tree card widget for displaying tree information
 class TreeCard extends StatelessWidget {
@@ -62,8 +63,10 @@ class TreeCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              tree.id != null ? 'ID: ${tree.id.toString().padLeft(3, '0')}' : '',
-                              style: TextStyle(
+                              tree.id != null
+                                  ? 'ID: ${tree.id.toString().padLeft(3, '0')}'
+                                  : '',
+                              style: const TextStyle(
                                 fontSize: 14,
                                 color: ColorConstants.textSecondary,
                               ),
@@ -72,7 +75,7 @@ class TreeCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '${Helpers.formatTreeAge(tree.ageInDays)}',
+                          Helpers.formatTreeAge(tree.ageInDays),
                           style: const TextStyle(
                             fontSize: 16,
                           ),
@@ -186,7 +189,7 @@ class TreeCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Icon(
+        const Icon(
           Icons.monetization_on,
           color: ColorConstants.secondary,
           size: 20,
@@ -194,7 +197,7 @@ class TreeCard extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           '${tree.coinsEarned}',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
             color: ColorConstants.textPrimary,
