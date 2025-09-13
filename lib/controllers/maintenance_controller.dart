@@ -17,7 +17,7 @@ enum MaintenanceOperationState {
 class MaintenanceController with ChangeNotifier {
   final DatabaseService _databaseService;
   final NotificationService _notificationService;
-  
+
   MaintenanceController(this._databaseService, this._notificationService);
 
   List<Tree> _treesForMaintenance = [];
