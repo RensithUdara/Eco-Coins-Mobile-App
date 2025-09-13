@@ -303,6 +303,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
     required bool value,
     required ValueChanged<bool> onChanged,
   }) {
+    // Add consistent animation with same color scheme
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(begin: 0.95, end: 1.0),
       duration: const Duration(milliseconds: 300),
@@ -485,7 +486,180 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
             ),
           ),
         ),
+
+        // Privacy completion progress bar
+        const SizedBox(height: 20),
+        _buildProgressBar(),
+
+        // Next section navigation box
+        const SizedBox(height: 24),
+        _buildNextSectionBox(),
       ],
+    );
+  }
+
+  /// Builds an animated progress bar showing privacy settings completion
+  Widget _buildProgressBar() {
+    // Calculate progress based on enabled settings
+    const int totalSettings = 5; // Total number of toggleable settings
+    final int enabledSettings = [
+      _locationServices,
+      _dataCollection,
+      _profileVisibility,
+      _achievementsPublic,
+      _marketingEmails
+    ].where((setting) => setting).length;
+
+    final double progressPercent = enabledSettings / totalSettings;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Privacy Profile Completion',
+              style: TextStyle(
+                color: ColorConstants.primaryDark,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
+            ),
+            Text(
+              '${(progressPercent * 100).toInt()}%',
+              style: const TextStyle(
+                color: ColorConstants.primary,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        TweenAnimationBuilder<double>(
+          tween: Tween<double>(begin: 0.0, end: progressPercent),
+          duration: const Duration(milliseconds: 800),
+          curve: Curves.easeOutCubic,
+          builder: (context, value, child) {
+            return Container(
+              width: double.infinity,
+              height: 10,
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Stack(
+                children: [
+                  FractionallySizedBox(
+                    widthFactor: value,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: const LinearGradient(
+                          colors: [
+                            ColorConstants.primary,
+                            ColorConstants.primaryLight,
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  /// Builds an animated next section navigation box
+  Widget _buildNextSectionBox() {
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(begin: 0.9, end: 1.0),
+      duration: const Duration(milliseconds: 400),
+      builder: (context, scale, child) {
+        return Transform.scale(
+          scale: scale,
+          child: child,
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [
+              ColorConstants.primary,
+              ColorConstants.primaryDark,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: ColorConstants.primary.withOpacity(0.3),
+              blurRadius: 12,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+              // You can add navigation to the next section if needed
+              _showSnackBar('Settings saved successfully!');
+            },
+            borderRadius: BorderRadius.circular(16),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Save & Continue',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Return to profile settings',
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.8),
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
