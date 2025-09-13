@@ -31,7 +31,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
           children: [
             // Header with information about privacy
             _buildHeader(),
-            
+
             // Settings options
             Expanded(
               child: ListView(
@@ -40,7 +40,8 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                   _buildSettingsCategory('Location & Data'),
                   _buildSwitchTile(
                     title: 'Location Services',
-                    subtitle: 'Allow app to access your location for tree planting verification',
+                    subtitle:
+                        'Allow app to access your location for tree planting verification',
                     value: _locationServices,
                     onChanged: (value) {
                       setState(() {
@@ -50,7 +51,8 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                   ),
                   _buildSwitchTile(
                     title: 'Data Collection',
-                    subtitle: 'Allow collection of usage data to improve app experience',
+                    subtitle:
+                        'Allow collection of usage data to improve app experience',
                     value: _dataCollection,
                     onChanged: (value) {
                       setState(() {
@@ -59,11 +61,11 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                     },
                   ),
                   const Divider(height: 32),
-                  
                   _buildSettingsCategory('Profile & Visibility'),
                   _buildSwitchTile(
                     title: 'Public Profile',
-                    subtitle: 'Make your profile visible to other eco-enthusiasts',
+                    subtitle:
+                        'Make your profile visible to other eco-enthusiasts',
                     value: _profileVisibility,
                     onChanged: (value) {
                       setState(() {
@@ -82,11 +84,11 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                     },
                   ),
                   const Divider(height: 32),
-                  
                   _buildSettingsCategory('Communications'),
                   _buildSwitchTile(
                     title: 'Marketing Emails',
-                    subtitle: 'Receive updates about new features and promotions',
+                    subtitle:
+                        'Receive updates about new features and promotions',
                     value: _marketingEmails,
                     onChanged: (value) {
                       setState(() {
@@ -94,7 +96,6 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                       });
                     },
                   ),
-                  
                   const SizedBox(height: 24),
                   _buildDataManagementSection(),
                 ],
@@ -110,7 +111,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
   Widget _buildHeader() {
     return Container(
       padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -150,7 +151,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
       padding: const EdgeInsets.only(bottom: 12.0),
       child: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           color: ColorConstants.primaryDark,
           fontSize: 16,
           fontWeight: FontWeight.bold,
@@ -195,7 +196,8 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
         value: value,
         onChanged: onChanged,
         activeColor: ColorConstants.primary,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       ),
     );
   }
@@ -227,7 +229,8 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                   icon: Icons.download_rounded,
                   color: ColorConstants.info,
                   onTap: () {
-                    _showSnackBar('Download request initiated. You will receive your data package via email within 48 hours.');
+                    _showSnackBar(
+                        'Download request initiated. You will receive your data package via email within 48 hours.');
                   },
                 ),
                 const SizedBox(height: 12),
@@ -270,8 +273,8 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
             Text(
               title,
               style: TextStyle(
-                color: color == ColorConstants.error 
-                    ? color 
+                color: color == ColorConstants.error
+                    ? color
                     : ColorConstants.textPrimary,
                 fontWeight: FontWeight.w600,
                 fontSize: 15,
@@ -306,9 +309,10 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              _showSnackBar('Account deletion process initiated. You will receive a confirmation email.');
+              _showSnackBar(
+                  'Account deletion process initiated. You will receive a confirmation email.');
             },
-            child: Text(
+            child: const Text(
               'DELETE',
               style: TextStyle(
                 color: ColorConstants.error,
