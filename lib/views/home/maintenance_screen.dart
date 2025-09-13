@@ -7,7 +7,6 @@ import 'package:eco_coins_mobile_app/models/maintenance_model.dart';
 import 'package:eco_coins_mobile_app/services/image_service.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:eco_coins_mobile_app/utils/helpers.dart';
-import 'package:eco_coins_mobile_app/views/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -1821,7 +1820,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   Widget _buildSubmitButton() {
     // Check if form is ready for submission (tree selected and image uploaded)
     bool isFormReady = _selectedTree != null && _selectedImage != null;
-    
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       width: double.infinity,
@@ -1829,8 +1828,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: isFormReady
-            ? [ColorConstants.primaryDark, ColorConstants.primary]
-            : [Colors.grey[400]!, Colors.grey[500]!],
+              ? [ColorConstants.primaryDark, ColorConstants.primary]
+              : [Colors.grey[400]!, Colors.grey[500]!],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
@@ -1838,8 +1837,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         boxShadow: [
           BoxShadow(
             color: isFormReady
-              ? ColorConstants.primary.withOpacity(0.3)
-              : Colors.grey.withOpacity(0.2),
+                ? ColorConstants.primary.withOpacity(0.3)
+                : Colors.grey.withOpacity(0.2),
             blurRadius: isFormReady ? 10 : 5,
             spreadRadius: isFormReady ? 2 : 1,
             offset: const Offset(0, 4),
@@ -1850,18 +1849,28 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(20.0),
         child: InkWell(
-          onTap: isFormReady ? _handleSubmit : () {
-            // Show what's missing in the form
-            if (_selectedTree == null && _selectedImage == null) {
-              Helpers.showSnackBar(context, 'Please select a tree and upload a photo', isError: true);
-            } else if (_selectedTree == null) {
-              Helpers.showSnackBar(context, 'Please select a tree to maintain', isError: true);
-            } else if (_selectedImage == null) {
-              Helpers.showSnackBar(context, 'Please upload a photo of your maintenance activity', isError: true);
-            }
-          },
+          onTap: isFormReady
+              ? _handleSubmit
+              : () {
+                  // Show what's missing in the form
+                  if (_selectedTree == null && _selectedImage == null) {
+                    Helpers.showSnackBar(
+                        context, 'Please select a tree and upload a photo',
+                        isError: true);
+                  } else if (_selectedTree == null) {
+                    Helpers.showSnackBar(
+                        context, 'Please select a tree to maintain',
+                        isError: true);
+                  } else if (_selectedImage == null) {
+                    Helpers.showSnackBar(context,
+                        'Please upload a photo of your maintenance activity',
+                        isError: true);
+                  }
+                },
           borderRadius: BorderRadius.circular(20.0),
-          splashColor: isFormReady ? ColorConstants.primaryLight.withOpacity(0.3) : Colors.transparent,
+          splashColor: isFormReady
+              ? ColorConstants.primaryLight.withOpacity(0.3)
+              : Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Row(
@@ -1874,7 +1883,9 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  isFormReady ? 'Record Maintenance' : 'Complete Required Fields',
+                  isFormReady
+                      ? 'Record Maintenance'
+                      : 'Complete Required Fields',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -1884,24 +1895,25 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 if (isFormReady) ...[
                   const SizedBox(width: 4),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     margin: const EdgeInsets.only(left: 8),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.eco,
                           color: Colors.white,
                           size: 14,
                         ),
-                        const SizedBox(width: 4),
+                        SizedBox(width: 4),
                         Text(
                           '+${CoinRewards.oneMonthUpdate} coins',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
