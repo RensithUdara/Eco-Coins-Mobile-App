@@ -486,22 +486,22 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
             ),
           ),
         ),
-        
+
         // Privacy completion progress bar
         const SizedBox(height: 20),
         _buildProgressBar(),
-        
+
         // Next section navigation box
         const SizedBox(height: 24),
         _buildNextSectionBox(),
       ],
     );
   }
-  
+
   /// Builds an animated progress bar showing privacy settings completion
   Widget _buildProgressBar() {
     // Calculate progress based on enabled settings
-    final int totalSettings = 5; // Total number of toggleable settings
+    const int totalSettings = 5; // Total number of toggleable settings
     final int enabledSettings = [
       _locationServices,
       _dataCollection,
@@ -509,16 +509,16 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
       _achievementsPublic,
       _marketingEmails
     ].where((setting) => setting).length;
-    
+
     final double progressPercent = enabledSettings / totalSettings;
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'Privacy Profile Completion',
               style: TextStyle(
                 color: ColorConstants.primaryDark,
@@ -528,7 +528,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
             ),
             Text(
               '${(progressPercent * 100).toInt()}%',
-              style: TextStyle(
+              style: const TextStyle(
                 color: ColorConstants.primary,
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
@@ -556,8 +556,8 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                          colors: const [
+                        gradient: const LinearGradient(
+                          colors: [
                             ColorConstants.primary,
                             ColorConstants.primaryLight,
                           ],
@@ -575,7 +575,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
       ],
     );
   }
-  
+
   /// Builds an animated next section navigation box
   Widget _buildNextSectionBox() {
     return TweenAnimationBuilder<double>(
