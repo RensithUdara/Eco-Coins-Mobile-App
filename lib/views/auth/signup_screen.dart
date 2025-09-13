@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:eco_coins_mobile_app/controllers/auth_controller.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:eco_coins_mobile_app/utils/helpers.dart';
 import 'package:eco_coins_mobile_app/views/widgets/custom_button.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 /// Sign up screen for user registration
 class SignupScreen extends StatefulWidget {
@@ -17,7 +17,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
@@ -34,7 +35,8 @@ class _SignupScreenState extends State<SignupScreen> {
   /// Handle sign up button press
   void _handleSignUp() async {
     if (_formKey.currentState!.validate()) {
-      final authController = Provider.of<AuthController>(context, listen: false);
+      final authController =
+          Provider.of<AuthController>(context, listen: false);
       final success = await authController.register(
         name: _nameController.text.trim(),
         email: _emailController.text.trim(),
@@ -86,17 +88,17 @@ class _SignupScreenState extends State<SignupScreen> {
 
   /// Build app logo
   Widget _buildLogo() {
-    return Column(
+    return const Column(
       children: [
-        const Icon(
+        Icon(
           Icons.eco,
           size: 80,
           color: ColorConstants.primary,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         Text(
           AppConstants.appName,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
             color: ColorConstants.primary,
@@ -126,7 +128,7 @@ class _SignupScreenState extends State<SignupScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Name label
-          Text(
+          const Text(
             'Full Name',
             style: TextStyle(
               fontSize: 16,
@@ -151,7 +153,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           const SizedBox(height: 16),
           // Email label
-          Text(
+          const Text(
             'E-mail',
             style: TextStyle(
               fontSize: 16,
@@ -180,7 +182,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           const SizedBox(height: 16),
           // Password label
-          Text(
+          const Text(
             'Password',
             style: TextStyle(
               fontSize: 16,
@@ -219,7 +221,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           const SizedBox(height: 16),
           // Confirm Password label
-          Text(
+          const Text(
             'Confirm Password',
             style: TextStyle(
               fontSize: 16,
@@ -237,7 +239,9 @@ class _SignupScreenState extends State<SignupScreen> {
               prefixIcon: const Icon(Icons.lock_outline),
               suffixIcon: IconButton(
                 icon: Icon(
-                  _isConfirmPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                  _isConfirmPasswordVisible
+                      ? Icons.visibility_off
+                      : Icons.visibility,
                 ),
                 onPressed: () {
                   setState(() {
@@ -280,7 +284,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           'Already have an account?',
           style: TextStyle(
             color: ColorConstants.textSecondary,
@@ -290,7 +294,7 @@ class _SignupScreenState extends State<SignupScreen> {
           onPressed: () {
             Navigator.pushReplacementNamed(context, AppConstants.loginRoute);
           },
-          child: Text(
+          child: const Text(
             'Sign In',
             style: TextStyle(
               color: ColorConstants.primary,
