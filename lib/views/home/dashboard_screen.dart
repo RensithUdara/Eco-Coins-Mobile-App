@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:eco_coins_mobile_app/controllers/auth_controller.dart';
-import 'package:eco_coins_mobile_app/controllers/tree_controller.dart';
 import 'package:eco_coins_mobile_app/controllers/coin_controller.dart';
-import 'package:eco_coins_mobile_app/models/tree_model.dart';
+import 'package:eco_coins_mobile_app/controllers/tree_controller.dart';
 import 'package:eco_coins_mobile_app/models/eco_coin_model.dart';
+import 'package:eco_coins_mobile_app/models/tree_model.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:eco_coins_mobile_app/utils/helpers.dart';
 import 'package:eco_coins_mobile_app/views/widgets/coin_display.dart';
-import 'package:eco_coins_mobile_app/views/widgets/tree_card.dart';
 import 'package:eco_coins_mobile_app/views/widgets/custom_button.dart';
+import 'package:eco_coins_mobile_app/views/widgets/tree_card.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 /// Dashboard screen showing user's trees and coins
 class DashboardScreen extends StatefulWidget {
@@ -32,7 +32,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final treeController = Provider.of<TreeController>(context, listen: false);
     final coinController = Provider.of<CoinController>(context, listen: false);
 
-    if (authController.currentUser != null && authController.currentUser!.id != null) {
+    if (authController.currentUser != null &&
+        authController.currentUser!.id != null) {
       await treeController.loadTrees(authController.currentUser!.id!);
       await coinController.loadTransactions(authController.currentUser!.id!);
       await authController.refreshUserData();
@@ -82,7 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Text(
             'Hello, ${user?.name ?? 'User'}!',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: ColorConstants.textPrimary,
@@ -123,8 +124,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   /// Build plantation history header
   Widget _buildPlantationHistoryHeader() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
+    return const Padding(
+      padding: EdgeInsets.all(16.0),
       child: Text(
         'Plantation History',
         style: TextStyle(
@@ -174,7 +175,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               color: ColorConstants.primary,
             ),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               '0 trees planted',
               style: TextStyle(
                 fontSize: 18,
@@ -183,7 +184,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             const SizedBox(height: 8),
-            Text(
+            const Text(
               'plant trees to earn EcoCoins!',
               style: TextStyle(
                 fontSize: 16,
@@ -218,7 +219,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       statusColor: statusColor,
       onTap: () => _showTreeDetails(tree),
       onUpdate: maintenanceStatus != MaintenanceStatus.upToDate
-          ? () => Navigator.pushNamed(context, AppConstants.maintainRoute, arguments: tree)
+          ? () => Navigator.pushNamed(context, AppConstants.maintainRoute,
+              arguments: tree)
           : null,
       showUpdateButton: maintenanceStatus != MaintenanceStatus.upToDate,
     );
@@ -274,7 +276,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               const SizedBox(height: 8),
               Text(
                 'Planted on: ${Helpers.formatDate(tree.plantedDate)}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: ColorConstants.textSecondary,
                 ),
@@ -282,13 +284,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               const SizedBox(height: 8),
               Text(
                 'Age: ${Helpers.formatTreeAge(tree.ageInDays)}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: ColorConstants.textSecondary,
                 ),
               ),
               const SizedBox(height: 16),
-              Text(
+              const Text(
                 'Description:',
                 style: TextStyle(
                   fontSize: 18,
@@ -299,7 +301,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               const SizedBox(height: 8),
               Text(
                 tree.description,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: ColorConstants.textPrimary,
                 ),
@@ -308,7 +310,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Coins Earned:',
                     style: TextStyle(
                       fontSize: 18,
@@ -318,7 +320,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.monetization_on,
                         color: ColorConstants.secondary,
                         size: 20,
@@ -326,7 +328,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       const SizedBox(width: 4),
                       Text(
                         '${tree.coinsEarned}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: ColorConstants.textPrimary,
