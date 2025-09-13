@@ -1011,31 +1011,36 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
                       _buildTermItem(
                         icon: Icons.camera_alt,
                         title: 'Photo Certification',
-                        description: 'By uploading a photo, you certify that you have actually planted this tree.',
+                        description:
+                            'By uploading a photo, you certify that you have actually planted this tree.',
                       ),
                       const SizedBox(height: 16),
                       _buildTermItem(
                         icon: Icons.calendar_today,
                         title: 'Maintenance Agreement',
-                        description: 'You agree to maintain the tree for at least one year and provide maintenance updates when requested.',
+                        description:
+                            'You agree to maintain the tree for at least one year and provide maintenance updates when requested.',
                       ),
                       const SizedBox(height: 16),
                       _buildTermItem(
                         icon: Icons.warning_amber,
                         title: 'False Claims',
-                        description: 'False claims may result in account suspension and forfeiture of all earned EcoCoins.',
+                        description:
+                            'False claims may result in account suspension and forfeiture of all earned EcoCoins.',
                       ),
                       const SizedBox(height: 16),
                       _buildTermItem(
                         icon: Icons.token,
                         title: 'EcoCoins Policy',
-                        description: 'EcoCoins earned through tree planting are non-transferable and can only be redeemed within the app.',
+                        description:
+                            'EcoCoins earned through tree planting are non-transferable and can only be redeemed within the app.',
                       ),
                       const SizedBox(height: 16),
                       _buildTermItem(
                         icon: Icons.public,
                         title: 'Public Data',
-                        description: 'Information about planted trees (excluding personal details) may be shared on public environmental databases.',
+                        description:
+                            'Information about planted trees (excluding personal details) may be shared on public environmental databases.',
                       ),
                     ],
                   ),
@@ -1117,7 +1122,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
       ),
     );
   }
-  
+
   /// Build term item for the terms dialog
   Widget _buildTermItem({
     required IconData icon,
