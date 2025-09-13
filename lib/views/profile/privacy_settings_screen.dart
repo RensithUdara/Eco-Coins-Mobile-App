@@ -531,7 +531,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
   /// Shows a confirmation dialog before deleting account
   void _showDeleteConfirmationDialog() {
     showDialog(
-      context: this.context,
+      context: context,
       builder: (context) => AlertDialog(
         title: const Text('Delete Account?'),
         content: const Text(
@@ -562,7 +562,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
 
   /// Shows a snackbar with the given message
   void _showSnackBar(String message) {
-    ScaffoldMessenger.of(this.context).showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
         behavior: SnackBarBehavior.floating,
