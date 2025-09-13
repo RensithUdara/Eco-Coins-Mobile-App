@@ -1,0 +1,40 @@
+buildscript {
+    ext.kotlin_version = '1.7.10'
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.2.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.evaluationDependsOn(':app')
+
+    // Fix for namespace issue in older plugins
+    afterEvaluate {
+        if (project.plugins.findPlugin('android') ||
+            project.plugins.findPlugin('android-library')) {
+            if (project.android.hasProperty('namespace') &&
+                !project.android.namespace) {
+                project.android.namespace = "com.${project.name.replace('-', '_')}"
+            }
+        }
+    }
+}
+
+tasks.register('clean', Delete) {
+    delete rootProject.buildDir
+}
