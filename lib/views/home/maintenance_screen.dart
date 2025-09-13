@@ -33,7 +33,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   DateTime _selectedDate = DateTime.now();
   dynamic _selectedTree;
   List<dynamic> _userTrees = [];
-  MaintenanceActivity _selectedActivity = MaintenanceActivity.watering;
+  final MaintenanceActivity _selectedActivity = MaintenanceActivity.watering;
 
   @override
   void initState() {
@@ -424,56 +424,255 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Build tree selection card
   Widget _buildTreeSelectionCard() {
-    return Card(
-      shape: RoundedRectangleBorder(
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Select Tree',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: ColorConstants.textPrimary,
+      child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+          side: BorderSide(color: ColorConstants.primaryLight.withOpacity(0.2), width: 1),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: ColorConstants.primaryLight.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.park_rounded,
+                      color: ColorConstants.primary,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  const Text(
+                    'Select Your Tree',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: ColorConstants.textPrimary,
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: ColorConstants.primaryLight.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      '${_userTrees.length} Trees',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: ColorConstants.primary,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<int>(
-              decoration: const InputDecoration(
-                hintText: 'Select a tree',
-                border: OutlineInputBorder(),
+              const SizedBox(height: 8),
+              const Divider(),
+              const SizedBox(height: 8),
+              const Text(
+                'Which tree are you maintaining today?',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: ColorConstants.textSecondary,
+                ),
               ),
-              value: _selectedTree?.id,
-              items: _userTrees.map((tree) {
-                return DropdownMenuItem<int>(
-                  value: tree.id,
-                  child: Text(
-                      '${tree.species} (Planted on: ${DateFormat('yyyy-MM-dd').format(tree.plantedDate)})'),
-                );
-              }).toList(),
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _selectedTree =
-                        _userTrees.firstWhere((tree) => tree.id == value);
-                  });
-                }
-              },
-              validator: (value) {
-                if (value == null) {
-                  return 'Please select a tree';
-                }
-                return null;
-              },
-            ),
-          ],
+              const SizedBox(height: 16),
+              DropdownButtonFormField<int>(
+                decoration: InputDecoration(
+                  hintText: 'Select a tree',
+                  filled: true,
+                  fillColor: Colors.white,
+                  prefixIcon: const Icon(
+                    Icons.nature, 
+                    color: ColorConstants.primary,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: ColorConstants.primary, width: 2),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                ),
+                value: _selectedTree?.id,
+                icon: const Icon(Icons.arrow_drop_down_circle, color: ColorConstants.primary),
+                items: _userTrees.map((tree) {
+                  return DropdownMenuItem<int>(
+                    value: tree.id,
+                    child: Row(
+                      children: [
+                        Icon(
+                          _getTreeIcon(tree.species),
+                          color: ColorConstants.primary,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                tree.species,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                'Planted: ${DateFormat('MMM d, yyyy').format(tree.plantedDate)}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() {
+                      _selectedTree =
+                          _userTrees.firstWhere((tree) => tree.id == value);
+                    });
+                  }
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return 'Please select a tree';
+                  }
+                  return null;
+                },
+              ),
+              if (_selectedTree != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: _buildSelectedTreeInfo(_selectedTree!),
+                ),
+            ],
+          ),
         ),
       ),
     );
+  }
+  
+  /// Get tree icon based on species
+  IconData _getTreeIcon(String species) {
+    final speciesLower = species.toLowerCase();
+    if (speciesLower.contains('oak')) {
+      return Icons.park;
+    } else if (speciesLower.contains('pine') || speciesLower.contains('fir')) {
+      return Icons.nature;
+    } else if (speciesLower.contains('palm')) {
+      return Icons.spa;
+    } else if (speciesLower.contains('flower') || speciesLower.contains('rose')) {
+      return Icons.local_florist;
+    } else {
+      return Icons.forest;
+    }
+  }
+
+  /// Build selected tree info card
+  Widget _buildSelectedTreeInfo(dynamic tree) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: ColorConstants.primaryLight.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: ColorConstants.primaryLight.withOpacity(0.3)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              color: ColorConstants.primary,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(
+              _getTreeIcon(tree.species),
+              color: Colors.white,
+              size: 30,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  tree.species,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    const Icon(Icons.calendar_today, size: 12, color: ColorConstants.textSecondary),
+                    const SizedBox(width: 4),
+                    Text(
+                      'Planted on: ${DateFormat('MMM d, yyyy').format(tree.plantedDate)}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: ColorConstants.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 2),
+                Row(
+                  children: [
+                    const Icon(Icons.location_on, size: 12, color: ColorConstants.textSecondary),
+                    const SizedBox(width: 4),
+                    Text(
+                      'Location: ${tree.location ?? "Not specified"}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: ColorConstants.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
   }
 
   /// Build maintenance type card
