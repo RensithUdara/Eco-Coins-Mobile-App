@@ -401,40 +401,169 @@ class HelpSupportScreen extends StatelessWidget {
   }
 
   /// Builds an expandable FAQ item
+  /// Builds an enhanced expandable FAQ item with animations
   Widget _buildExpandableFAQ({
     required String question,
     required String answer,
   }) {
-    return Card(
-      elevation: 0,
-      margin: const EdgeInsets.only(bottom: 12.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: Colors.grey.withOpacity(0.2),
-          width: 1,
-        ),
-      ),
-      child: ExpansionTile(
-        title: Text(
-          question,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            color: ColorConstants.textPrimary,
-          ),
-        ),
-        iconColor: ColorConstants.primary,
-        childrenPadding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-        expandedCrossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            answer,
-            style: const TextStyle(
-              color: ColorConstants.textSecondary,
-              height: 1.5,
-            ),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 14.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            spreadRadius: 0,
+            offset: const Offset(0, 2),
           ),
         ],
+      ),
+      child: Theme(
+        // Custom theme to override the expansion tile styling
+        data: ThemeData(
+          dividerColor: Colors.transparent,
+          colorScheme: ColorScheme.light(
+            primary: ColorConstants.primary,
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: ExpansionTile(
+            backgroundColor: Colors.white,
+            collapsedBackgroundColor: Colors.white,
+            tilePadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            title: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Row(
+                children: [
+                  // Question mark icon with rotating animation
+                  TweenAnimationBuilder<double>(
+                    tween: Tween<double>(begin: 0.0, end: 1.0),
+                    duration: const Duration(milliseconds: 500),
+                    builder: (context, value, child) {
+                      return Transform.scale(
+                        scale: 0.8 + (0.2 * value),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          margin: const EdgeInsets.only(right: 16),
+                          decoration: BoxDecoration(
+                            color: ColorConstants.primary.withOpacity(0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.question_mark_rounded,
+                            color: ColorConstants.primary,
+                            size: 18,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  
+                  // Question text
+                  Expanded(
+                    child: Text(
+                      question,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: ColorConstants.textPrimary,
+                        letterSpacing: 0.2,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            iconColor: ColorConstants.primary,
+            collapsedIconColor: ColorConstants.primary.withOpacity(0.7),
+            childrenPadding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+            expandedCrossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Line divider
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0, top: 4.0),
+                child: Container(
+                  height: 1,
+                  color: Colors.grey.withOpacity(0.1),
+                ),
+              ),
+              
+              // Answer with animation
+              TweenAnimationBuilder<double>(
+                tween: Tween<double>(begin: 0.0, end: 1.0),
+                duration: const Duration(milliseconds: 300),
+                builder: (context, value, child) {
+                  return Opacity(
+                    opacity: value,
+                    child: Transform.translate(
+                      offset: Offset(0, 20 * (1 - value)),
+                      child: child,
+                    ),
+                  );
+                },
+                child: Text(
+                  answer,
+                  style: const TextStyle(
+                    color: ColorConstants.textSecondary,
+                    height: 1.6,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+              
+              // Action buttons
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    // Was this helpful button
+                    TextButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.thumb_up_alt_outlined,
+                        size: 16,
+                      ),
+                      label: const Text('Helpful'),
+                      style: TextButton.styleFrom(
+                        foregroundColor: ColorConstants.primary,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                      ),
+                    ),
+                    
+                    const SizedBox(width: 8),
+                    
+                    // Report issue button
+                    TextButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.flag_outlined,
+                        size: 16,
+                      ),
+                      label: const Text('Report'),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.grey,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
