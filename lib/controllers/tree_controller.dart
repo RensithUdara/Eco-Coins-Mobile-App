@@ -22,7 +22,7 @@ class TreeController with ChangeNotifier {
   final DatabaseService _databaseService;
   final ImageService _imageService = ImageService();
   final NotificationService _notificationService = NotificationService();
-  
+
   TreeController(this._databaseService);
 
   List<Tree> _trees = [];
