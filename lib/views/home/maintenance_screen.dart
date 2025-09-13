@@ -267,7 +267,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       );
       return;
     }
-    
+
     // Safely capture the selected image to avoid null issues
     final imageFile = _selectedImage;
     if (imageFile == null) {
