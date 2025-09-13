@@ -454,30 +454,25 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
             ],
           ),
         ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<int>(
-              decoration: InputDecoration(
-                hintText: 'Select a tree',
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey[300]!),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide:
-                      const BorderSide(color: ColorConstants.primary, width: 2),
-                ),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                prefixIcon:
-                    const Icon(Icons.spa, color: ColorConstants.primary),
-              ),
-              value: _selectedTree?.id,
-              icon: const Icon(Icons.arrow_drop_down,
-                  color: ColorConstants.primary),
-              isExpanded: true,
+        DropdownButtonFormField<int>(
+          decoration: InputDecoration(
+            hintText: 'Select a tree',
+            filled: true,
+            fillColor: Colors.white,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[300]!, width: 1),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: ColorConstants.primary),
+            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+            prefixIcon: const Icon(Icons.spa, size: 18, color: ColorConstants.primary),
+          ),
+          value: _selectedTree?.id,
+          icon: const Icon(Icons.arrow_drop_down, color: ColorConstants.primary),
+          isExpanded: true,
               items: _userTrees.map((tree) {
                 return DropdownMenuItem<int>(
                   value: tree.id,
