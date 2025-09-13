@@ -24,8 +24,8 @@ class NotificationService {
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
     // iOS initialization settings
-    const DarwinInitializationSettings iosInitializationSettings =
-        DarwinInitializationSettings(
+    const IOSInitializationSettings iosInitializationSettings =
+        IOSInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
@@ -124,7 +124,7 @@ class NotificationService {
       'Your $treeSpecies tree needs a $maintenanceType. Earn more EcoCoins!',
       tz.TZDateTime.from(scheduledDate, tz.local),
       notificationDetails,
-      androidAllowWhileIdle: true,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       payload: 'maintenance_$id',
