@@ -19,7 +19,7 @@ class HelpSupportScreen extends StatelessWidget {
           children: [
             // Header section with support message
             _buildHeader(),
-            
+
             // Main content section
             Expanded(
               child: ListView(
@@ -42,43 +42,49 @@ class HelpSupportScreen extends StatelessWidget {
                       _buildHelpTile(
                         title: 'Tree maintenance',
                         icon: Icons.water_drop_outlined,
-                        onTap: () => _showHelpContent(context, 'Tree Maintenance'),
+                        onTap: () =>
+                            _showHelpContent(context, 'Tree Maintenance'),
                       ),
                       _buildHelpTile(
                         title: 'Account issues',
                         icon: Icons.account_circle_outlined,
-                        onTap: () => _showHelpContent(context, 'Account Issues'),
+                        onTap: () =>
+                            _showHelpContent(context, 'Account Issues'),
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // FAQ section
                   _buildSection(
                     title: 'Frequently Asked Questions',
                     children: [
                       _buildExpandableFAQ(
                         question: 'How do I verify my tree planting?',
-                        answer: 'Take a clear photo of your newly planted tree with our app. The app uses geolocation to verify the planting location. Our team reviews submissions within 24-48 hours.',
+                        answer:
+                            'Take a clear photo of your newly planted tree with our app. The app uses geolocation to verify the planting location. Our team reviews submissions within 24-48 hours.',
                       ),
                       _buildExpandableFAQ(
                         question: 'When do I receive my Eco Coins?',
-                        answer: 'You receive Eco Coins immediately after your tree planting is verified. You can also earn additional coins by providing maintenance updates at regular intervals.',
+                        answer:
+                            'You receive Eco Coins immediately after your tree planting is verified. You can also earn additional coins by providing maintenance updates at regular intervals.',
                       ),
                       _buildExpandableFAQ(
                         question: 'Can I transfer Eco Coins to others?',
-                        answer: 'Currently, Eco Coins cannot be transferred between accounts. This feature may be available in future updates.',
+                        answer:
+                            'Currently, Eco Coins cannot be transferred between accounts. This feature may be available in future updates.',
                       ),
                       _buildExpandableFAQ(
                         question: 'What can I do with my Eco Coins?',
-                        answer: 'Eco Coins can be redeemed for various rewards including sustainable products, discount codes from our partner brands, or donations to environmental organizations.',
+                        answer:
+                            'Eco Coins can be redeemed for various rewards including sustainable products, discount codes from our partner brands, or donations to environmental organizations.',
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Contact section
                   _buildSection(
                     title: 'Contact Us',
@@ -93,13 +99,15 @@ class HelpSupportScreen extends StatelessWidget {
                         title: 'Live chat with support',
                         subtitle: 'Available Mon-Fri, 9AM-5PM',
                         icon: Icons.chat_bubble_outline,
-                        onTap: () => _showComingSoonMessage(context, 'Live chat'),
+                        onTap: () =>
+                            _showComingSoonMessage(context, 'Live chat'),
                       ),
                       _buildContactOption(
                         title: 'Community forum',
                         subtitle: 'Join our eco-friendly community',
                         icon: Icons.forum_outlined,
-                        onTap: () => _showComingSoonMessage(context, 'Community forum'),
+                        onTap: () =>
+                            _showComingSoonMessage(context, 'Community forum'),
                       ),
                     ],
                   ),
@@ -117,7 +125,7 @@ class HelpSupportScreen extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24.0),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -152,7 +160,8 @@ class HelpSupportScreen extends StatelessWidget {
   }
 
   /// Builds a section with a title and children widgets
-  Widget _buildSection({required String title, required List<Widget> children}) {
+  Widget _buildSection(
+      {required String title, required List<Widget> children}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -277,7 +286,8 @@ class HelpSupportScreen extends StatelessWidget {
       ),
       child: ListTile(
         onTap: onTap,
-        contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
@@ -325,23 +335,28 @@ class HelpSupportScreen extends StatelessWidget {
         'content': [
           {
             'subtitle': 'Step 1: Choose a Location',
-            'text': 'Select a suitable location for your tree with adequate sunlight and space for root growth. Ensure the area is free from utility lines and structures.'
+            'text':
+                'Select a suitable location for your tree with adequate sunlight and space for root growth. Ensure the area is free from utility lines and structures.'
           },
           {
             'subtitle': 'Step 2: Prepare the Soil',
-            'text': 'Dig a hole twice as wide as the root ball but at the same depth. Loosen the soil around the edges.'
+            'text':
+                'Dig a hole twice as wide as the root ball but at the same depth. Loosen the soil around the edges.'
           },
           {
             'subtitle': 'Step 3: Plant the Tree',
-            'text': 'Place the tree in the hole and backfill with soil. Ensure the trunk is straight and the root flare is slightly above ground level.'
+            'text':
+                'Place the tree in the hole and backfill with soil. Ensure the trunk is straight and the root flare is slightly above ground level.'
           },
           {
             'subtitle': 'Step 4: Water and Mulch',
-            'text': 'Water thoroughly and apply a 2-3 inch layer of mulch around the base, keeping it away from the trunk.'
+            'text':
+                'Water thoroughly and apply a 2-3 inch layer of mulch around the base, keeping it away from the trunk.'
           },
           {
             'subtitle': 'Step 5: Record in the App',
-            'text': 'Take a photo of your newly planted tree and submit it through the app for verification.'
+            'text':
+                'Take a photo of your newly planted tree and submit it through the app for verification.'
           },
         ]
       },
@@ -350,14 +365,16 @@ class HelpSupportScreen extends StatelessWidget {
         'content': [
           {
             'subtitle': 'Plant a Tree: ${CoinRewards.treePlanting} coins',
-            'text': 'Receive coins once your tree planting is verified by our team.'
+            'text':
+                'Receive coins once your tree planting is verified by our team.'
           },
           {
             'subtitle': 'Monthly Update: ${CoinRewards.oneMonthUpdate} coins',
             'text': 'Provide a photo update of your tree after 1 month.'
           },
           {
-            'subtitle': 'Quarterly Update: ${CoinRewards.threeMonthUpdate} coins',
+            'subtitle':
+                'Quarterly Update: ${CoinRewards.threeMonthUpdate} coins',
             'text': 'Provide a photo update after 3 months.'
           },
           {
@@ -375,19 +392,23 @@ class HelpSupportScreen extends StatelessWidget {
         'content': [
           {
             'subtitle': 'Regular Watering',
-            'text': 'Water deeply and regularly during the first few years, especially during dry periods.'
+            'text':
+                'Water deeply and regularly during the first few years, especially during dry periods.'
           },
           {
             'subtitle': 'Mulching',
-            'text': 'Maintain a 2-3 inch layer of mulch around the base of the tree, extending to the drip line.'
+            'text':
+                'Maintain a 2-3 inch layer of mulch around the base of the tree, extending to the drip line.'
           },
           {
             'subtitle': 'Pruning',
-            'text': 'Remove dead or damaged branches to promote healthy growth and structure.'
+            'text':
+                'Remove dead or damaged branches to promote healthy growth and structure.'
           },
           {
             'subtitle': 'Protection',
-            'text': 'Protect young trees from wildlife damage and extreme weather conditions.'
+            'text':
+                'Protect young trees from wildlife damage and extreme weather conditions.'
           },
           {
             'subtitle': 'Monitoring',
@@ -400,23 +421,28 @@ class HelpSupportScreen extends StatelessWidget {
         'content': [
           {
             'subtitle': 'Forgot Password',
-            'text': 'Use the "Forgot Password" option on the login screen to reset your password via email.'
+            'text':
+                'Use the "Forgot Password" option on the login screen to reset your password via email.'
           },
           {
             'subtitle': 'Update Profile Information',
-            'text': 'Go to your profile page and tap the edit button to update your details.'
+            'text':
+                'Go to your profile page and tap the edit button to update your details.'
           },
           {
             'subtitle': 'Verification Problems',
-            'text': 'Ensure your email is verified. Check your spam folder if you haven\'t received the verification email.'
+            'text':
+                'Ensure your email is verified. Check your spam folder if you haven\'t received the verification email.'
           },
           {
             'subtitle': 'Login Issues',
-            'text': 'Make sure you\'re using the correct email and password. Try clearing your app cache if problems persist.'
+            'text':
+                'Make sure you\'re using the correct email and password. Try clearing your app cache if problems persist.'
           },
           {
             'subtitle': 'Missing Coins',
-            'text': 'Coins may take up to 48 hours to appear in your account after verification. Contact support if they don\'t appear.'
+            'text':
+                'Coins may take up to 48 hours to appear in your account after verification. Contact support if they don\'t appear.'
           },
         ]
       },
@@ -452,7 +478,7 @@ class HelpSupportScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              
+
               // Title
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -465,9 +491,9 @@ class HelpSupportScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // Content
               Expanded(
                 child: ListView.builder(
