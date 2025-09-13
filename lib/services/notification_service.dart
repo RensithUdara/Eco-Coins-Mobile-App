@@ -16,7 +16,7 @@ class NotificationService {
   NotificationService._internal();
 
   /// Initialize notification service
-  Future<void> init() async {
+  Future<void> initializeNotifications() async {
     // Initialize timezone
     tz_data.initializeTimeZones();
 
