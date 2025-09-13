@@ -38,7 +38,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   void initState() {
     super.initState();
     _dateController.text = DateFormat('yyyy-MM-dd').format(_selectedDate);
-    _loadUserTrees();
+    
+    // Defer _loadUserTrees to avoid setState during build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadUserTrees();
+    });
   }
 
   @override
@@ -51,33 +55,40 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Load trees belonging to the current user
   Future<void> _loadUserTrees() async {
+    if (!mounted) return;
+    
     final authController = Provider.of<AuthController>(context, listen: false);
     final treeController = Provider.of<TreeController>(context, listen: false);
 
     if (authController.currentUser == null ||
         authController.currentUser!.id == null) {
-      Helpers.showSnackBar(
-        context,
-        'You must be logged in to maintain trees',
-        isError: true,
-      );
-      Navigator.pop(context);
+      if (mounted) {
+        Helpers.showSnackBar(
+          context,
+          'You must be logged in to maintain trees',
+          isError: true,
+        );
+        Navigator.pop(context);
+      }
       return;
     }
 
     await treeController.fetchUserTrees(authController.currentUser!.id!);
-    setState(() {
-      _userTrees = treeController.userTrees;
+    
+    if (mounted) {
+      setState(() {
+        _userTrees = treeController.userTrees;
 
-      if (widget.tree != null) {
-        _selectedTree = _userTrees.firstWhere(
-          (tree) => tree?.id == widget.tree.id,
-          orElse: () => _userTrees.isNotEmpty ? _userTrees.first : null,
-        );
-      } else if (_userTrees.isNotEmpty) {
-        _selectedTree = _userTrees.first;
-      }
-    });
+        if (widget.tree != null) {
+          _selectedTree = _userTrees.firstWhere(
+            (tree) => tree?.id == widget.tree.id,
+            orElse: () => _userTrees.isNotEmpty ? _userTrees.first : null,
+          );
+        } else if (_userTrees.isNotEmpty) {
+          _selectedTree = _userTrees.first;
+        }
+      });
+    }
   }
 
   /// Pick image from camera
