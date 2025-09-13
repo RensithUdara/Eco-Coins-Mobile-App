@@ -570,59 +570,158 @@ class HelpSupportScreen extends StatelessWidget {
   }
 
   /// Builds a contact option tile
+  /// Builds an enhanced contact option with visual effects
   Widget _buildContactOption({
     required String title,
     required String subtitle,
     required IconData icon,
     required VoidCallback onTap,
   }) {
-    return Card(
-      elevation: 0,
-      margin: const EdgeInsets.only(bottom: 12.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: Colors.grey.withOpacity(0.2),
-          width: 1,
+    // Use a different color for each contact option based on the icon
+    final Color contactColor = [
+      const Color(0xFF4CAF50), // Green for email
+      const Color(0xFF2196F3), // Blue for chat
+      const Color(0xFFFFA000), // Amber for forum
+    ][icon.codePoint % 3];
+    
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Colors.white,
+            contactColor.withOpacity(0.05),
+          ],
         ),
+        boxShadow: [
+          BoxShadow(
+            color: contactColor.withOpacity(0.1),
+            blurRadius: 12,
+            spreadRadius: 0,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-      child: ListTile(
-        onTap: onTap,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
-        leading: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: ColorConstants.primaryLight.withOpacity(0.1),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            icon,
-            color: ColorConstants.primary,
-            size: 24,
-          ),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
-        ),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(top: 4.0),
-          child: Text(
-            subtitle,
-            style: const TextStyle(
-              fontSize: 13,
-              color: ColorConstants.textSecondary,
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          splashColor: contactColor.withOpacity(0.1),
+          highlightColor: contactColor.withOpacity(0.05),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                // Animated icon with gradient background
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        contactColor.withOpacity(0.7),
+                        contactColor,
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: contactColor.withOpacity(0.2),
+                        blurRadius: 8,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    icon,
+                    color: Colors.white,
+                    size: 22,
+                  ),
+                ),
+                
+                const SizedBox(width: 16),
+                
+                // Title and subtitle with enhanced typography
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600,
+                          color: ColorConstants.textPrimary,
+                          letterSpacing: 0.2,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        subtitle,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: ColorConstants.textSecondary,
+                          height: 1.2,
+                        ),
+                      ),
+                      
+                      // Add a "tap to connect" hint
+                      const SizedBox(height: 6),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.touch_app,
+                            size: 14,
+                            color: contactColor.withOpacity(0.7),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Tap to connect',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: contactColor.withOpacity(0.7),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                
+                // Animated arrow icon
+                TweenAnimationBuilder<double>(
+                  tween: Tween<double>(begin: 0.0, end: 1.0),
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOut,
+                  builder: (context, value, child) {
+                    return Transform.translate(
+                      offset: Offset(5 * (1 - value), 0),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: contactColor.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.arrow_forward,
+                          size: 16,
+                          color: contactColor,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
-        ),
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
-          size: 16,
-          color: Colors.grey,
         ),
       ),
     );
