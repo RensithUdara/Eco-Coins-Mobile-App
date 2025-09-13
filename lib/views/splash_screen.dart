@@ -35,16 +35,21 @@ class _SplashScreenState extends State<SplashScreen>
     // Start animation
     _animationController.forward();
 
-    // Initialize auth controller
+    // Initialize auth controller and try auto login
     final authController = Provider.of<AuthController>(context, listen: false);
     authController.initialize();
 
-    // Navigate to the appropriate screen after a delay
-    Timer(const Duration(seconds: 3), () {
-      if (authController.state == AuthState.authenticated) {
-        Navigator.pushReplacementNamed(context, AppConstants.dashboardRoute);
-      } else {
-        Navigator.pushReplacementNamed(context, AppConstants.loginRoute);
+    // Try auto-login and navigate to the appropriate screen after a delay
+    Timer(const Duration(seconds: 3), () async {
+      // Try to auto-login with saved credentials
+      final bool autoLoginSuccess = await authController.tryAutoLogin();
+      
+      if (mounted) {
+        if (autoLoginSuccess || authController.state == AuthState.authenticated) {
+          Navigator.pushReplacementNamed(context, AppConstants.dashboardRoute);
+        } else {
+          Navigator.pushReplacementNamed(context, AppConstants.loginRoute);
+        }
       }
     });
   }
