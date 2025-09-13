@@ -13,7 +13,9 @@ enum CoinOperationState {
 
 /// Controller class for handling coin-related operations
 class CoinController with ChangeNotifier {
-  final DatabaseService _databaseService = DatabaseService();
+  final DatabaseService _databaseService;
+  
+  CoinController(this._databaseService);
 
   List<EcoCoinTransaction> _transactions = [];
   CoinOperationState _state = CoinOperationState.initial;
