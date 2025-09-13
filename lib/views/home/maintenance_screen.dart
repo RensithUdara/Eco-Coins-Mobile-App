@@ -287,7 +287,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                     // Header with summary
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
@@ -340,15 +341,16 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.3),
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: Row(
+                            child: const Row(
                               children: [
-                                const Icon(Icons.eco, color: Colors.white, size: 16),
-                                const SizedBox(width: 4),
+                                Icon(Icons.eco, color: Colors.white, size: 16),
+                                SizedBox(width: 4),
                                 Text(
                                   '+30 coins',
                                   style: TextStyle(
