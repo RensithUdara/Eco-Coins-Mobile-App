@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:eco_coins_mobile_app/models/user_model.dart';
 import 'package:eco_coins_mobile_app/services/database_service.dart';
+import 'package:flutter/material.dart';
 
 /// Authentication state
 enum AuthState {
@@ -14,17 +14,17 @@ enum AuthState {
 /// Controller class for handling authentication
 class AuthController with ChangeNotifier {
   final DatabaseService _databaseService = DatabaseService();
-  
+
   AuthState _state = AuthState.initial;
   User? _currentUser;
   String? _errorMessage;
-  
+
   /// Getter for auth state
   AuthState get state => _state;
-  
+
   /// Getter for current user
   User? get currentUser => _currentUser;
-  
+
   /// Getter for error message
   String? get errorMessage => _errorMessage;
 
@@ -37,11 +37,14 @@ class AuthController with ChangeNotifier {
   }
 
   /// Register a new user
-  Future<bool> register({required String email, required String name, required String password}) async {
+  Future<bool> register(
+      {required String email,
+      required String name,
+      required String password}) async {
     try {
       _state = AuthState.loading;
       notifyListeners();
-      
+
       // Check if user already exists
       final User? existingUser = await _databaseService.getUserByEmail(email);
       if (existingUser != null) {
@@ -50,7 +53,7 @@ class AuthController with ChangeNotifier {
         notifyListeners();
         return false;
       }
-      
+
       // Create new user (in a real app, you'd hash the password)
       final User user = User(
         email: email,
@@ -58,14 +61,14 @@ class AuthController with ChangeNotifier {
         coinsBalance: 0,
         createdAt: DateTime.now(),
       );
-      
+
       final int userId = await _databaseService.createUser(user);
-      
+
       // Get the user with the assigned id
       _currentUser = await _databaseService.getUserById(userId);
       _state = AuthState.authenticated;
       notifyListeners();
-      
+
       return true;
     } catch (e) {
       _state = AuthState.error;
@@ -80,10 +83,10 @@ class AuthController with ChangeNotifier {
     try {
       _state = AuthState.loading;
       notifyListeners();
-      
+
       // Get user by email
       final User? user = await _databaseService.getUserByEmail(email);
-      
+
       // Check if user exists (in a real app, you'd verify the password too)
       if (user == null) {
         _state = AuthState.error;
@@ -91,12 +94,12 @@ class AuthController with ChangeNotifier {
         notifyListeners();
         return false;
       }
-      
+
       // Set current user and update state
       _currentUser = user;
       _state = AuthState.authenticated;
       notifyListeners();
-      
+
       return true;
     } catch (e) {
       _state = AuthState.error;
@@ -117,7 +120,8 @@ class AuthController with ChangeNotifier {
   Future<void> refreshUserData() async {
     if (_currentUser != null && _currentUser!.id != null) {
       try {
-        final User? updatedUser = await _databaseService.getUserById(_currentUser!.id!);
+        final User? updatedUser =
+            await _databaseService.getUserById(_currentUser!.id!);
         if (updatedUser != null) {
           _currentUser = updatedUser;
           notifyListeners();
