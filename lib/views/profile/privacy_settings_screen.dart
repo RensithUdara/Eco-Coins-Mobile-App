@@ -167,9 +167,9 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: const [
-                        ColorConstants.primaryDark,
                         ColorConstants.primary,
-                        ColorConstants.primaryLight,
+                        ColorConstants.primary,
+                        ColorConstants.primary,
                       ],
                       stops: [0.0, 0.5 + (0.2 * value), 1.0],
                     ),
@@ -486,18 +486,18 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
             ),
           ),
         ),
-
+        
         // Privacy completion progress bar
         const SizedBox(height: 20),
         _buildProgressBar(),
-
+        
         // Next section navigation box
         const SizedBox(height: 24),
         _buildNextSectionBox(),
       ],
     );
   }
-
+  
   /// Builds an animated progress bar showing privacy settings completion
   Widget _buildProgressBar() {
     // Calculate progress based on enabled settings
@@ -509,9 +509,9 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
       _achievementsPublic,
       _marketingEmails
     ].where((setting) => setting).length;
-
+    
     final double progressPercent = enabledSettings / totalSettings;
-
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -575,7 +575,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
       ],
     );
   }
-
+  
   /// Builds an animated next section navigation box
   Widget _buildNextSectionBox() {
     return TweenAnimationBuilder<double>(
