@@ -441,7 +441,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
-          side: BorderSide(color: ColorConstants.primaryLight.withOpacity(0.2), width: 1),
+          side: BorderSide(
+              color: ColorConstants.primaryLight.withOpacity(0.2), width: 1),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -473,7 +474,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   ),
                   const Spacer(),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: ColorConstants.primaryLight.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
@@ -506,7 +508,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   filled: true,
                   fillColor: Colors.white,
                   prefixIcon: const Icon(
-                    Icons.nature, 
+                    Icons.nature,
                     color: ColorConstants.primary,
                   ),
                   border: OutlineInputBorder(
@@ -515,12 +517,15 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: ColorConstants.primary, width: 2),
+                    borderSide: const BorderSide(
+                        color: ColorConstants.primary, width: 2),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 ),
                 value: _selectedTree?.id,
-                icon: const Icon(Icons.arrow_drop_down_circle, color: ColorConstants.primary),
+                icon: const Icon(Icons.arrow_drop_down_circle,
+                    color: ColorConstants.primary),
                 items: _userTrees.map((tree) {
                   return DropdownMenuItem<int>(
                     value: tree.id,
@@ -584,7 +589,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       ),
     );
   }
-  
+
   /// Get tree icon based on species
   IconData _getTreeIcon(String species) {
     final speciesLower = species.toLowerCase();
@@ -594,7 +599,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       return Icons.nature;
     } else if (speciesLower.contains('palm')) {
       return Icons.spa;
-    } else if (speciesLower.contains('flower') || speciesLower.contains('rose')) {
+    } else if (speciesLower.contains('flower') ||
+        speciesLower.contains('rose')) {
       return Icons.local_florist;
     } else {
       return Icons.forest;
@@ -641,7 +647,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    const Icon(Icons.calendar_today, size: 12, color: ColorConstants.textSecondary),
+                    const Icon(Icons.calendar_today,
+                        size: 12, color: ColorConstants.textSecondary),
                     const SizedBox(width: 4),
                     Text(
                       'Planted on: ${DateFormat('MMM d, yyyy').format(tree.plantedDate)}',
@@ -655,7 +662,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 const SizedBox(height: 2),
                 Row(
                   children: [
-                    const Icon(Icons.location_on, size: 12, color: ColorConstants.textSecondary),
+                    const Icon(Icons.location_on,
+                        size: 12, color: ColorConstants.textSecondary),
                     const SizedBox(width: 4),
                     Text(
                       'Location: ${tree.location ?? "Not specified"}',
