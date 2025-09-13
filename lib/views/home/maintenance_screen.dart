@@ -659,14 +659,14 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   ],
                 ),
                 const SizedBox(height: 2),
-                Row(
+                const Row(
                   children: [
-                    const Icon(Icons.location_on,
+                    Icon(Icons.location_on,
                         size: 12, color: ColorConstants.textSecondary),
-                    const SizedBox(width: 4),
+                    SizedBox(width: 4),
                     Text(
                       'Location: Not specified',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
                         color: ColorConstants.textSecondary,
                       ),
