@@ -34,7 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     if (authController.currentUser != null &&
         authController.currentUser!.id != null) {
-      await treeController.loadTrees(authController.currentUser!.id!);
+      await treeController.fetchUserTrees(authController.currentUser!.id!);
       await coinController.loadTransactions(authController.currentUser!.id!);
       await authController.refreshUserData();
     }
