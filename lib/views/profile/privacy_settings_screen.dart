@@ -109,7 +109,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
 
   /// Builds the header section with privacy information and parallax effect
   Widget _buildHeader() {
-    return Container(
+    return SizedBox(
       height: 150,
       width: double.infinity,
       child: Stack(
@@ -125,7 +125,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [
+                      colors: const [
                         ColorConstants.primaryDark,
                         ColorConstants.primary,
                         ColorConstants.primaryLight,
