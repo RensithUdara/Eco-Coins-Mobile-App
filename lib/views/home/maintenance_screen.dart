@@ -291,7 +291,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       );
       return;
     }
-    
+
     final bool success = await maintenanceController.addMaintenance(
       userId: authController.currentUser!.id!,
       treeId: _selectedTree!.id!,
