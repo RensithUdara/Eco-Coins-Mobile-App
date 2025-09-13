@@ -570,7 +570,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
               ),
-              
+
               // Header with image
               SizedBox(
                 height: 200,
@@ -581,7 +581,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Positioned.fill(
                       child: _buildTreeDetailsImage(tree),
                     ),
-                    
+
                     // Gradient overlay
                     Positioned.fill(
                       child: Container(
@@ -597,7 +597,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                       ),
                     ),
-                    
+
                     // Title and info
                     Positioned(
                       bottom: 16,
@@ -607,7 +607,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
                               color: Colors.black.withOpacity(0.6),
                               borderRadius: BorderRadius.circular(20),
@@ -640,7 +641,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ],
                       ),
                     ),
-                    
+
                     // Close button
                     Positioned(
                       top: 16,
@@ -660,7 +661,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ],
                 ),
               ),
-              
+
               // Content
               Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -686,7 +687,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ],
                     ),
                     const SizedBox(height: 24),
-                    
+
                     // Description
                     const Text(
                       'Description',
@@ -708,20 +709,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                       ),
                       child: Text(
-                        tree.description.isEmpty 
-                            ? 'No description provided' 
+                        tree.description.isEmpty
+                            ? 'No description provided'
                             : tree.description,
                         style: TextStyle(
                           fontSize: 16,
-                          color: tree.description.isEmpty 
-                              ? ColorConstants.textSecondary 
+                          color: tree.description.isEmpty
+                              ? ColorConstants.textSecondary
                               : ColorConstants.textPrimary,
                           height: 1.4,
                         ),
                       ),
                     ),
                     const SizedBox(height: 24),
-                    
+
                     // Coins card
                     Container(
                       padding: const EdgeInsets.all(16),
@@ -763,7 +764,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               AssetPaths.coinIcon,
                               height: 24,
                               width: 24,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(
                                 Icons.monetization_on,
                                 size: 24,
                                 color: ColorConstants.secondary,
@@ -797,7 +799,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    
+
                     // Buttons
                     Row(
                       children: [
@@ -823,7 +825,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             onPressed: () {
                               Navigator.pop(context);
                               Navigator.pushNamed(
-                                context, 
+                                context,
                                 AppConstants.maintainRoute,
                                 arguments: tree,
                               );
@@ -852,9 +854,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       },
     );
   }
-  
+
   /// Build info item for tree details
-  Widget _buildInfoItem(IconData icon, String label, String value, Color iconColor) {
+  Widget _buildInfoItem(
+      IconData icon, String label, String value, Color iconColor) {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(12),
@@ -910,7 +913,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-  
+
   /// Build tree details image
   Widget _buildTreeDetailsImage(Tree tree) {
     try {
