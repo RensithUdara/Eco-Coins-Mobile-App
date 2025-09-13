@@ -22,11 +22,11 @@ class _AuthWrapperState extends State<AuthWrapper> {
 
   Future<void> _initializeAuth() async {
     final authController = Provider.of<AuthController>(context, listen: false);
-    
+
     try {
       // First set the initial state
       await authController.initialize();
-      
+
       // Then try auto-login
       await authController.tryAutoLogin();
     } finally {
@@ -49,7 +49,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
         ),
       );
     }
-    
+
     // Listen to auth state changes and navigate accordingly
     return Consumer<AuthController>(
       builder: (context, authController, _) {
