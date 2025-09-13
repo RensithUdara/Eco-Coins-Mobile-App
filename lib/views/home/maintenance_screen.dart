@@ -1155,51 +1155,338 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Build photo upload card
   Widget _buildPhotoUploadCard() {
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(
-            color: ColorConstants.primaryLight.withOpacity(0.5), width: 1.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            spreadRadius: 1,
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.photo_camera, color: ColorConstants.primary),
-                const SizedBox(width: 8),
-                const Text(
-                  'Photo Documentation',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: ColorConstants.textPrimary,
+      child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+          side: BorderSide(
+              color: _selectedImage != null
+                  ? ColorConstants.success.withOpacity(0.5)
+                  : ColorConstants.primaryLight.withOpacity(0.3),
+              width: _selectedImage != null ? 2.0 : 1.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: _selectedImage != null
+                          ? ColorConstants.success.withOpacity(0.1)
+                          : ColorConstants.primaryLight.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(
+                      _selectedImage != null
+                          ? Icons.check_circle
+                          : Icons.photo_camera,
+                      color: _selectedImage != null
+                          ? ColorConstants.success
+                          : ColorConstants.primary,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  const Text(
+                    'Photo Documentation',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: ColorConstants.textPrimary,
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: _selectedImage != null
+                          ? ColorConstants.success.withOpacity(0.1)
+                          : Colors.grey[200],
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: _selectedImage != null
+                            ? ColorConstants.success.withOpacity(0.5)
+                            : Colors.grey[300]!,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          _selectedImage != null
+                              ? Icons.check
+                              : Icons.info_outline,
+                          size: 14,
+                          color: _selectedImage != null
+                              ? ColorConstants.success
+                              : ColorConstants.textSecondary,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          _selectedImage != null ? 'Photo Ready' : 'Required',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: _selectedImage != null
+                                ? ColorConstants.success
+                                : ColorConstants.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              const Divider(),
+              const SizedBox(height: 8),
+              AnimatedCrossFade(
+                duration: const Duration(milliseconds: 300),
+                crossFadeState: _selectedImage != null
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond,
+                firstChild: _buildSelectedImage(),
+                secondChild: _buildImagePlaceholder(),
+              ),
+              const SizedBox(height: 16),
+              _buildPhotoButtons(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Build selected image preview
+  Widget _buildSelectedImage() {
+    return Stack(
+      children: [
+        // Image container with enhanced border and shadow
+        Container(
+          margin: const EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Hero(
+            tag: 'maintenance_photo',
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  // Show full-screen image preview dialog
+                  showDialog(
+                    context: context,
+                    builder: (context) => Dialog(
+                      insetPadding: const EdgeInsets.all(16),
+                      backgroundColor: Colors.transparent,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AppBar(
+                            backgroundColor: Colors.black.withOpacity(0.7),
+                            elevation: 0,
+                            leading: IconButton(
+                              icon:
+                                  const Icon(Icons.close, color: Colors.white),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                            title: const Text('Maintenance Photo',
+                                style: TextStyle(color: Colors.white)),
+                            actions: [
+                              IconButton(
+                                icon: const Icon(Icons.share,
+                                    color: Colors.white),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Helpers.showSnackBar(
+                                      context, 'Share feature coming soon!');
+                                },
+                              ),
+                            ],
+                          ),
+                          Flexible(
+                            child: InteractiveViewer(
+                              minScale: 0.5,
+                              maxScale: 4.0,
+                              child: Image.file(
+                                _selectedImage!,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                borderRadius: BorderRadius.circular(12.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: Image.file(
+                    _selectedImage!,
+                    height: 220,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                const Spacer(),
+              ),
+            ),
+          ),
+        ),
+        // Remove photo button with improved positioning and styling
+        Positioned(
+          top: 10,
+          right: 10,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.9),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 4,
+                  spreadRadius: 1,
+                  offset: const Offset(0, 1),
+                ),
+              ],
+            ),
+            child: IconButton(
+              icon:
+                  const Icon(Icons.delete_outline, color: ColorConstants.error),
+              onPressed: () {
+                // Add a confirmation dialog for better UX
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Row(
+                      children: [
+                        Icon(Icons.warning_amber_rounded,
+                            color: ColorConstants.warning),
+                        SizedBox(width: 8),
+                        Text('Remove Photo?'),
+                      ],
+                    ),
+                    content: const Text(
+                        'Are you sure you want to remove this photo?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Cancel'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _selectedImage = null;
+                          });
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorConstants.error,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: const Text('Remove'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              tooltip: 'Remove Photo',
+              iconSize: 24,
+              constraints: const BoxConstraints(
+                minHeight: 40,
+                minWidth: 40,
+              ),
+            ),
+          ),
+        ),
+        // Success indicator
+        Positioned(
+          bottom: 16,
+          right: 10,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: ColorConstants.success.withOpacity(0.9),
+              borderRadius: BorderRadius.circular(30),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 4,
+                  spreadRadius: 1,
+                  offset: const Offset(0, 1),
+                ),
+              ],
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.check_circle, color: Colors.white, size: 16),
+                SizedBox(width: 4),
                 Text(
-                  _selectedImage != null ? '1 Photo' : 'No Photos',
+                  'Photo Verified',
                   style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                     fontSize: 12,
-                    color: _selectedImage != null
-                        ? ColorConstants.success
-                        : ColorConstants.textSecondary,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            _selectedImage != null
-                ? _buildSelectedImage()
-                : _buildImagePlaceholder(),
-            const SizedBox(height: 16),
-            _buildPhotoButtons(),
-          ],
+          ),
         ),
-      ),
+        // View full screen indicator
+        Positioned(
+          bottom: 16,
+          left: 10,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.6),
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.fullscreen, color: Colors.white, size: 16),
+                SizedBox(width: 4),
+                Text(
+                  'Tap to View',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
