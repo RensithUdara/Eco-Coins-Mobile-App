@@ -242,46 +242,91 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Build message when no trees are available
   Widget _buildNoTreesAvailable() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.nature_outlined,
-            size: 72,
-            color: Colors.grey[400],
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            'No trees available for maintenance',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Plant a tree first to start maintaining',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey,
-            ),
-          ),
-          const SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/plant-tree');
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: ColorConstants.primary,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: ColorConstants.primary.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: ColorConstants.primary.withOpacity(0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.nature_outlined,
+                  size: 72,
+                  color: ColorConstants.primaryDark,
+                ),
               ),
             ),
-            child: const Text('Plant a Tree'),
-          ),
-        ],
+            const SizedBox(height: 32),
+            const Text(
+              'No Trees to Maintain',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: ColorConstants.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: const Text(
+                'You need to plant a tree before you can record maintenance activities. Start your eco-journey today!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: ColorConstants.textSecondary,
+                  height: 1.5,
+                ),
+              ),
+            ),
+            const SizedBox(height: 40),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/plant-tree');
+                },
+                icon: const Icon(Icons.add_circle),
+                label: const Text('Plant Your First Tree'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorConstants.primary,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  elevation: 3,
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextButton.icon(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back),
+              label: const Text('Back to Dashboard'),
+              style: TextButton.styleFrom(
+                foregroundColor: ColorConstants.textSecondary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -426,46 +471,123 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   /// Build maintenance type card
   Widget _buildMaintenanceTypeCard() {
     return Card(
+      elevation: 4.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
+        side: BorderSide(color: ColorConstants.primaryLight.withOpacity(0.5), width: 1.0),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Maintenance Type',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: ColorConstants.textPrimary,
-              ),
+            Row(
+              children: [
+                const Icon(Icons.tune, color: ColorConstants.primary),
+                const SizedBox(width: 8),
+                const Text(
+                  'Maintenance Type',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.textPrimary,
+                  ),
+                ),
+                const Spacer(),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: ColorConstants.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: ColorConstants.primary.withOpacity(0.3),
+                    ),
+                  ),
+                  child: Text(
+                    _getActivityName(_selectedActivity),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: ColorConstants.primary,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
-            Wrap(
-              spacing: 8.0,
-              runSpacing: 8.0,
-              children: MaintenanceActivity.values.map((activity) {
-                final bool isSelected = _selectedActivity == activity;
-                return ChoiceChip(
-                  label: Text(_getActivityName(activity)),
-                  selected: isSelected,
-                  selectedColor: ColorConstants.primary,
-                  backgroundColor: Colors.grey[200],
-                  labelStyle: TextStyle(
-                    color:
-                        isSelected ? Colors.white : ColorConstants.textPrimary,
-                  ),
-                  onSelected: (selected) {
-                    if (selected) {
-                      setState(() {
-                        _selectedActivity = activity;
-                      });
-                    }
-                  },
-                );
-              }).toList(),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey[200]!),
+              ),
+              child: Wrap(
+                spacing: 12.0,
+                runSpacing: 12.0,
+                children: MaintenanceActivity.values.map((activity) {
+                  final bool isSelected = _selectedActivity == activity;
+                  
+                  // Get icon for each activity type
+                  IconData activityIcon;
+                  switch (activity) {
+                    case MaintenanceActivity.watering:
+                      activityIcon = Icons.water_drop;
+                      break;
+                    case MaintenanceActivity.pruning:
+                      activityIcon = Icons.content_cut;
+                      break;
+                    case MaintenanceActivity.fertilizing:
+                      activityIcon = Icons.grass;
+                      break;
+                    case MaintenanceActivity.pestControl:
+                      activityIcon = Icons.bug_report;
+                      break;
+                    case MaintenanceActivity.mulching:
+                      activityIcon = Icons.layers;
+                      break;
+                    case MaintenanceActivity.other:
+                      activityIcon = Icons.more_horiz;
+                      break;
+                    default:
+                      activityIcon = Icons.eco;
+                  }
+                  
+                  return Container(
+                    width: MediaQuery.of(context).size.width * 0.4 - 24,
+                    margin: const EdgeInsets.only(bottom: 4),
+                    child: ChoiceChip(
+                      avatar: Icon(
+                        activityIcon,
+                        color: isSelected ? Colors.white : ColorConstants.primary,
+                        size: 18,
+                      ),
+                      label: Text(_getActivityName(activity)),
+                      selected: isSelected,
+                      selectedColor: ColorConstants.primary,
+                      backgroundColor: Colors.white,
+                      side: BorderSide(
+                        color: isSelected 
+                            ? ColorConstants.primary 
+                            : Colors.grey[300]!,
+                      ),
+                      elevation: isSelected ? 2 : 0,
+                      labelStyle: TextStyle(
+                        color: isSelected ? Colors.white : ColorConstants.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                      onSelected: (selected) {
+                        if (selected) {
+                          setState(() {
+                            _selectedActivity = activity;
+                          });
+                        }
+                      },
+                    ),
+                  );
+                }).toList(),
+              ),
             ),
           ],
         ),
