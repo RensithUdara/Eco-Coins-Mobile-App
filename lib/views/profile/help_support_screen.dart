@@ -424,7 +424,7 @@ class HelpSupportScreen extends StatelessWidget {
         // Custom theme to override the expansion tile styling
         data: ThemeData(
           dividerColor: Colors.transparent,
-          colorScheme: ColorScheme.light(
+          colorScheme: const ColorScheme.light(
             primary: ColorConstants.primary,
           ),
         ),
@@ -433,7 +433,8 @@ class HelpSupportScreen extends StatelessWidget {
           child: ExpansionTile(
             backgroundColor: Colors.white,
             collapsedBackgroundColor: Colors.white,
-            tilePadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+            tilePadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -464,7 +465,7 @@ class HelpSupportScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  
+
                   // Question text
                   Expanded(
                     child: Text(
@@ -493,7 +494,7 @@ class HelpSupportScreen extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.1),
                 ),
               ),
-              
+
               // Answer with animation
               TweenAnimationBuilder<double>(
                 tween: Tween<double>(begin: 0.0, end: 1.0),
@@ -516,7 +517,7 @@ class HelpSupportScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               // Action buttons
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
@@ -539,9 +540,9 @@ class HelpSupportScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    
+
                     const SizedBox(width: 8),
-                    
+
                     // Report issue button
                     TextButton.icon(
                       onPressed: () {},
