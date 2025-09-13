@@ -7,7 +7,7 @@ class AppConstants {
   static const String appName = 'Eco Coins';
   static const String appTagline = 'Harvest Green, Collect Gold';
   static const String welcomeMessage = 'Welcome to Eco Journey!';
-  
+
   // Routes
   static const String splashRoute = '/';
   static const String loginRoute = '/login';
@@ -23,20 +23,20 @@ class ColorConstants {
   static const Color primaryDark = Color(0xFF2E7D32);
   static const Color primary = Color(0xFF4CAF50);
   static const Color primaryLight = Color(0xFF66BB6A);
-  
+
   // Secondary colors (golds)
   static const Color secondary = Color(0xFFFFD700);
   static const Color secondaryLight = Color(0xFFFFC107);
-  
+
   // Background colors
   static const Color background = Color(0xFFFAFAFA);
   static const Color cardBackground = Color(0xFFFFFFFF);
-  
+
   // Text colors
   static const Color textPrimary = Color(0xFF212121);
   static const Color textSecondary = Color(0xFF757575);
   static const Color textLight = Color(0xFFBDBDBD);
-  
+
   // Status colors
   static const Color success = Color(0xFF4CAF50);
   static const Color warning = Color(0xFFFFC107);
@@ -73,7 +73,7 @@ class AssetPaths {
 class DBConstants {
   static const String dbName = 'eco_coins.db';
   static const int dbVersion = 1;
-  
+
   // Table names
   static const String userTable = 'users';
   static const String treeTable = 'trees';
