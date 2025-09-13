@@ -265,9 +265,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildProfileInfo(User user) {
     return Column(
       children: [
-        // The name and email are displayed directly without a container background
-        // This matches the screenshot better
-          child: Column(
+        // Display name and email with text shadows for better visibility
+        Column(
             children: [
               // User name with animated fade-in
               TweenAnimationBuilder<double>(
