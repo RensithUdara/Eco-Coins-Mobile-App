@@ -294,49 +294,106 @@ class HelpSupportScreen extends StatelessWidget {
     );
   }
 
-  /// Builds a help tile with icon and title
+  /// Builds an enhanced help tile with icon, title, and hover effect
   Widget _buildHelpTile({
     required String title,
     required IconData icon,
     required VoidCallback onTap,
   }) {
-    return Card(
-      elevation: 0,
-      margin: const EdgeInsets.only(bottom: 12.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: Colors.grey.withOpacity(0.2),
-          width: 1,
-        ),
-      ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-          child: Row(
-            children: [
-              Icon(
-                icon,
-                color: ColorConstants.primary,
-                size: 24,
-              ),
-              const SizedBox(width: 16),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const Spacer(),
-              const Icon(
-                Icons.arrow_forward_ios,
-                size: 16,
-                color: Colors.grey,
-              ),
+    // Generate a unique but consistent color for each topic based on the title
+    final Color iconBgColor = Color.fromARGB(
+      255,
+      (icon.codePoint * 41) % 100 + 155, // Red component (155-255)
+      (icon.codePoint * 59) % 80 + 175,  // Green component (175-255)
+      (icon.codePoint * 83) % 100 + 155, // Blue component (155-255)
+    );
+    
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(begin: 0.96, end: 1.0),
+      duration: const Duration(milliseconds: 350),
+      builder: (context, scale, child) {
+        return Transform.scale(
+          scale: scale,
+          child: child,
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: iconBgColor.withOpacity(0.15),
+              blurRadius: 8,
+              spreadRadius: 0,
+              offset: const Offset(0, 4),
+            ),
+          ],
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.white,
+              iconBgColor.withOpacity(0.05),
             ],
+          ),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(16),
+            splashColor: iconBgColor.withOpacity(0.1),
+            highlightColor: iconBgColor.withOpacity(0.05),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  // Animated icon with custom background
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: iconBgColor.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Icon(
+                      icon,
+                      color: iconBgColor.withOpacity(0.8),
+                      size: 26,
+                    ),
+                  ),
+                  
+                  const SizedBox(width: 16),
+                  
+                  // Title with enhanced typography
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.2,
+                      ),
+                    ),
+                  ),
+                  
+                  // Arrow with container background
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 14,
+                      color: ColorConstants.primary.withOpacity(0.7),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
