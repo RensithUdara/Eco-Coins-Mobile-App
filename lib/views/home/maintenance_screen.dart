@@ -652,7 +652,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
           ],
         ),
       ),
-    );
+    )
   }
 
   /// Build maintenance details card
