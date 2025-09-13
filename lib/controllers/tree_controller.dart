@@ -19,9 +19,11 @@ enum TreeOperationState {
 
 /// Controller class for handling tree-related operations
 class TreeController with ChangeNotifier {
-  final DatabaseService _databaseService = DatabaseService();
+  final DatabaseService _databaseService;
   final ImageService _imageService = ImageService();
   final NotificationService _notificationService = NotificationService();
+  
+  TreeController(this._databaseService);
 
   List<Tree> _trees = [];
   final Map<int, List<Maintenance>> _maintenanceRecords = {};
@@ -30,6 +32,7 @@ class TreeController with ChangeNotifier {
 
   /// Getters
   List<Tree> get trees => _trees;
+  List<Tree> get userTrees => _trees;
   TreeOperationState get state => _state;
   String? get errorMessage => _errorMessage;
 
@@ -38,8 +41,8 @@ class TreeController with ChangeNotifier {
     return _maintenanceRecords[treeId] ?? [];
   }
 
-  /// Load trees for a user
-  Future<void> loadTrees(int userId) async {
+  /// Fetch trees for a user
+  Future<void> fetchUserTrees(int userId) async {
     try {
       _state = TreeOperationState.loading;
       notifyListeners();
