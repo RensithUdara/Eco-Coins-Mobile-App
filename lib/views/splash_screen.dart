@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Navigate after a delay
     _scheduleNavigation();
   }
-  
+
   void _scheduleNavigation() {
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted && !_navigating) {
@@ -52,7 +52,9 @@ class _SplashScreenState extends State<SplashScreen>
         );
       }
     });
-  }  @override
+  }
+
+  @override
   void dispose() {
     _animationController.dispose();
     super.dispose();
