@@ -32,8 +32,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   final ImageService _imageService = ImageService();
   File? _selectedImage;
   DateTime _selectedDate = DateTime.now();
-  TreeModel? _selectedTree;
-  List<TreeModel> _userTrees = [];
+  dynamic _selectedTree;
+  List<dynamic> _userTrees = [];
   MaintenanceActivity _selectedActivity = MaintenanceActivity.watering;
 
   @override
