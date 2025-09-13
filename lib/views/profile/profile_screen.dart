@@ -103,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
     ));
-    
+
     return Scaffold(
       backgroundColor: ColorConstants.background,
       extendBodyBehindAppBar: true,
@@ -197,63 +197,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               // Content
               _isLoading
-                ? const Center(child: CircularProgressIndicator(color: Colors.white))
-                : SingleChildScrollView(
-                    padding: const EdgeInsets.only(top: 100),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Profile Avatar with decoration
-                        Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white, width: 4),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  blurRadius: 10,
-                                  spreadRadius: 1,
-                                ),
-                              ],
-                            ),
-                            child: Hero(
-                              tag: 'profile-avatar',
-                              child: CircleAvatar(
-                                radius: 60,
-                                backgroundColor: const Color(0xFFFFD700), // Golden yellow to match screenshot
-                                child: Text(
-                                  _getInitials(user.name),
-                                  style: const TextStyle(
-                                    fontSize: 50, // Larger font size to match screenshot
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    letterSpacing: 1.5, // Add letter spacing for better readability
+                  ? const Center(
+                      child: CircularProgressIndicator(color: Colors.white))
+                  : SingleChildScrollView(
+                      padding: const EdgeInsets.only(top: 100),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Profile Avatar with decoration
+                          Center(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border:
+                                    Border.all(color: Colors.white, width: 4),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    blurRadius: 10,
+                                    spreadRadius: 1,
+                                  ),
+                                ],
+                              ),
+                              child: Hero(
+                                tag: 'profile-avatar',
+                                child: CircleAvatar(
+                                  radius: 60,
+                                  backgroundColor: const Color(
+                                      0xFFFFD700), // Golden yellow to match screenshot
+                                  child: Text(
+                                    _getInitials(user.name),
+                                    style: const TextStyle(
+                                      fontSize:
+                                          50, // Larger font size to match screenshot
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      letterSpacing:
+                                          1.5, // Add letter spacing for better readability
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 24),
+                          const SizedBox(height: 24),
 
-                        // User information or edit form
-                        _isEditing ? _buildEditForm() : _buildProfileInfo(user),
+                          // User information or edit form
+                          _isEditing
+                              ? _buildEditForm()
+                              : _buildProfileInfo(user),
 
-                        const SizedBox(height: 40),
+                          const SizedBox(height: 40),
 
-                        // Account actions
-                        _buildAccountActions(),
-                      ],
+                          // Account actions
+                          _buildAccountActions(),
+                        ],
+                      ),
                     ),
-                  ),
             ],
           );
         },
       ),
     );
   }
-
 
   /// Build the profile information display
   Widget _buildProfileInfo(User user) {
@@ -288,21 +294,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Text(
                   user.name,
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        shadows: const [
-                          Shadow(
-                            offset: Offset(0, 1),
-                            blurRadius: 3,
-                            color: Color.fromRGBO(0, 0, 0, 0.5),
-                          ),
-                        ],
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    shadows: const [
+                      Shadow(
+                        offset: Offset(0, 1),
+                        blurRadius: 3,
+                        color: Color.fromRGBO(0, 0, 0, 0.5),
                       ),
+                    ],
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
               const SizedBox(height: 8),
-              
+
               // User email with animated fade-in
               TweenAnimationBuilder<double>(
                 tween: Tween<double>(begin: 0, end: 1),
@@ -317,16 +323,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Text(
                   user.email,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        shadows: const [
-                          Shadow(
-                            offset: Offset(0, 1),
-                            blurRadius: 2,
-                            color: Color.fromRGBO(0, 0, 0, 0.5),
-                          ),
-                        ],
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    shadows: const [
+                      Shadow(
+                        offset: Offset(0, 1),
+                        blurRadius: 2,
+                        color: Color.fromRGBO(0, 0, 0, 0.5),
                       ),
+                    ],
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -334,7 +340,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         const SizedBox(height: 40),
-        
+
         // Stats cards
         Container(
           width: double.infinity,
@@ -351,7 +357,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                 ),
               ),
-              
+
               // Coins card
               _buildStatCard(
                 title: 'Eco Coins Balance',
@@ -361,7 +367,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 description: 'Your current eco coins',
               ),
               const SizedBox(height: 16),
-              
+
               // Member since card
               _buildStatCard(
                 title: 'Member Since',
@@ -370,9 +376,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 iconBackground: ColorConstants.primary,
                 description: 'Account creation date',
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Activity card - this could be connected to real data in the future
               _buildStatCard(
                 title: 'Environmental Impact',
@@ -423,7 +429,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: gradient == null ? iconBackground.withOpacity(0.1) : Colors.white.withOpacity(0.3),
+              color: gradient == null
+                  ? iconBackground.withOpacity(0.1)
+                  : Colors.white.withOpacity(0.3),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -433,7 +441,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           const SizedBox(width: 16),
-          
+
           // Text content
           Expanded(
             child: Column(
@@ -444,7 +452,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: gradient == null ? ColorConstants.textSecondary : Colors.white.withOpacity(0.9),
+                    color: gradient == null
+                        ? ColorConstants.textSecondary
+                        : Colors.white.withOpacity(0.9),
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -453,7 +463,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: gradient == null ? ColorConstants.textPrimary : Colors.white,
+                    color: gradient == null
+                        ? ColorConstants.textPrimary
+                        : Colors.white,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -461,7 +473,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   description,
                   style: TextStyle(
                     fontSize: 12,
-                    color: gradient == null ? ColorConstants.textLight : Colors.white.withOpacity(0.7),
+                    color: gradient == null
+                        ? ColorConstants.textLight
+                        : Colors.white.withOpacity(0.7),
                   ),
                 ),
               ],
@@ -496,13 +510,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Text(
               'Edit Your Profile',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: ColorConstants.primary,
-              ),
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.primary,
+                  ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
-            
+
             // Name field
             _buildAnimatedFormField(
               label: 'Full Name',
@@ -582,7 +596,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-            
+
             // Cancel link
             TextButton(
               onPressed: _toggleEditMode,
@@ -596,7 +610,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-  
+
   /// Build animated form field with custom styling
   Widget _buildAnimatedFormField({
     required String label,
@@ -652,18 +666,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 16),
-          
+
           // Actions title
           Padding(
             padding: const EdgeInsets.only(left: 8.0, bottom: 16.0),
             child: Text(
               'Account Actions',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
           ),
-          
+
           // Action buttons
           _buildActionButton(
             title: 'Privacy Settings',
@@ -672,13 +686,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onTap: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Privacy settings will be available in a future update'),
+                  content: Text(
+                      'Privacy settings will be available in a future update'),
                   backgroundColor: ColorConstants.info,
                 ),
               );
             },
           ),
-          
+
           _buildActionButton(
             title: 'Notification Preferences',
             icon: Icons.notifications,
@@ -686,13 +701,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onTap: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Notification settings will be available in a future update'),
+                  content: Text(
+                      'Notification settings will be available in a future update'),
                   backgroundColor: ColorConstants.warning,
                 ),
               );
             },
           ),
-          
+
           _buildActionButton(
             title: 'Help & Support',
             icon: Icons.help_outline,
@@ -700,17 +716,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onTap: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Support center will be available in a future update'),
+                  content: Text(
+                      'Support center will be available in a future update'),
                   backgroundColor: ColorConstants.primary,
                 ),
               );
             },
           ),
-          
+
           const SizedBox(height: 16),
           const Divider(),
           const SizedBox(height: 16),
-          
+
           // Sign out button with animation
           TweenAnimationBuilder<double>(
             tween: Tween<double>(begin: 0.8, end: 1.0),
@@ -722,7 +739,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 56,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(28),
-                    border: Border.all(color: ColorConstants.error.withOpacity(0.5)),
+                    border: Border.all(
+                        color: ColorConstants.error.withOpacity(0.5)),
                     boxShadow: [
                       BoxShadow(
                         color: ColorConstants.error.withOpacity(0.1),
@@ -770,7 +788,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-  
+
   /// Build action button with consistent styling
   Widget _buildActionButton({
     required String title,
@@ -789,7 +807,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onTap: onTap,
           borderRadius: BorderRadius.circular(12),
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
             child: Row(
               children: [
                 Container(
