@@ -227,6 +227,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ),
+                          ),
                           const SizedBox(height: 24),
 
                       // User information or edit form
