@@ -401,22 +401,48 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Notes field
-            const Text(
-              'Notes',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: ColorConstants.textPrimary,
-              ),
+            // Notes field with improved styling
+            Row(
+              children: [
+                const Icon(Icons.edit_note, color: ColorConstants.primary),
+                const SizedBox(width: 8),
+                const Text(
+                  'Maintenance Notes',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.textPrimary,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  'Required',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontStyle: FontStyle.italic,
+                    color: ColorConstants.info,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 8),
             TextFormField(
               controller: _notesController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Add notes about your maintenance activity...',
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey[300]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: ColorConstants.primary, width: 2),
+                ),
+                contentPadding: const EdgeInsets.all(16),
               ),
-              maxLines: 3,
+              maxLines: 4,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter some notes';
@@ -424,16 +450,31 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 return null;
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
 
-            // Date field
-            const Text(
-              'Date',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: ColorConstants.textPrimary,
-              ),
+            // Date field with improved styling
+            Row(
+              children: [
+                const Icon(Icons.calendar_today, color: ColorConstants.primary),
+                const SizedBox(width: 8),
+                const Text(
+                  'Maintenance Date',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.textPrimary,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  'Today',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.success,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 8),
             TextFormField(
@@ -441,9 +482,27 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
               readOnly: true,
               decoration: InputDecoration(
                 hintText: 'YYYY - MM - DD',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.calendar_today),
-                  onPressed: _selectDate,
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey[300]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: ColorConstants.primary, width: 2),
+                ),
+                contentPadding: const EdgeInsets.all(16),
+                suffixIcon: Container(
+                  margin: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: ColorConstants.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.calendar_today, color: ColorConstants.primary),
+                    onPressed: _selectDate,
+                  ),
                 ),
               ),
               onTap: _selectDate,
