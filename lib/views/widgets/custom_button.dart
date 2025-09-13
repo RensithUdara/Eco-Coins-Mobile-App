@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
+import 'package:flutter/material.dart';
 
 /// Button types
 enum ButtonType {
@@ -43,9 +43,7 @@ class CustomButton extends StatelessWidget {
           ),
           elevation: 3,
         ),
-        child: isLoading
-            ? _buildLoadingIndicator()
-            : _buildButtonContent(),
+        child: isLoading ? _buildLoadingIndicator() : _buildButtonContent(),
       ),
     );
   }
