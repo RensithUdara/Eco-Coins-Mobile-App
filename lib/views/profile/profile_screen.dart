@@ -670,13 +670,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: Icons.security,
             iconColor: ColorConstants.info,
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                      'Privacy settings will be available in a future update'),
-                  backgroundColor: ColorConstants.info,
-                ),
-              );
+              Navigator.pushNamed(context, AppConstants.privacySettingsRoute);
             },
           ),
 
@@ -700,13 +694,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: Icons.help_outline,
             iconColor: ColorConstants.primary,
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                      'Support center will be available in a future update'),
-                  backgroundColor: ColorConstants.primary,
-                ),
-              );
+              Navigator.pushNamed(context, AppConstants.helpSupportRoute);
             },
           ),
 
