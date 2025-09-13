@@ -552,10 +552,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Cancel link
             TextButton(
               onPressed: _toggleEditMode,
-              child: const Text('Cancel'),
               style: TextButton.styleFrom(
                 foregroundColor: ColorConstants.textSecondary,
               ),
+              child: const Text('Cancel'),
             ),
           ],
         ),
@@ -596,7 +596,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             vertical: 16.0,
             horizontal: 16.0,
           ),
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: ColorConstants.textSecondary,
             fontWeight: FontWeight.w500,
           ),
@@ -704,8 +704,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       borderRadius: BorderRadius.circular(28),
                       splashColor: ColorConstants.error.withOpacity(0.1),
                       highlightColor: ColorConstants.error.withOpacity(0.05),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -714,7 +714,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: ColorConstants.error,
                               size: 20,
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8),
                             Text(
                               'Sign Out',
                               style: TextStyle(
