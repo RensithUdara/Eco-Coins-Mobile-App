@@ -190,7 +190,8 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
           // Foreground content
           Padding(
             padding: const EdgeInsets.all(16.0), // Reduced padding
-            child: SingleChildScrollView( // Added SingleChildScrollView to handle potential overflow
+            child: SingleChildScrollView(
+              // Added SingleChildScrollView to handle potential overflow
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min, // Use minimum space
