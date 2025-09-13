@@ -282,6 +282,16 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       return;
     }
 
+    // Additional null checks before submission
+    if (_selectedTree?.id == null) {
+      Helpers.showSnackBar(
+        context,
+        'Invalid tree selected. Please try again.',
+        isError: true,
+      );
+      return;
+    }
+    
     final bool success = await maintenanceController.addMaintenance(
       userId: authController.currentUser!.id!,
       treeId: _selectedTree!.id!,
