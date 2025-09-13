@@ -88,7 +88,7 @@ class AuthController with ChangeNotifier {
 
   /// Login a user
   Future<bool> login({
-    required String email, 
+    required String email,
     required String password,
     bool rememberMe = false,
   }) async {
@@ -110,7 +110,7 @@ class AuthController with ChangeNotifier {
       // Set current user and update state
       _currentUser = user;
       _state = AuthState.authenticated;
-      
+
       // Save credentials if remember me is checked
       if (rememberMe) {
         await _saveUserCredentials(email, password, rememberMe);
@@ -118,7 +118,7 @@ class AuthController with ChangeNotifier {
         // Clear saved credentials if remember me is unchecked
         await _clearUserCredentials();
       }
-      
+
       notifyListeners();
       return true;
     } catch (e) {
@@ -128,15 +128,16 @@ class AuthController with ChangeNotifier {
       return false;
     }
   }
-  
+
   /// Save user credentials to SharedPreferences
-  Future<void> _saveUserCredentials(String email, String password, bool rememberMe) async {
+  Future<void> _saveUserCredentials(
+      String email, String password, bool rememberMe) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(_keyEmail, email);
     await prefs.setString(_keyPassword, password);
     await prefs.setBool(_keyRememberMe, rememberMe);
   }
-  
+
   /// Clear saved user credentials
   Future<void> _clearUserCredentials() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
