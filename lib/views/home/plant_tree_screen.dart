@@ -953,62 +953,221 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
   void _showTermsAndConditions() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Terms & Conditions'),
-        content: SingleChildScrollView(
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        elevation: 5,
+        child: Container(
+          padding: const EdgeInsets.all(24),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                '1. By uploading a photo, you certify that you have actually planted this tree.',
-                style: TextStyle(fontSize: 14),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: const BoxDecoration(
+                          color: ColorConstants.secondary,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.verified_user,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        'Terms & Conditions',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: ColorConstants.textPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
               ),
-              const SizedBox(height: 8),
-              const Text(
-                '2. You agree to maintain the tree for at least one year.',
-                style: TextStyle(fontSize: 14),
+              const SizedBox(height: 20),
+              const Divider(),
+              const SizedBox(height: 10),
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildTermItem(
+                        icon: Icons.camera_alt,
+                        title: 'Photo Certification',
+                        description:
+                            'By uploading a photo, you certify that you have actually planted this tree.',
+                      ),
+                      const SizedBox(height: 16),
+                      _buildTermItem(
+                        icon: Icons.calendar_today,
+                        title: 'Maintenance Agreement',
+                        description:
+                            'You agree to maintain the tree for at least one year and provide maintenance updates when requested.',
+                      ),
+                      const SizedBox(height: 16),
+                      _buildTermItem(
+                        icon: Icons.warning_amber,
+                        title: 'False Claims',
+                        description:
+                            'False claims may result in account suspension and forfeiture of all earned EcoCoins.',
+                      ),
+                      const SizedBox(height: 16),
+                      _buildTermItem(
+                        icon: Icons.token,
+                        title: 'EcoCoins Policy',
+                        description:
+                            'EcoCoins earned through tree planting are non-transferable and can only be redeemed within the app.',
+                      ),
+                      const SizedBox(height: 16),
+                      _buildTermItem(
+                        icon: Icons.public,
+                        title: 'Public Data',
+                        description:
+                            'Information about planted trees (excluding personal details) may be shared on public environmental databases.',
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              const SizedBox(height: 8),
-              const Text(
-                '3. False claims may result in account suspension.',
-                style: TextStyle(fontSize: 14),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                '4. EcoCoins earned through tree planting are non-transferable.',
-                style: TextStyle(fontSize: 14),
-              ),
+              const SizedBox(height: 16),
+              const Divider(),
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Checkbox(
-                    value: _termsAccepted,
-                    onChanged: (value) {
-                      setState(() {
-                        _termsAccepted = value ?? false;
-                      });
-                      Navigator.pop(context);
-                    },
-                    activeColor: ColorConstants.primary,
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: Checkbox(
+                      value: _termsAccepted,
+                      onChanged: (value) {
+                        setState(() {
+                          _termsAccepted = value ?? false;
+                        });
+                      },
+                      activeColor: ColorConstants.secondary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
                   ),
-                  const Expanded(
-                    child: Text('I agree to the terms and conditions'),
+                  const SizedBox(width: 12),
+                  const Flexible(
+                    child: Text(
+                      'I have read and agree to the terms and conditions',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.grey[700],
+                      ),
+                      child: const Text('Cancel'),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _termsAccepted = true;
+                        });
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorConstants.secondary,
+                        foregroundColor: Colors.white,
+                        elevation: 2,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                      ),
+                      child: const Text(
+                        'Accept Terms',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
                 ],
               ),
             ],
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('Close'),
-          ),
-        ],
       ),
+    );
+  }
+
+  /// Build term item for the terms dialog
+  Widget _buildTermItem({
+    required IconData icon,
+    required String title,
+    required String description,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: ColorConstants.secondaryLight.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            icon,
+            color: ColorConstants.secondary,
+            size: 20,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                description,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[700],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
