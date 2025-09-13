@@ -62,3 +62,95 @@ eco_coins_mobile_app/
 │   └── images/           # App images and icons
 └── test/                 # Unit and widget tests
 ```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Flutter 3.0.0 or higher
+- Dart 3.0.0 or higher
+- Android Studio or VS Code with Flutter plugins
+- Android SDK for Android deployment
+- Xcode for iOS deployment
+
+### Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/RensithUdara/Eco-Coins-Mobile-App.git
+   ```
+
+2. Navigate to the project directory:
+   ```
+   cd eco_coins_mobile_app
+   ```
+
+3. Install dependencies:
+   ```
+   flutter pub get
+   ```
+
+4. Run the app:
+   ```
+   flutter run
+   ```
+
+## 📱 App Screens
+
+### Splash Screen
+Welcoming screen with the Eco Coins logo and tagline.
+
+### Authentication
+Login and registration screens for user account management.
+
+### Dashboard
+Main screen showing environmental impact, coins earned, and quick actions.
+
+### Tree Planting
+Interface for documenting new tree plantings with species selection and photo upload.
+
+### Tree Details
+View detailed information about each planted tree, including location, species, and maintenance history.
+
+### Maintenance
+Schedule and record maintenance activities for your trees.
+
+## 🌟 How to Earn Eco Coins
+
+1. **Plant Trees**: Earn base coins for each tree planted depending on the species
+2. **Regular Maintenance**: Earn additional coins for consistent care
+3. **Milestone Achievements**: Unlock special coin bonuses for reaching environmental goals
+
+## 🔄 Maintenance Cycle
+
+1. Plant a tree and register it in the app
+2. Receive maintenance reminders based on tree species
+3. Document completed maintenance tasks
+4. Earn Eco Coins for each maintenance activity
+5. Track tree growth and health over time
+
+## 🤝 Contributing
+
+Contributions are welcome! If you'd like to improve the app or add new features:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- Thanks to all contributors who have helped shape this project
+- Special thanks to environmental organizations providing data on tree species
+- Icon and graphic resources from [Freepik](https://www.freepik.com) and [Flaticon](https://www.flaticon.com)
+
+---
+
+💚 **Plant a tree. Earn coins. Save the planet.** 💚
+
+**Developed by Eco Coins Team**
