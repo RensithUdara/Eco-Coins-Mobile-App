@@ -5,7 +5,6 @@ import 'package:eco_coins_mobile_app/controllers/tree_controller.dart';
 import 'package:eco_coins_mobile_app/services/image_service.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:eco_coins_mobile_app/utils/helpers.dart';
-import 'package:eco_coins_mobile_app/views/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -145,35 +144,182 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
     return Scaffold(
       backgroundColor: ColorConstants.background,
       appBar: AppBar(
-        title: const Row(
+        elevation: 0,
+        backgroundColor: ColorConstants.primary,
+        foregroundColor: Colors.white,
+        title: Row(
           children: [
-            Icon(Icons.nature),
-            SizedBox(width: 8),
-            Text('Plant a Tree'),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(Icons.nature, color: Colors.white),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Plant a Tree',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
+      body: Stack(
+        children: [
+          // Green curved background at top
+          Container(
+            height: 50,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: ColorConstants.primary,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+            ),
+          ),
+          // Content
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Impact Banner
+                    _buildImpactBanner(),
+                    const SizedBox(height: 20),
+
+                    // Section Title
+                    _buildSectionTitle('Tree Details', Icons.eco),
+                    const SizedBox(height: 10),
+                    _buildTreeInfoCard(),
+
+                    const SizedBox(height: 20),
+                    _buildSectionTitle('Tree Photo', Icons.photo_camera),
+                    const SizedBox(height: 10),
+                    _buildPhotoUploadCard(),
+
+                    const SizedBox(height: 20),
+                    _buildSectionTitle('Guidelines & Terms', Icons.gavel),
+                    const SizedBox(height: 10),
+                    _buildImportantGuidelines(),
+                    const SizedBox(height: 16),
+                    _buildTermsAndConditions(),
+
+                    const SizedBox(height: 30),
+                    _buildSubmitButton(),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Build section title
+  Widget _buildSectionTitle(String title, IconData icon) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          color: ColorConstants.primary,
+          size: 24,
+        ),
+        const SizedBox(width: 8),
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: ColorConstants.textPrimary,
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Build impact banner showing eco coins rewards
+  Widget _buildImpactBanner() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [
+            ColorConstants.secondary,
+            ColorConstants.secondaryLight,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 3,
+                ),
+              ],
+            ),
+            child: Image.asset(
+              AssetPaths.coinIcon,
+              height: 40,
+              width: 40,
+              errorBuilder: (context, error, stackTrace) => const Icon(
+                  Icons.monetization_on,
+                  size: 40,
+                  color: Colors.amber),
+            ),
+          ),
+          const SizedBox(width: 16),
+          const Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildTreeInfoCard(),
-                const SizedBox(height: 16),
-                _buildPhotoUploadCard(),
-                const SizedBox(height: 16),
-                _buildTermsAndConditions(),
-                const SizedBox(height: 16),
-                _buildImportantGuidelines(),
-                const SizedBox(height: 24),
-                _buildSubmitButton(),
+                Text(
+                  'Plant & Earn',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Get ${CoinRewards.treePlanting} Eco Coins for planting a new tree!',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black87,
+                  ),
+                ),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -181,28 +327,52 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
   /// Build tree information card
   Widget _buildTreeInfoCard() {
     return Card(
+      elevation: 3,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Tree Name/Species field
-            const Text(
-              'Tree Name / Species',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: ColorConstants.textPrimary,
-              ),
+            const Row(
+              children: [
+                Icon(Icons.local_florist,
+                    color: ColorConstants.primary, size: 20),
+                SizedBox(width: 8),
+                Text(
+                  'Tree Name / Species',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.textPrimary,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 8),
             TextFormField(
               controller: _speciesController,
-              decoration: const InputDecoration(
-                hintText: 'Mango tree',
+              decoration: InputDecoration(
+                hintText: 'Mango tree, Oak, Pine...',
+                filled: true,
+                fillColor: Colors.grey[50],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey[200]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: ColorConstants.primary),
+                ),
+                prefixIcon:
+                    const Icon(Icons.eco, color: ColorConstants.primary),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -211,22 +381,45 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
                 return null;
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
 
             // Description field
-            const Text(
-              'Description',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: ColorConstants.textPrimary,
-              ),
+            const Row(
+              children: [
+                Icon(Icons.description,
+                    color: ColorConstants.primary, size: 20),
+                SizedBox(width: 8),
+                Text(
+                  'Description',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.textPrimary,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 8),
             TextFormField(
               controller: _descriptionController,
-              decoration: const InputDecoration(
-                hintText: 'I planted today ...',
+              decoration: InputDecoration(
+                hintText: 'Tell us about this tree and where you planted it...',
+                filled: true,
+                fillColor: Colors.grey[50],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey[200]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: ColorConstants.primary),
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
               ),
               maxLines: 3,
               validator: (value) {
@@ -236,16 +429,22 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
                 return null;
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
 
             // Date field
-            const Text(
-              'Date',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: ColorConstants.textPrimary,
-              ),
+            const Row(
+              children: [
+                Icon(Icons.event, color: ColorConstants.primary, size: 20),
+                SizedBox(width: 8),
+                Text(
+                  'Planting Date',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.textPrimary,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 8),
             TextFormField(
@@ -253,9 +452,32 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
               readOnly: true,
               decoration: InputDecoration(
                 hintText: 'YYYY - MM - DD',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.calendar_today),
-                  onPressed: _selectDate,
+                filled: true,
+                fillColor: Colors.grey[50],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey[200]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: ColorConstants.primary),
+                ),
+                suffixIcon: Container(
+                  decoration: const BoxDecoration(
+                    color: ColorConstants.primary,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
+                    ),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.calendar_today, color: Colors.white),
+                    onPressed: _selectDate,
+                  ),
                 ),
               ),
               onTap: _selectDate,
@@ -269,11 +491,12 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
   /// Build photo upload card
   Widget _buildPhotoUploadCard() {
     return Card(
+      elevation: 3,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             _selectedImage != null
@@ -291,27 +514,65 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
   Widget _buildSelectedImage() {
     return Column(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12.0),
-          child: Image.file(
-            _selectedImage!,
-            height: 200,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
+        Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16.0),
+                child: Image.file(
+                  _selectedImage!,
+                  height: 250,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: ColorConstants.error,
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    _selectedImage = null;
+                  });
+                },
+                icon: const Icon(Icons.delete, color: Colors.white, size: 20),
+                iconSize: 20,
+                padding: const EdgeInsets.all(8),
+                constraints: const BoxConstraints(),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 8),
-        TextButton.icon(
-          onPressed: () {
-            setState(() {
-              _selectedImage = null;
-            });
-          },
-          icon: const Icon(Icons.delete),
-          label: const Text('Remove Photo'),
-          style: TextButton.styleFrom(
-            foregroundColor: ColorConstants.error,
-          ),
+        const SizedBox(height: 12),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.check_circle, color: ColorConstants.success, size: 18),
+            SizedBox(width: 8),
+            Text(
+              'Photo uploaded successfully',
+              style: TextStyle(
+                color: ColorConstants.success,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -320,30 +581,51 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
   /// Build image placeholder
   Widget _buildImagePlaceholder() {
     return Container(
-      height: 200,
+      height: 250,
       width: double.infinity,
       decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(16.0),
         border: Border.all(
-          color: Colors.grey,
-          style: BorderStyle.solid,
-          width: 2,
+          color: Colors.grey[300]!,
+          width: 1,
         ),
-        borderRadius: BorderRadius.circular(12.0),
       ),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.camera_alt,
-            size: 48,
-            color: Colors.grey,
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: const BoxDecoration(
+              color: ColorConstants.primaryLight,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.camera_alt,
+              size: 48,
+              color: Colors.white,
+            ),
           ),
-          SizedBox(height: 8),
-          Text(
-            'Take a photo of your\nplanted tree',
+          const SizedBox(height: 20),
+          const Text(
+            'Take a photo of your planted tree',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: ColorConstants.textSecondary,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: ColorConstants.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+            child: const Text(
+              'Photo should clearly show the tree you planted',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: ColorConstants.textSecondary,
+              ),
             ),
           ),
         ],
@@ -356,28 +638,45 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ElevatedButton(
-          onPressed: _pickImageFromGallery,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey[200],
-            foregroundColor: ColorConstants.textPrimary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
+        Expanded(
+          child: ElevatedButton.icon(
+            onPressed: _pickImageFromGallery,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: ColorConstants.primary,
+              elevation: 2,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                side: const BorderSide(color: ColorConstants.primary, width: 1),
+              ),
+            ),
+            icon: const Icon(Icons.photo_library),
+            label: const Text(
+              'Gallery',
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          child: const Text('Gallery'),
         ),
         const SizedBox(width: 16),
-        ElevatedButton(
-          onPressed: _pickImageFromCamera,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey[200],
-            foregroundColor: ColorConstants.textPrimary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
+        Expanded(
+          child: ElevatedButton.icon(
+            onPressed: _pickImageFromCamera,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ColorConstants.primary,
+              foregroundColor: Colors.white,
+              elevation: 2,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+            ),
+            icon: const Icon(Icons.camera_alt),
+            label: const Text(
+              'Camera',
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          child: const Text('Camera'),
         ),
       ],
     );
@@ -385,24 +684,156 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
 
   /// Build terms and conditions section
   Widget _buildTermsAndConditions() {
-    return ElevatedButton(
-      onPressed: () {
-        _showTermsAndConditions();
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: ColorConstants.secondary,
-        foregroundColor: Colors.black,
-        minimumSize: const Size(double.infinity, 50),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
+    return Container(
+      decoration: BoxDecoration(
+        color: ColorConstants.secondaryLight.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: ColorConstants.secondaryLight,
+          width: 1,
         ),
       ),
-      child: const Text(
-        'Terms & Conditions',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              Icon(
+                Icons.verified_user,
+                color: ColorConstants.secondary,
+                size: 24,
+              ),
+              SizedBox(width: 10),
+              Text(
+                'Guidelines & Terms',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: ColorConstants.textPrimary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          const Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.check_circle,
+                size: 18,
+                color: ColorConstants.secondary,
+              ),
+              SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'Photos must clearly show a newly planted tree',
+                  style: TextStyle(
+                    color: ColorConstants.textPrimary,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          const Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.check_circle,
+                size: 18,
+                color: ColorConstants.secondary,
+              ),
+              SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'You agree to maintain the tree for at least one year',
+                  style: TextStyle(
+                    color: ColorConstants.textPrimary,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          const Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.check_circle,
+                size: 18,
+                color: ColorConstants.secondary,
+              ),
+              SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'False claims may result in account suspension',
+                  style: TextStyle(
+                    color: ColorConstants.textPrimary,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          InkWell(
+            onTap: _showTermsAndConditions,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: Checkbox(
+                          value: _termsAccepted,
+                          onChanged: (value) {
+                            setState(() {
+                              _termsAccepted = value ?? false;
+                            });
+                          },
+                          activeColor: ColorConstants.secondary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      const Text(
+                        'I agree to the terms and conditions',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: ColorConstants.textPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  TextButton(
+                    onPressed: _showTermsAndConditions,
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: const Size(0, 0),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: const Text(
+                      'Read more',
+                      style: TextStyle(
+                        color: ColorConstants.secondary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -441,12 +872,80 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
 
   /// Build submit button
   Widget _buildSubmitButton() {
-    return CustomButton(
-      text: 'Upload Tree Photo',
-      onPressed: _handleSubmit,
-      type: ButtonType.primary,
-      isLoading: false,
-      icon: Icons.file_upload,
+    final bool isFormReady = _termsAccepted && _selectedImage != null;
+
+    return Column(
+      children: [
+        Container(
+          height: 55,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            gradient: isFormReady
+                ? const LinearGradient(
+                    colors: [
+                      ColorConstants.primary,
+                      ColorConstants.primaryDark,
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  )
+                : null,
+            color: isFormReady ? null : Colors.grey[300],
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: isFormReady
+                ? [
+                    BoxShadow(
+                      color: ColorConstants.primary.withOpacity(0.3),
+                      spreadRadius: 1,
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
+                  ]
+                : null,
+          ),
+          child: MaterialButton(
+            onPressed: isFormReady ? _handleSubmit : null,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            highlightColor: Colors.transparent,
+            splashColor: Colors.white.withOpacity(0.2),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.eco,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 12),
+                Text(
+                  'Plant Your Tree',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (!isFormReady)
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: Text(
+              _selectedImage == null
+                  ? 'Please upload a photo of your tree'
+                  : 'Please accept the terms and conditions',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 14,
+              ),
+            ),
+          ),
+      ],
     );
   }
 
