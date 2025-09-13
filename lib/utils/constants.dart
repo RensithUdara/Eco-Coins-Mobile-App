@@ -15,6 +15,7 @@ class AppConstants {
   static const String dashboardRoute = '/dashboard';
   static const String plantTreeRoute = '/plant-tree';
   static const String maintainRoute = '/maintain';
+  static const String profileRoute = '/profile';
 }
 
 /// Color Constants
