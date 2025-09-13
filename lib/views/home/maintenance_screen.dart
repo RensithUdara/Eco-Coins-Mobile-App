@@ -289,34 +289,111 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   /// Build tree selection card
   Widget _buildTreeSelectionCard() {
     return Card(
+      elevation: 4.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
+        side: BorderSide(color: ColorConstants.primaryLight.withOpacity(0.5), width: 1.0),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Select Tree',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: ColorConstants.textPrimary,
-              ),
+            Row(
+              children: [
+                const Icon(Icons.forest, color: ColorConstants.primary),
+                const SizedBox(width: 8),
+                const Text(
+                  'Select Your Tree',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.textPrimary,
+                  ),
+                ),
+                const Spacer(),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: ColorConstants.secondaryLight.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    '${_userTrees.length} Trees',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: ColorConstants.secondaryLight,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<int>(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Select a tree',
-                border: OutlineInputBorder(),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey[300]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: ColorConstants.primary, width: 2),
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                prefixIcon: const Icon(Icons.spa, color: ColorConstants.primary),
               ),
               value: _selectedTree?.id,
+              icon: const Icon(Icons.arrow_drop_down, color: ColorConstants.primary),
+              isExpanded: true,
               items: _userTrees.map((tree) {
                 return DropdownMenuItem<int>(
                   value: tree.id,
-                  child: Text(
-                      '${tree.species} (Planted on: ${DateFormat('yyyy-MM-dd').format(tree.plantedDate)})'),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          color: ColorConstants.primary.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.nature,
+                            color: ColorConstants.primary,
+                            size: 16,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              tree.species,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: ColorConstants.textPrimary,
+                              ),
+                            ),
+                            Text(
+                              'Planted: ${DateFormat('MMM dd, yyyy').format(tree.plantedDate)}',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: ColorConstants.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               }).toList(),
               onChanged: (value) {
