@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:eco_coins_mobile_app/models/eco_coin_model.dart';
 import 'package:eco_coins_mobile_app/models/user_model.dart';
 import 'package:eco_coins_mobile_app/services/database_service.dart';
+import 'package:flutter/material.dart';
 
 /// State for coin operations
 enum CoinOperationState {
@@ -51,7 +51,8 @@ class CoinController with ChangeNotifier {
 
   /// Get total coins earned
   int getTotalCoins() {
-    return _transactions.fold(0, (sum, transaction) => sum + transaction.amount);
+    return _transactions.fold(
+        0, (sum, transaction) => sum + transaction.amount);
   }
 
   /// Get estimated value of coins
@@ -83,13 +84,15 @@ class CoinController with ChangeNotifier {
       );
 
       // Save transaction
-      final int transactionId = await _databaseService.createTransaction(transaction);
+      final int transactionId =
+          await _databaseService.createTransaction(transaction);
 
       // Update user's coin balance
       await _databaseService.updateUserCoinsBalance(userId, amount);
 
       // Add transaction to list
-      final EcoCoinTransaction newTransaction = transaction.copyWith(id: transactionId);
+      final EcoCoinTransaction newTransaction =
+          transaction.copyWith(id: transactionId);
       _transactions.add(newTransaction);
 
       _state = CoinOperationState.success;
