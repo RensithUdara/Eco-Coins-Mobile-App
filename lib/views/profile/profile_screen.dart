@@ -267,64 +267,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         // Display name and email with text shadows for better visibility
         Column(
-            children: [
-              // User name with animated fade-in
-              TweenAnimationBuilder<double>(
-                tween: Tween<double>(begin: 0, end: 1),
-                duration: const Duration(milliseconds: 500),
-                builder: (context, value, child) {
-                  return Opacity(
-                    opacity: value,
-                    child: child,
-                  );
-                },
-                child: Text(
-                  user.name,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    shadows: const [
-                      Shadow(
-                        offset: Offset(0, 1),
-                        blurRadius: 3,
-                        color: Color.fromRGBO(0, 0, 0, 0.5),
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
+          children: [
+            // User name with animated fade-in
+            TweenAnimationBuilder<double>(
+              tween: Tween<double>(begin: 0, end: 1),
+              duration: const Duration(milliseconds: 500),
+              builder: (context, value, child) {
+                return Opacity(
+                  opacity: value,
+                  child: child,
+                );
+              },
+              child: Text(
+                user.name,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  shadows: const [
+                    Shadow(
+                      offset: Offset(0, 1),
+                      blurRadius: 3,
+                      color: Color.fromRGBO(0, 0, 0, 0.5),
+                    ),
+                  ],
                 ),
+                textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 8),
+            ),
+            const SizedBox(height: 8),
 
-              // User email with animated fade-in
-              TweenAnimationBuilder<double>(
-                tween: Tween<double>(begin: 0, end: 1),
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeOut,
-                builder: (context, value, child) {
-                  return Opacity(
-                    opacity: value,
-                    child: child,
-                  );
-                },
-                child: Text(
-                  user.email,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    shadows: const [
-                      Shadow(
-                        offset: Offset(0, 1),
-                        blurRadius: 2,
-                        color: Color.fromRGBO(0, 0, 0, 0.5),
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
+            // User email with animated fade-in
+            TweenAnimationBuilder<double>(
+              tween: Tween<double>(begin: 0, end: 1),
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeOut,
+              builder: (context, value, child) {
+                return Opacity(
+                  opacity: value,
+                  child: child,
+                );
+              },
+              child: Text(
+                user.email,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  shadows: const [
+                    Shadow(
+                      offset: Offset(0, 1),
+                      blurRadius: 2,
+                      color: Color.fromRGBO(0, 0, 0, 0.5),
+                    ),
+                  ],
                 ),
+                textAlign: TextAlign.center,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         const SizedBox(height: 40),
 
@@ -383,7 +382,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ],
-    )
+    );
   }
 
   /// Build a stat card with enhanced visual design
