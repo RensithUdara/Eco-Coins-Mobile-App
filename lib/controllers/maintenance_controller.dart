@@ -28,6 +28,32 @@ class MaintenanceController with ChangeNotifier {
   List<Tree> get treesForMaintenance => _treesForMaintenance;
   MaintenanceOperationState get state => _state;
   String? get errorMessage => _errorMessage;
+  
+  /// Add maintenance record
+  Future<bool> addMaintenance({
+    required int userId,
+    required int treeId,
+    required MaintenanceActivity activity,
+    required String notes,
+    required DateTime date,
+    required dynamic photoFile,
+  }) async {
+    _state = MaintenanceOperationState.loading;
+    notifyListeners();
+    
+    try {
+      // Implementation will come later
+      await Future.delayed(const Duration(seconds: 2));
+      _state = MaintenanceOperationState.success;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _state = MaintenanceOperationState.error;
+      _errorMessage = e.toString();
+      notifyListeners();
+      return false;
+    }
+  }
 
   /// Get maintenance records for a tree
   List<Maintenance> getMaintenanceRecordsForTree(int treeId) {
