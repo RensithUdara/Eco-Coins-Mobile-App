@@ -265,14 +265,12 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   children: [
                     // Simple header
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
                       child: Row(
                         children: [
-                          const Icon(
-                            Icons.eco, 
-                            color: ColorConstants.primary, 
-                            size: 20
-                          ),
+                          const Icon(Icons.eco,
+                              color: ColorConstants.primary, size: 20),
                           const SizedBox(width: 8),
                           const Text(
                             'Record tree maintenance',
@@ -283,7 +281,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                           ),
                           const Spacer(),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
                               color: ColorConstants.primary.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(12),
@@ -467,78 +466,79 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(color: ColorConstants.primary),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-            prefixIcon: const Icon(Icons.spa, size: 18, color: ColorConstants.primary),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+            prefixIcon:
+                const Icon(Icons.spa, size: 18, color: ColorConstants.primary),
           ),
           value: _selectedTree?.id,
-          icon: const Icon(Icons.arrow_drop_down, color: ColorConstants.primary),
+          icon:
+              const Icon(Icons.arrow_drop_down, color: ColorConstants.primary),
           isExpanded: true,
-              items: _userTrees.map((tree) {
-                return DropdownMenuItem<int>(
-                  value: tree.id,
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 32,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          color: ColorConstants.primary.withOpacity(0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.nature,
-                            color: ColorConstants.primary,
-                            size: 16,
+          items: _userTrees.map((tree) {
+            return DropdownMenuItem<int>(
+              value: tree.id,
+              child: Row(
+                children: [
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: ColorConstants.primary.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.nature,
+                        color: ColorConstants.primary,
+                        size: 16,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          tree.species,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: ColorConstants.textPrimary,
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              tree.species,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: ColorConstants.textPrimary,
-                              ),
-                            ),
-                            Text(
-                              'Planted: ${DateFormat('MMM dd, yyyy').format(tree.plantedDate)}',
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: ColorConstants.textSecondary,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          'Planted: ${DateFormat('MMM dd, yyyy').format(tree.plantedDate)}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: ColorConstants.textSecondary,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                );
-              }).toList(),
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    _selectedTree =
-                        _userTrees.firstWhere((tree) => tree.id == value);
-                  });
-                }
-              },
-              validator: (value) {
-                if (value == null) {
-                  return 'Please select a tree';
-                }
-                return null;
-              },
-            ),
-          ],
+                ],
+              ),
+            );
+          }).toList(),
+          onChanged: (value) {
+            if (value != null) {
+              setState(() {
+                _selectedTree =
+                    _userTrees.firstWhere((tree) => tree.id == value);
+              });
+            }
+          },
+          validator: (value) {
+            if (value == null) {
+              return 'Please select a tree';
+            }
+            return null;
+          },
         ),
-      ),
-    )
+      ],
+    );
   }
 
   /// Build maintenance type card
@@ -570,89 +570,84 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
             ],
           ),
         ),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[50],
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey[200]!),
-              ),
-              child: Wrap(
-                spacing: 12.0,
-                runSpacing: 12.0,
-                children: MaintenanceActivity.values.map((activity) {
-                  final bool isSelected = _selectedActivity == activity;
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.grey[50],
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.grey[200]!),
+          ),
+          child: Wrap(
+            spacing: 12.0,
+            runSpacing: 12.0,
+            children: MaintenanceActivity.values.map((activity) {
+              final bool isSelected = _selectedActivity == activity;
 
-                  // Get icon for each activity type
-                  IconData activityIcon;
-                  switch (activity) {
-                    case MaintenanceActivity.watering:
-                      activityIcon = Icons.water_drop;
-                      break;
-                    case MaintenanceActivity.pruning:
-                      activityIcon = Icons.content_cut;
-                      break;
-                    case MaintenanceActivity.fertilizing:
-                      activityIcon = Icons.grass;
-                      break;
-                    case MaintenanceActivity.pestControl:
-                      activityIcon = Icons.bug_report;
-                      break;
-                    case MaintenanceActivity.mulching:
-                      activityIcon = Icons.layers;
-                      break;
-                    case MaintenanceActivity.other:
-                      activityIcon = Icons.more_horiz;
-                      break;
-                    default:
-                      activityIcon = Icons.eco;
-                  }
+              // Get icon for each activity type
+              IconData activityIcon;
+              switch (activity) {
+                case MaintenanceActivity.watering:
+                  activityIcon = Icons.water_drop;
+                  break;
+                case MaintenanceActivity.pruning:
+                  activityIcon = Icons.content_cut;
+                  break;
+                case MaintenanceActivity.fertilizing:
+                  activityIcon = Icons.grass;
+                  break;
+                case MaintenanceActivity.pestControl:
+                  activityIcon = Icons.bug_report;
+                  break;
+                case MaintenanceActivity.mulching:
+                  activityIcon = Icons.layers;
+                  break;
+                case MaintenanceActivity.other:
+                  activityIcon = Icons.more_horiz;
+                  break;
+                default:
+                  activityIcon = Icons.eco;
+              }
 
-                  return Container(
-                    width: MediaQuery.of(context).size.width * 0.4 - 24,
-                    margin: const EdgeInsets.only(bottom: 4),
-                    child: ChoiceChip(
-                      avatar: Icon(
-                        activityIcon,
-                        color:
-                            isSelected ? Colors.white : ColorConstants.primary,
-                        size: 18,
-                      ),
-                      label: Text(_getActivityName(activity)),
-                      selected: isSelected,
-                      selectedColor: ColorConstants.primary,
-                      backgroundColor: Colors.white,
-                      side: BorderSide(
-                        color: isSelected
-                            ? ColorConstants.primary
-                            : Colors.grey[300]!,
-                      ),
-                      elevation: isSelected ? 2 : 0,
-                      labelStyle: TextStyle(
-                        color: isSelected
-                            ? Colors.white
-                            : ColorConstants.textPrimary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 12),
-                      onSelected: (selected) {
-                        if (selected) {
-                          setState(() {
-                            _selectedActivity = activity;
-                          });
-                        }
-                      },
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ],
+              return Container(
+                width: MediaQuery.of(context).size.width * 0.4 - 24,
+                margin: const EdgeInsets.only(bottom: 4),
+                child: ChoiceChip(
+                  avatar: Icon(
+                    activityIcon,
+                    color: isSelected ? Colors.white : ColorConstants.primary,
+                    size: 18,
+                  ),
+                  label: Text(_getActivityName(activity)),
+                  selected: isSelected,
+                  selectedColor: ColorConstants.primary,
+                  backgroundColor: Colors.white,
+                  side: BorderSide(
+                    color:
+                        isSelected ? ColorConstants.primary : Colors.grey[300]!,
+                  ),
+                  elevation: isSelected ? 2 : 0,
+                  labelStyle: TextStyle(
+                    color:
+                        isSelected ? Colors.white : ColorConstants.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  onSelected: (selected) {
+                    if (selected) {
+                      setState(() {
+                        _selectedActivity = activity;
+                      });
+                    }
+                  },
+                ),
+              );
+            }).toList(),
+          ),
         ),
-      ),
-    )
+      ],
+    );
   }
 
   /// Build maintenance details card
