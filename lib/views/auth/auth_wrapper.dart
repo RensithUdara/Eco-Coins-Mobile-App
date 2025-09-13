@@ -43,7 +43,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
   }
 
   bool _hasNavigated = false;
-  
+
   @override
   Widget build(BuildContext context) {
     // Show loading indicator while initializing
@@ -61,7 +61,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
       // Schedule navigation after this frame completes
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
-        
+
         final authController =
             Provider.of<AuthController>(context, listen: false);
         if (authController.state == AuthState.authenticated) {
