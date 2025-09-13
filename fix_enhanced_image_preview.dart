@@ -4,10 +4,10 @@ Widget _buildEnhancedImagePreview() {
   if (_selectedImage == null) {
     return _buildImagePlaceholder();
   }
-  
+
   // Use a local file variable to avoid multiple null checks
   final imageFile = _selectedImage;
-  
+
   return Stack(
     children: [
       // Image container with enhanced border and shadow
@@ -52,7 +52,8 @@ Widget _buildEnhancedImagePreview() {
                             icon: const Icon(Icons.share, color: Colors.white),
                             onPressed: () {
                               Navigator.pop(context);
-                              Helpers.showSnackBar(context, 'Share feature coming soon!');
+                              Helpers.showSnackBar(
+                                  context, 'Share feature coming soon!');
                             },
                           ),
                         ],
@@ -62,11 +63,11 @@ Widget _buildEnhancedImagePreview() {
                           minScale: 0.5,
                           maxScale: 4.0,
                           child: imageFile != null
-                            ? Image.file(
-                                imageFile,
-                                fit: BoxFit.contain,
-                              )
-                            : const SizedBox(),
+                              ? Image.file(
+                                  imageFile,
+                                  fit: BoxFit.contain,
+                                )
+                              : const SizedBox(),
                         ),
                       ),
                     ],
@@ -78,23 +79,24 @@ Widget _buildEnhancedImagePreview() {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.0),
               child: imageFile != null
-                ? Image.file(
-                    imageFile,
-                    height: 220,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  )
-                : Container(
-                    height: 220,
-                    width: double.infinity,
-                    color: Colors.grey[200],
-                    child: const Icon(Icons.image_not_supported, size: 50, color: Colors.grey),
-                  ),
+                  ? Image.file(
+                      imageFile,
+                      height: 220,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    )
+                  : Container(
+                      height: 220,
+                      width: double.infinity,
+                      color: Colors.grey[200],
+                      child: const Icon(Icons.image_not_supported,
+                          size: 50, color: Colors.grey),
+                    ),
             ),
           ),
         ),
       ),
-      
+
       // Remove photo button
       Positioned(
         top: 8,
