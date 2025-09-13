@@ -226,7 +226,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
               ],
             ),
           ),
-          
+
           // Content
           SafeArea(
             child: SingleChildScrollView(
@@ -248,14 +248,14 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
                       _buildTreeInfoCard(),
 
                       const SizedBox(height: 24),
-                      
+
                       // Tree Photo Section
                       _buildSectionTitle('Tree Photo', Icons.photo_camera),
                       const SizedBox(height: 12),
                       _buildPhotoUploadCard(),
 
                       const SizedBox(height: 24),
-                      
+
                       // Guidelines Section
                       _buildSectionTitle('Guidelines & Terms', Icons.gavel),
                       const SizedBox(height: 12),
