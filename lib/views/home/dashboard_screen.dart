@@ -1,7 +1,6 @@
 import 'package:eco_coins_mobile_app/controllers/auth_controller.dart';
 import 'package:eco_coins_mobile_app/controllers/coin_controller.dart';
 import 'package:eco_coins_mobile_app/controllers/tree_controller.dart';
-import 'package:eco_coins_mobile_app/models/eco_coin_model.dart';
 import 'package:eco_coins_mobile_app/models/tree_model.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:eco_coins_mobile_app/utils/helpers.dart';
