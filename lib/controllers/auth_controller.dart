@@ -38,10 +38,11 @@ class AuthController with ChangeNotifier {
 
   /// Initialize authentication state
   Future<void> initialize() async {
-    // Check if there's a user already logged in (in a real app, this might use SharedPreferences)
-    // For now, we'll just set the state to unauthenticated
-    _state = AuthState.unauthenticated;
-    notifyListeners();
+    // Set state to unauthenticated if it's not already
+    if (_state != AuthState.unauthenticated) {
+      _state = AuthState.unauthenticated;
+      notifyListeners();
+    }
   }
 
   /// Register a new user
