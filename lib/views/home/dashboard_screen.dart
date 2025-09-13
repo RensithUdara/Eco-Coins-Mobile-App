@@ -69,7 +69,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           IconButton(
             icon: const Icon(Icons.account_circle, color: Colors.white),
             tooltip: 'Profile',
-            onPressed: () => Navigator.pushNamed(context, AppConstants.profileRoute),
+            onPressed: () =>
+                Navigator.pushNamed(context, AppConstants.profileRoute),
           ),
         ],
       ),
