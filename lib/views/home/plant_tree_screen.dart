@@ -5,7 +5,6 @@ import 'package:eco_coins_mobile_app/controllers/tree_controller.dart';
 import 'package:eco_coins_mobile_app/services/image_service.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:eco_coins_mobile_app/utils/helpers.dart';
-import 'package:eco_coins_mobile_app/views/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -175,9 +174,9 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
           Container(
             height: 50,
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: ColorConstants.primary,
-              borderRadius: const BorderRadius.only(
+              borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30),
               ),
@@ -195,24 +194,24 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
                     // Impact Banner
                     _buildImpactBanner(),
                     const SizedBox(height: 20),
-                    
+
                     // Section Title
                     _buildSectionTitle('Tree Details', Icons.eco),
                     const SizedBox(height: 10),
                     _buildTreeInfoCard(),
-                    
+
                     const SizedBox(height: 20),
                     _buildSectionTitle('Tree Photo', Icons.photo_camera),
                     const SizedBox(height: 10),
                     _buildPhotoUploadCard(),
-                    
+
                     const SizedBox(height: 20),
                     _buildSectionTitle('Guidelines & Terms', Icons.gavel),
                     const SizedBox(height: 10),
                     _buildImportantGuidelines(),
                     const SizedBox(height: 16),
                     _buildTermsAndConditions(),
-                    
+
                     const SizedBox(height: 30),
                     _buildSubmitButton(),
                     const SizedBox(height: 20),
@@ -225,7 +224,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
       ),
     );
   }
-  
+
   /// Build section title
   Widget _buildSectionTitle(String title, IconData icon) {
     return Row(
@@ -247,13 +246,13 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
       ],
     );
   }
-  
+
   /// Build impact banner showing eco coins rewards
   Widget _buildImpactBanner() {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [
             ColorConstants.secondary,
             ColorConstants.secondaryLight,
@@ -287,19 +286,21 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
               ],
             ),
             child: Image.asset(
-              AssetPaths.coinIcon, 
+              AssetPaths.coinIcon,
               height: 40,
               width: 40,
-              errorBuilder: (context, error, stackTrace) => 
-                const Icon(Icons.monetization_on, size: 40, color: Colors.amber),
+              errorBuilder: (context, error, stackTrace) => const Icon(
+                  Icons.monetization_on,
+                  size: 40,
+                  color: Colors.amber),
             ),
           ),
           const SizedBox(width: 16),
-          Expanded(
+          const Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Plant & Earn',
                   style: TextStyle(
                     fontSize: 18,
@@ -307,10 +308,10 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   'Get ${CoinRewards.treePlanting} Eco Coins for planting a new tree!',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     color: Colors.black87,
                   ),
@@ -338,7 +339,8 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
             // Tree Name/Species field
             const Row(
               children: [
-                Icon(Icons.local_florist, color: ColorConstants.primary, size: 20),
+                Icon(Icons.local_florist,
+                    color: ColorConstants.primary, size: 20),
                 SizedBox(width: 8),
                 Text(
                   'Tree Name / Species',
@@ -369,7 +371,8 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
                   borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(color: ColorConstants.primary),
                 ),
-                prefixIcon: const Icon(Icons.eco, color: ColorConstants.primary),
+                prefixIcon:
+                    const Icon(Icons.eco, color: ColorConstants.primary),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -383,7 +386,8 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
             // Description field
             const Row(
               children: [
-                Icon(Icons.description, color: ColorConstants.primary, size: 20),
+                Icon(Icons.description,
+                    color: ColorConstants.primary, size: 20),
                 SizedBox(width: 8),
                 Text(
                   'Description',
@@ -414,7 +418,8 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
                   borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(color: ColorConstants.primary),
                 ),
-                contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
               ),
               maxLines: 3,
               validator: (value) {
@@ -695,7 +700,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
           const Row(
             children: [
               Icon(
-                Icons.verified_user, 
+                Icons.verified_user,
                 color: ColorConstants.secondary,
                 size: 24,
               ),
@@ -711,16 +716,16 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
             ],
           ),
           const SizedBox(height: 16),
-          Row(
+          const Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(
+              Icon(
                 Icons.check_circle,
                 size: 18,
                 color: ColorConstants.secondary,
               ),
-              const SizedBox(width: 8),
-              const Expanded(
+              SizedBox(width: 8),
+              Expanded(
                 child: Text(
                   'Photos must clearly show a newly planted tree',
                   style: TextStyle(
@@ -732,16 +737,16 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          Row(
+          const Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(
+              Icon(
                 Icons.check_circle,
                 size: 18,
                 color: ColorConstants.secondary,
               ),
-              const SizedBox(width: 8),
-              const Expanded(
+              SizedBox(width: 8),
+              Expanded(
                 child: Text(
                   'You agree to maintain the tree for at least one year',
                   style: TextStyle(
@@ -753,16 +758,16 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          Row(
+          const Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(
+              Icon(
                 Icons.check_circle,
                 size: 18,
                 color: ColorConstants.secondary,
               ),
-              const SizedBox(width: 8),
-              const Expanded(
+              SizedBox(width: 8),
+              Expanded(
                 child: Text(
                   'False claims may result in account suspension',
                   style: TextStyle(
@@ -868,7 +873,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
   /// Build submit button
   Widget _buildSubmitButton() {
     final bool isFormReady = _termsAccepted && _selectedImage != null;
-    
+
     return Column(
       children: [
         Container(
@@ -905,14 +910,14 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
             ),
             highlightColor: Colors.transparent,
             splashColor: Colors.white.withOpacity(0.2),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
+                Icon(
                   Icons.eco,
                   color: Colors.white,
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Text(
                   'Plant Your Tree',
                   style: TextStyle(
