@@ -292,7 +292,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       elevation: 4.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(color: ColorConstants.primaryLight.withOpacity(0.5), width: 1.0),
+        side: BorderSide(
+            color: ColorConstants.primaryLight.withOpacity(0.5), width: 1.0),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -313,7 +314,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 ),
                 const Spacer(),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: ColorConstants.secondaryLight.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(12),
@@ -341,13 +343,17 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: ColorConstants.primary, width: 2),
+                  borderSide:
+                      const BorderSide(color: ColorConstants.primary, width: 2),
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                prefixIcon: const Icon(Icons.spa, color: ColorConstants.primary),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                prefixIcon:
+                    const Icon(Icons.spa, color: ColorConstants.primary),
               ),
               value: _selectedTree?.id,
-              icon: const Icon(Icons.arrow_drop_down, color: ColorConstants.primary),
+              icon: const Icon(Icons.arrow_drop_down,
+                  color: ColorConstants.primary),
               isExpanded: true,
               items: _userTrees.map((tree) {
                 return DropdownMenuItem<int>(
