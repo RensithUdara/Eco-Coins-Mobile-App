@@ -124,7 +124,8 @@ class HelpSupportScreen extends StatelessWidget {
   Widget _buildHeader() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 24.0, bottom: 30.0),
+      padding: const EdgeInsets.only(
+          left: 20.0, right: 20.0, top: 24.0, bottom: 30.0),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -189,9 +190,9 @@ class HelpSupportScreen extends StatelessWidget {
               ],
             ),
           ),
-          
+
           const SizedBox(height: 10),
-          
+
           // Animated subtitle
           TweenAnimationBuilder<double>(
             tween: Tween<double>(begin: 0.0, end: 1.0),
@@ -211,9 +212,9 @@ class HelpSupportScreen extends StatelessWidget {
               ),
             ),
           ),
-          
+
           const SizedBox(height: 20),
-          
+
           // Search bar with animation
           TweenAnimationBuilder<double>(
             tween: Tween<double>(begin: 0.0, end: 1.0),
@@ -249,7 +250,8 @@ class HelpSupportScreen extends StatelessWidget {
                     fontSize: 15,
                   ),
                   border: InputBorder.none,
-                  prefixIcon: const Icon(Icons.search, color: ColorConstants.primary),
+                  prefixIcon:
+                      const Icon(Icons.search, color: ColorConstants.primary),
                   contentPadding: const EdgeInsets.symmetric(vertical: 14),
                   suffixIcon: Container(
                     margin: const EdgeInsets.all(8),
