@@ -1536,6 +1536,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Build enhanced image preview
   Widget _buildEnhancedImagePreview() {
+    // Safety check - if selectedImage is null, return placeholder
+    if (_selectedImage == null) {
+      return _buildImagePlaceholder();
+    }
+    
     return Stack(
       children: [
         // Image container with enhanced border and shadow
