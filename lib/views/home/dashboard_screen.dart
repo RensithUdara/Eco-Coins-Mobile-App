@@ -507,16 +507,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Navigator.pushNamed(context, AppConstants.maintainRoute);
           },
           backgroundColor: ColorConstants.warning,
+          elevation: 4,
           child: const Icon(Icons.update),
         ),
         const SizedBox(height: 16),
-        FloatingActionButton(
-          heroTag: 'plant',
-          onPressed: () {
-            Navigator.pushNamed(context, AppConstants.plantTreeRoute);
-          },
-          backgroundColor: ColorConstants.primary,
-          child: const Icon(Icons.add),
+        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: ColorConstants.primary.withOpacity(0.4),
+                spreadRadius: 1,
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: FloatingActionButton(
+            heroTag: 'plant',
+            onPressed: () {
+              Navigator.pushNamed(context, AppConstants.plantTreeRoute);
+            },
+            backgroundColor: ColorConstants.primary,
+            elevation: 4,
+            child: const Icon(
+              Icons.add,
+              size: 28,
+            ),
+          ),
         ),
       ],
     );
