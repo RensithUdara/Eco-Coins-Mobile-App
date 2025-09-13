@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
+import 'package:flutter/material.dart';
 
 /// Coin display widget for showing coin balance
 class CoinDisplay extends StatelessWidget {
@@ -52,13 +52,13 @@ class CoinDisplay extends StatelessWidget {
 class CoinStatistics extends StatelessWidget {
   final int treesPlanted;
   final int estimatedValue;
-  
+
   const CoinStatistics({
     super.key,
     required this.treesPlanted,
     required this.estimatedValue,
   });
-  
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -81,7 +81,7 @@ class CoinStatistics extends StatelessWidget {
       ],
     );
   }
-  
+
   /// Build a statistic card
   Widget _buildStatCard(BuildContext context, String value, String label) {
     return Column(
@@ -97,7 +97,7 @@ class CoinStatistics extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14,
             color: ColorConstants.textSecondary,
           ),
@@ -147,7 +147,7 @@ class CoinTransactionItem extends StatelessWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
+          const Icon(
             Icons.monetization_on,
             color: ColorConstants.secondary,
             size: 16,
@@ -155,7 +155,7 @@ class CoinTransactionItem extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             '+$amount',
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: ColorConstants.primary,
             ),
