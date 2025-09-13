@@ -147,9 +147,13 @@ class AuthController with ChangeNotifier {
   }
 
   /// Logout the current user
-  void logout() {
+  Future<void> logout() async {
     _currentUser = null;
     _state = AuthState.unauthenticated;
+    
+    // Clear saved credentials
+    await _clearUserCredentials();
+    
     notifyListeners();
   }
 
@@ -191,11 +195,28 @@ class AuthController with ChangeNotifier {
   /// Try to auto login based on stored credentials
   Future<bool> tryAutoLogin() async {
     try {
-      // In a real app, you would check local storage for credentials
-      // For now, we'll just return false
-      _state = AuthState.unauthenticated;
-      notifyListeners();
-      return false;
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      
+      // Check if remember me was enabled
+      final bool rememberMe = prefs.getBool(_keyRememberMe) ?? false;
+      if (!rememberMe) {
+        _state = AuthState.unauthenticated;
+        notifyListeners();
+        return false;
+      }
+      
+      // Get stored credentials
+      final String? email = prefs.getString(_keyEmail);
+      final String? password = prefs.getString(_keyPassword);
+      
+      if (email == null || password == null) {
+        _state = AuthState.unauthenticated;
+        notifyListeners();
+        return false;
+      }
+      
+      // Try to login with stored credentials
+      return await login(email: email, password: password, rememberMe: true);
     } catch (e) {
       _state = AuthState.unauthenticated;
       notifyListeners();
