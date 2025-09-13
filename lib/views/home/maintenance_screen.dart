@@ -1553,7 +1553,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     if (_selectedImage == null) {
       return _buildImagePlaceholder();
     }
-    
+
     // Safely capture the image file to avoid null issues later
     final File imageFile = _selectedImage!;
 
