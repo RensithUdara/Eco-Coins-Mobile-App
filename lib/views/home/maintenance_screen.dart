@@ -38,7 +38,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   void initState() {
     super.initState();
     _dateController.text = DateFormat('yyyy-MM-dd').format(_selectedDate);
-    
+
     // Defer _loadUserTrees to avoid setState during build
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadUserTrees();
@@ -56,7 +56,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   /// Load trees belonging to the current user
   Future<void> _loadUserTrees() async {
     if (!mounted) return;
-    
+
     final authController = Provider.of<AuthController>(context, listen: false);
     final treeController = Provider.of<TreeController>(context, listen: false);
 
@@ -74,7 +74,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     }
 
     await treeController.fetchUserTrees(authController.currentUser!.id!);
-    
+
     if (mounted) {
       setState(() {
         _userTrees = treeController.userTrees;
@@ -574,10 +574,15 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   );
                 }).toList(),
                 onChanged: (value) {
-                  if (value != null) {
-                    setState(() {
-                      _selectedTree =
-                          _userTrees.firstWhere((tree) => tree.id == value);
+                  if (value != null && mounted) {
+                    // Use Future.microtask to avoid setState during build
+                    Future.microtask(() {
+                      if (mounted) {
+                        setState(() {
+                          _selectedTree =
+                              _userTrees.firstWhere((tree) => tree.id == value);
+                        });
+                      }
                     });
                   }
                 },
