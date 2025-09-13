@@ -589,29 +589,57 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   /// Build image placeholder
   Widget _buildImagePlaceholder() {
     return Container(
-      height: 200,
+      height: 220,
       width: double.infinity,
       decoration: BoxDecoration(
+        color: Colors.grey[100],
         border: Border.all(
-          color: Colors.grey,
+          color: Colors.grey[300]!,
           style: BorderStyle.solid,
           width: 2,
         ),
         borderRadius: BorderRadius.circular(12.0),
       ),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.camera_alt,
-            size: 48,
-            color: Colors.grey,
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: ColorConstants.primaryLight.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.camera_alt,
+              size: 48,
+              color: ColorConstants.primary,
+            ),
           ),
-          SizedBox(height: 8),
-          Text(
-            'Take a photo of your\nmaintenance activity',
+          const SizedBox(height: 16),
+          const Text(
+            'Take a photo of your',
             textAlign: TextAlign.center,
             style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: ColorConstants.textPrimary,
+            ),
+          ),
+          const Text(
+            'maintenance activity',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: ColorConstants.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'This helps verify your tree care',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 14,
               color: ColorConstants.textSecondary,
             ),
           ),
@@ -625,28 +653,46 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ElevatedButton(
-          onPressed: _pickImageFromGallery,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey[200],
-            foregroundColor: ColorConstants.textPrimary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
+        Expanded(
+          child: ElevatedButton.icon(
+            onPressed: _pickImageFromGallery,
+            icon: const Icon(Icons.photo_library, size: 20),
+            label: const Text('Gallery'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ColorConstants.primaryLight.withOpacity(0.2),
+              foregroundColor: ColorConstants.primaryDark,
+              elevation: 0,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                side: BorderSide(
+                    color: ColorConstants.primaryLight.withOpacity(0.5)),
+              ),
+              textStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          child: const Text('Gallery'),
         ),
         const SizedBox(width: 16),
-        ElevatedButton(
-          onPressed: _pickImageFromCamera,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey[200],
-            foregroundColor: ColorConstants.textPrimary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
+        Expanded(
+          child: ElevatedButton.icon(
+            onPressed: _pickImageFromCamera,
+            icon: const Icon(Icons.camera_alt, size: 20),
+            label: const Text('Camera'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ColorConstants.primary,
+              foregroundColor: Colors.white,
+              elevation: 0,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              textStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          child: const Text('Camera'),
         ),
       ],
     );
@@ -654,12 +700,32 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Build submit button
   Widget _buildSubmitButton() {
-    return CustomButton(
-      text: 'Record Maintenance',
-      onPressed: _handleSubmit,
-      type: ButtonType.primary,
-      isLoading: false,
-      icon: Icons.check_circle,
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [ColorConstants.primaryDark, ColorConstants.primary],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+        borderRadius: BorderRadius.circular(16.0),
+        boxShadow: [
+          BoxShadow(
+            color: ColorConstants.primary.withOpacity(0.3),
+            blurRadius: 10,
+            spreadRadius: 2,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: CustomButton(
+        text: 'Record Maintenance',
+        onPressed: _handleSubmit,
+        type: ButtonType.primary,
+        isLoading: false,
+        icon: Icons.check_circle,
+      ),
     );
   }
 }
