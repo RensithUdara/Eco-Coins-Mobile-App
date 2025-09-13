@@ -21,7 +21,8 @@ class CoinDisplay extends StatelessWidget {
           // Main card
           Container(
             margin: const EdgeInsets.only(top: 15),
-            padding: EdgeInsets.fromLTRB(20, isLarge ? 30.0 : 20.0, 20, isLarge ? 24.0 : 18.0),
+            padding: EdgeInsets.fromLTRB(
+                20, isLarge ? 30.0 : 20.0, 20, isLarge ? 24.0 : 18.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20.0),
@@ -86,7 +87,8 @@ class CoinDisplay extends StatelessWidget {
                         AssetPaths.coinIcon,
                         height: isLarge ? 32 : 24,
                         width: isLarge ? 32 : 24,
-                        errorBuilder: (context, error, stackTrace) => const Icon(
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(
                           Icons.monetization_on,
                           color: ColorConstants.secondary,
                           size: 28,
@@ -98,7 +100,7 @@ class CoinDisplay extends StatelessWidget {
               ],
             ),
           ),
-          
+
           // Top decoration with pattern
           Positioned(
             top: 0,
@@ -175,7 +177,8 @@ class CoinStatistics extends StatelessWidget {
   }
 
   /// Build a statistic card
-  Widget _buildStatCard(BuildContext context, String value, String label, IconData icon, Color iconColor) {
+  Widget _buildStatCard(BuildContext context, String value, String label,
+      IconData icon, Color iconColor) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
       decoration: BoxDecoration(
