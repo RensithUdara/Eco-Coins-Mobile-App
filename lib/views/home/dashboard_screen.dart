@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:eco_coins_mobile_app/controllers/auth_controller.dart';
 import 'package:eco_coins_mobile_app/controllers/coin_controller.dart';
 import 'package:eco_coins_mobile_app/controllers/tree_controller.dart';
@@ -5,7 +7,6 @@ import 'package:eco_coins_mobile_app/models/tree_model.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:eco_coins_mobile_app/utils/helpers.dart';
 import 'package:eco_coins_mobile_app/views/widgets/coin_display.dart';
-import 'package:eco_coins_mobile_app/views/widgets/custom_button.dart';
 import 'package:eco_coins_mobile_app/views/widgets/tree_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -544,99 +545,406 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void _showTreeDetails(Tree tree) {
     showModalBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (context) {
         return Container(
-          padding: const EdgeInsets.all(24.0),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          padding: const EdgeInsets.only(top: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                tree.species,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Planted on: ${Helpers.formatDate(tree.plantedDate)}',
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: ColorConstants.textSecondary,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Age: ${Helpers.formatTreeAge(tree.ageInDays)}',
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: ColorConstants.textSecondary,
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Description:',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: ColorConstants.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                tree.description,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: ColorConstants.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Coins Earned:',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: ColorConstants.textPrimary,
-                    ),
+              // Handle bar
+              Center(
+                child: Container(
+                  height: 5,
+                  width: 60,
+                  margin: const EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(5),
                   ),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.monetization_on,
-                        color: ColorConstants.secondary,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        '${tree.coinsEarned}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: ColorConstants.textPrimary,
+                ),
+              ),
+
+              // Header with image
+              SizedBox(
+                height: 200,
+                width: double.infinity,
+                child: Stack(
+                  children: [
+                    // Background image
+                    Positioned.fill(
+                      child: _buildTreeDetailsImage(tree),
+                    ),
+
+                    // Gradient overlay
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.black.withOpacity(0.2),
+                              Colors.black.withOpacity(0.6),
+                            ],
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+
+                    // Title and info
+                    Positioned(
+                      bottom: 16,
+                      left: 16,
+                      right: 16,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.6),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              'ID: ${tree.id.toString().padLeft(3, '0')}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            tree.species,
+                            style: const TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black45,
+                                  offset: Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Close button
+                    Positioned(
+                      top: 16,
+                      right: 16,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          icon: const Icon(Icons.close, color: Colors.white),
+                          onPressed: () => Navigator.pop(context),
+                          iconSize: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 24),
-              CustomButton(
-                text: 'Close',
-                onPressed: () => Navigator.pop(context),
-                type: ButtonType.secondary,
+
+              // Content
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Info row
+                    Row(
+                      children: [
+                        _buildInfoItem(
+                          Icons.calendar_today,
+                          'Planted on',
+                          Helpers.formatDate(tree.plantedDate),
+                          ColorConstants.info,
+                        ),
+                        const SizedBox(width: 16),
+                        _buildInfoItem(
+                          Icons.access_time,
+                          'Age',
+                          Helpers.formatTreeAge(tree.ageInDays),
+                          ColorConstants.primary,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Description
+                    const Text(
+                      'Description',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: ColorConstants.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[50],
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Colors.grey[200]!,
+                          width: 1,
+                        ),
+                      ),
+                      child: Text(
+                        tree.description.isEmpty
+                            ? 'No description provided'
+                            : tree.description,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: tree.description.isEmpty
+                              ? ColorConstants.textSecondary
+                              : ColorConstants.textPrimary,
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Coins card
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFFFFC107),
+                            Color(0xFFFFD700),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFFFC107).withOpacity(0.3),
+                            spreadRadius: 1,
+                            blurRadius: 8,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  spreadRadius: 1,
+                                  blurRadius: 3,
+                                ),
+                              ],
+                            ),
+                            child: Image.asset(
+                              AssetPaths.coinIcon,
+                              height: 24,
+                              width: 24,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(
+                                Icons.monetization_on,
+                                size: 24,
+                                color: ColorConstants.secondary,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Eco Coins Earned',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                tree.coinsEarned.toString(),
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Buttons
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () => Navigator.pop(context),
+                            icon: const Icon(Icons.close),
+                            label: const Text('Close'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey[200],
+                              foregroundColor: ColorConstants.textPrimary,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pushNamed(
+                                context,
+                                AppConstants.maintainRoute,
+                                arguments: tree,
+                              );
+                            },
+                            icon: const Icon(Icons.update),
+                            label: const Text('Maintain'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorConstants.primary,
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         );
       },
     );
+  }
+
+  /// Build info item for tree details
+  Widget _buildInfoItem(
+      IconData icon, String label, String value, Color iconColor) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Colors.grey[200]!,
+            width: 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: iconColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(
+                icon,
+                color: iconColor,
+                size: 18,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: ColorConstants.textPrimary,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Build tree details image
+  Widget _buildTreeDetailsImage(Tree tree) {
+    try {
+      return Image.file(
+        File(tree.photoPath),
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            color: ColorConstants.primary.withOpacity(0.2),
+            child: const Center(
+              child: Icon(
+                Icons.nature,
+                size: 64,
+                color: ColorConstants.primary,
+              ),
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      return Container(
+        color: ColorConstants.primary.withOpacity(0.2),
+        child: const Center(
+          child: Icon(
+            Icons.nature,
+            size: 64,
+            color: ColorConstants.primary,
+          ),
+        ),
+      );
+    }
   }
 
   /// Handle logout button press
