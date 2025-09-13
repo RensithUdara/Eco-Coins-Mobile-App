@@ -304,10 +304,10 @@ class HelpSupportScreen extends StatelessWidget {
     final Color iconBgColor = Color.fromARGB(
       255,
       (icon.codePoint * 41) % 100 + 155, // Red component (155-255)
-      (icon.codePoint * 59) % 80 + 175,  // Green component (175-255)
+      (icon.codePoint * 59) % 80 + 175, // Green component (175-255)
       (icon.codePoint * 83) % 100 + 155, // Blue component (155-255)
     );
-    
+
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(begin: 0.96, end: 1.0),
       duration: const Duration(milliseconds: 350),
@@ -363,9 +363,9 @@ class HelpSupportScreen extends StatelessWidget {
                       size: 26,
                     ),
                   ),
-                  
+
                   const SizedBox(width: 16),
-                  
+
                   // Title with enhanced typography
                   Expanded(
                     child: Text(
@@ -377,7 +377,7 @@ class HelpSupportScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
+
                   // Arrow with container background
                   Container(
                     padding: const EdgeInsets.all(8),
