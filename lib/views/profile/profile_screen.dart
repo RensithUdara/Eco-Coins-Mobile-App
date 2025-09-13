@@ -247,7 +247,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ? _buildEditForm()
                               : _buildProfileInfo(user),
 
-                          const SizedBox(height: 40),
+                          //const SizedBox(height: 10),
 
                           // Account actions
                           _buildAccountActions(),
