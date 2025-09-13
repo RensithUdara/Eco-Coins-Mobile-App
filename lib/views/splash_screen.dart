@@ -40,29 +40,29 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    
+
     // Initialize only once
     if (!_initialized) {
       _initialized = true;
-      
+
       // Schedule initialization for after the current build
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _initializeAuthAndNavigate();
       });
     }
   }
-  
+
   // This method handles auth initialization and navigation
   Future<void> _initializeAuthAndNavigate() async {
     // Get the auth controller
     final authController = Provider.of<AuthController>(context, listen: false);
-    
+
     // Initialize auth controller
     await authController.initialize();
-    
+
     // Give time for the splash screen to be visible
     await Future.delayed(const Duration(seconds: 3));
-    
+
     // Try to auto-login with saved credentials
     final bool autoLoginSuccess = await authController.tryAutoLogin();
 
