@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:eco_coins_mobile_app/controllers/auth_controller.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:eco_coins_mobile_app/utils/helpers.dart';
 import 'package:eco_coins_mobile_app/views/widgets/custom_button.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 /// Login screen for user authentication
 class LoginScreen extends StatefulWidget {
@@ -29,7 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
   /// Handle login button press
   void _handleLogin() async {
     if (_formKey.currentState!.validate()) {
-      final authController = Provider.of<AuthController>(context, listen: false);
+      final authController =
+          Provider.of<AuthController>(context, listen: false);
       final success = await authController.login(
         email: _emailController.text.trim(),
         password: _passwordController.text,
@@ -82,17 +83,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   /// Build app logo
   Widget _buildLogo() {
-    return Column(
+    return const Column(
       children: [
-        const Icon(
+        Icon(
           Icons.eco,
           size: 80,
           color: ColorConstants.primary,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         Text(
           AppConstants.appName,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
             color: ColorConstants.primary,
@@ -104,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   /// Build welcome message
   Widget _buildWelcomeMessage() {
-    return Text(
+    return const Text(
       AppConstants.welcomeMessage,
       style: TextStyle(
         fontSize: 20,
@@ -122,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Email label
-          Text(
+          const Text(
             'E-mail',
             style: TextStyle(
               fontSize: 16,
@@ -151,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const SizedBox(height: 16),
           // Password label
-          Text(
+          const Text(
             'Password',
             style: TextStyle(
               fontSize: 16,
@@ -202,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
             'Password reset functionality coming soon!',
           );
         },
-        child: Text(
+        child: const Text(
           'Forgot Password?',
           style: TextStyle(
             color: ColorConstants.primary,
@@ -232,7 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           "Don't have an account?",
           style: TextStyle(
             color: ColorConstants.textSecondary,
@@ -242,7 +243,7 @@ class _LoginScreenState extends State<LoginScreen> {
           onPressed: () {
             Navigator.pushReplacementNamed(context, AppConstants.signupRoute);
           },
-          child: Text(
+          child: const Text(
             'Create Account',
             style: TextStyle(
               color: ColorConstants.primary,
