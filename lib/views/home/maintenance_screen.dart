@@ -1307,8 +1307,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 crossFadeState: _selectedImage != null
                     ? CrossFadeState.showFirst
                     : CrossFadeState.showSecond,
-                firstChild: _selectedImage != null 
-                    ? _buildEnhancedImagePreview() 
+                firstChild: _selectedImage != null
+                    ? _buildEnhancedImagePreview()
                     : _buildImagePlaceholder(),
                 secondChild: _buildImagePlaceholder(),
               ),
