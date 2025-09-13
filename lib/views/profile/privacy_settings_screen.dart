@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 /// Custom painter for bubble pattern in header background
 class BubblePatternPainter extends CustomPainter {
   final double animationValue;
-  
+
   BubblePatternPainter({required this.animationValue});
-  
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
-    
+
     final bubbleSizes = [10.0, 15.0, 8.0, 12.0, 7.0];
     final positions = [
       Offset(size.width * 0.1, size.height * 0.2),
@@ -22,19 +22,20 @@ class BubblePatternPainter extends CustomPainter {
       Offset(size.width * 0.7, size.height * 0.6),
       Offset(size.width * 0.9, size.height * 0.4),
     ];
-    
+
     for (int i = 0; i < bubbleSizes.length; i++) {
       // Calculate dynamic radius with animation
-      final radius = bubbleSizes[i] * (0.8 + 0.2 * (i % 2 == 0 ? animationValue : 1 - animationValue));
-      
+      final radius = bubbleSizes[i] *
+          (0.8 + 0.2 * (i % 2 == 0 ? animationValue : 1 - animationValue));
+
       // Calculate position with slight movement
       final offsetX = positions[i].dx + (i % 2 == 0 ? 5 : -5) * animationValue;
       final offsetY = positions[i].dy + (i % 3 == 0 ? 3 : -3) * animationValue;
-      
+
       canvas.drawCircle(Offset(offsetX, offsetY), radius, paint);
     }
   }
-  
+
   @override
   bool shouldRepaint(BubblePatternPainter oldDelegate) {
     return oldDelegate.animationValue != animationValue;
@@ -185,7 +186,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
               },
             ),
           ),
-          
+
           // Foreground content
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -216,9 +217,9 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 12),
-                
+
                 // Title with fade-in effect
                 TweenAnimationBuilder<double>(
                   tween: Tween<double>(begin: 0.0, end: 1.0),
@@ -243,9 +244,9 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 8),
-                
+
                 // Subtitle with delay and fade-in
                 TweenAnimationBuilder<double>(
                   tween: Tween<double>(begin: 0.0, end: 1.0),
@@ -275,7 +276,6 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
         ],
       ),
     );
-  }
   }
 
   /// Builds a category heading for settings
@@ -317,9 +317,9 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: value 
-                ? ColorConstants.primary.withOpacity(0.15)
-                : Colors.grey.withOpacity(0.1),
+              color: value
+                  ? ColorConstants.primary.withOpacity(0.15)
+                  : Colors.grey.withOpacity(0.1),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -346,19 +346,21 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: value 
+                        color: value
                             ? ColorConstants.primary.withOpacity(0.1)
                             : Colors.grey.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
-                        value ? Icons.check_circle_outline : Icons.circle_outlined,
+                        value
+                            ? Icons.check_circle_outline
+                            : Icons.circle_outlined,
                         color: value ? ColorConstants.primary : Colors.grey,
                       ),
                     ),
-                    
+
                     const SizedBox(width: 16),
-                    
+
                     // Title and subtitle
                     Expanded(
                       child: Column(
@@ -369,7 +371,9 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
-                              color: value ? ColorConstants.primaryDark : ColorConstants.textPrimary,
+                              color: value
+                                  ? ColorConstants.primaryDark
+                                  : ColorConstants.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -383,9 +387,9 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                         ],
                       ),
                     ),
-                    
+
                     const SizedBox(width: 8),
-                    
+
                     // Custom animated switch
                     AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
@@ -393,8 +397,8 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                       height: 30,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: value 
-                            ? ColorConstants.primary 
+                        color: value
+                            ? ColorConstants.primary
                             : Colors.grey.withOpacity(0.3),
                       ),
                       child: Stack(
