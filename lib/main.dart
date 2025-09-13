@@ -11,6 +11,8 @@ import 'package:eco_coins_mobile_app/views/auth/signup_screen.dart';
 import 'package:eco_coins_mobile_app/views/home/dashboard_screen.dart';
 import 'package:eco_coins_mobile_app/views/home/maintenance_screen.dart';
 import 'package:eco_coins_mobile_app/views/home/plant_tree_screen.dart';
+import 'package:eco_coins_mobile_app/views/profile/help_support_screen.dart';
+import 'package:eco_coins_mobile_app/views/profile/privacy_settings_screen.dart';
 import 'package:eco_coins_mobile_app/views/profile/profile_screen.dart';
 import 'package:eco_coins_mobile_app/views/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -61,12 +63,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => const SplashScreen(),
-        '/login': (context) => const LoginScreen(),
-        '/signup': (context) => const SignupScreen(),
-        '/dashboard': (context) => const DashboardScreen(),
-        '/plant-tree': (context) => const PlantTreeScreen(),
-        '/profile': (context) => const ProfileScreen(),
+        AppConstants.splashRoute: (context) => const SplashScreen(),
+        AppConstants.loginRoute: (context) => const LoginScreen(),
+        AppConstants.signupRoute: (context) => const SignupScreen(),
+        AppConstants.dashboardRoute: (context) => const DashboardScreen(),
+        AppConstants.plantTreeRoute: (context) => const PlantTreeScreen(),
+        AppConstants.profileRoute: (context) => const ProfileScreen(),
+        AppConstants.privacySettingsRoute: (context) =>
+            const PrivacySettingsScreen(),
+        AppConstants.helpSupportRoute: (context) => const HelpSupportScreen(),
       },
       // Handle routes that require arguments
       onGenerateRoute: (settings) {
