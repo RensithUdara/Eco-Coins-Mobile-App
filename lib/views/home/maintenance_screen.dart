@@ -543,7 +543,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
           ],
         ),
       ),
-    );
+    )
   }
 
   /// Build maintenance type card
