@@ -191,7 +191,7 @@ class AuthController with ChangeNotifier {
     }
     return false;
   }
-  
+
   /// Update user profile (name and email)
   Future<bool> updateUserProfile({
     required String name,
@@ -201,14 +201,15 @@ class AuthController with ChangeNotifier {
       try {
         // Check if email already exists for a different user
         if (email != _currentUser!.email) {
-          final User? existingUser = await _databaseService.getUserByEmail(email);
+          final User? existingUser =
+              await _databaseService.getUserByEmail(email);
           if (existingUser != null && existingUser.id != _currentUser!.id) {
             _errorMessage = 'A user with this email already exists';
             notifyListeners();
             return false;
           }
         }
-        
+
         // Update user with new information
         final User updatedUser = _currentUser!.copyWith(
           name: name,
