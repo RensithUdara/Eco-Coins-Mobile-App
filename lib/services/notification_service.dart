@@ -1,12 +1,13 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz_data;
+import 'package:timezone/timezone.dart' as tz;
 
 /// Service class for handling notifications
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
-  final FlutterLocalNotificationsPlugin _notificationsPlugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _notificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   factory NotificationService() {
     return _instance;
@@ -32,7 +33,8 @@ class NotificationService {
     );
 
     // Initialization settings for both platforms
-    const InitializationSettings initializationSettings = InitializationSettings(
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
       android: androidInitializationSettings,
       iOS: iosInitializationSettings,
     );
@@ -59,7 +61,8 @@ class NotificationService {
     required String body,
     String? payload,
   }) async {
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
       'eco_coins_channel',
       'Eco Coins Notifications',
       channelDescription: 'Notifications for Eco Coins app',
@@ -95,7 +98,8 @@ class NotificationService {
     required DateTime scheduledDate,
     required String maintenanceType,
   }) async {
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
       'eco_coins_maintenance_channel',
       'Maintenance Notifications',
       channelDescription: 'Notifications for tree maintenance',
