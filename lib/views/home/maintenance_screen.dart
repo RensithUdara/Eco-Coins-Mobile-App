@@ -14,9 +14,9 @@ import 'package:provider/provider.dart';
 
 /// Screen for maintaining trees
 class MaintenanceScreen extends StatefulWidget {
-  final int? treeId;
+  final dynamic tree;
 
-  const MaintenanceScreen({this.treeId, super.key});
+  const MaintenanceScreen({this.tree, super.key});
 
   @override
   State<MaintenanceScreen> createState() => _MaintenanceScreenState();
@@ -70,9 +70,9 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     setState(() {
       _userTrees = treeController.userTrees;
 
-      if (widget.treeId != null) {
+      if (widget.tree != null) {
         _selectedTree = _userTrees.firstWhere(
-          (tree) => tree?.id == widget.treeId,
+          (tree) => tree?.id == widget.tree.id,
           orElse: () => _userTrees.isNotEmpty ? _userTrees.first : null,
         );
       } else if (_userTrees.isNotEmpty) {
