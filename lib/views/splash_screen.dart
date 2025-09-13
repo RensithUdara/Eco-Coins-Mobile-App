@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:provider/provider.dart';
+
 import 'package:eco_coins_mobile_app/controllers/auth_controller.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 /// Splash screen displayed when the app starts
 class SplashScreen extends StatefulWidget {
@@ -12,7 +13,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
@@ -61,18 +63,18 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         child: Center(
           child: FadeTransition(
             opacity: _fadeAnimation,
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // App logo
-                const Icon(
+                Icon(
                   Icons.eco,
                   size: 100,
                   color: ColorConstants.primary,
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
                 // App name
-                const Text(
+                Text(
                   AppConstants.appName,
                   style: TextStyle(
                     fontSize: 32,
@@ -80,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     color: ColorConstants.primary,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 // Tagline
                 Text(
                   AppConstants.appTagline,
@@ -89,9 +91,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     color: ColorConstants.textSecondary,
                   ),
                 ),
-                const SizedBox(height: 64),
+                SizedBox(height: 64),
                 // Loading indicator
-                const CircularProgressIndicator(
+                CircularProgressIndicator(
                   color: ColorConstants.primary,
                 ),
               ],
