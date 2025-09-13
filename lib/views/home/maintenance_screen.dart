@@ -402,11 +402,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Notes field with improved styling
-            Row(
+            const Row(
               children: [
-                const Icon(Icons.edit_note, color: ColorConstants.primary),
-                const SizedBox(width: 8),
-                const Text(
+                Icon(Icons.edit_note, color: ColorConstants.primary),
+                SizedBox(width: 8),
+                Text(
                   'Maintenance Notes',
                   style: TextStyle(
                     fontSize: 16,
@@ -414,7 +414,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                     color: ColorConstants.textPrimary,
                   ),
                 ),
-                const Spacer(),
+                Spacer(),
                 Text(
                   'Required',
                   style: TextStyle(
@@ -438,7 +438,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: ColorConstants.primary, width: 2),
+                  borderSide:
+                      const BorderSide(color: ColorConstants.primary, width: 2),
                 ),
                 contentPadding: const EdgeInsets.all(16),
               ),
@@ -453,11 +454,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
             const SizedBox(height: 24),
 
             // Date field with improved styling
-            Row(
+            const Row(
               children: [
-                const Icon(Icons.calendar_today, color: ColorConstants.primary),
-                const SizedBox(width: 8),
-                const Text(
+                Icon(Icons.calendar_today, color: ColorConstants.primary),
+                SizedBox(width: 8),
+                Text(
                   'Maintenance Date',
                   style: TextStyle(
                     fontSize: 16,
@@ -465,7 +466,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                     color: ColorConstants.textPrimary,
                   ),
                 ),
-                const Spacer(),
+                Spacer(),
                 Text(
                   'Today',
                   style: TextStyle(
@@ -490,7 +491,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: ColorConstants.primary, width: 2),
+                  borderSide:
+                      const BorderSide(color: ColorConstants.primary, width: 2),
                 ),
                 contentPadding: const EdgeInsets.all(16),
                 suffixIcon: Container(
@@ -500,7 +502,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: IconButton(
-                    icon: const Icon(Icons.calendar_today, color: ColorConstants.primary),
+                    icon: const Icon(Icons.calendar_today,
+                        color: ColorConstants.primary),
                     onPressed: _selectDate,
                   ),
                 ),
