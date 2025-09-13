@@ -665,7 +665,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                         size: 12, color: ColorConstants.textSecondary),
                     const SizedBox(width: 4),
                     Text(
-                      'Location: ${tree.location ?? "Not specified"}',
+                      'Location: Not specified',
                       style: const TextStyle(
                         fontSize: 12,
                         color: ColorConstants.textSecondary,
