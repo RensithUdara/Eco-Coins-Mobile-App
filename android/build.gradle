@@ -1,40 +1,41 @@
-buildscript {
-    ext.kotlin_version = '1.9.22'
-    repositories {
+buildscript
+{
+    ext.kotlin_version = '1.9.22' repositories{
         google()
-        mavenCentral()
-    }
+            mavenCentral()}
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    dependencies{classpath 'com.android.tools.build:gradle:7.3.0' classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"}
+}
+
+allprojects
+{
+    repositories
+    {
+        google()
+            mavenCentral()
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
+rootProject.buildDir = "../build" subprojects
+{
+    project.buildDir = "${rootProject.buildDir}/${project.name}" project.evaluationDependsOn(":app")
 
-rootProject.buildDir = "../build"
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-    project.evaluationDependsOn(":app")
-    
-    // Fix for namespace issue in older plugins
-    afterEvaluate {
+                       // Fix for namespace issue in older plugins
+                       afterEvaluate
+    {
         if (project.plugins.findPlugin('android') ||
-            project.plugins.findPlugin('android-library')) {
-            if (project.android.hasProperty('namespace') && 
-                !project.android.namespace) {
+            project.plugins.findPlugin('android-library'))
+        {
+            if (project.android.hasProperty('namespace') &&
+                !project.android.namespace)
+            {
                 project.android.namespace = "com.${project.name.replace('-', '_')}"
             }
         }
     }
 }
 
-tasks.register("clean", Delete) {
+tasks.register("clean", Delete)
+{
     delete rootProject.buildDir
 }
