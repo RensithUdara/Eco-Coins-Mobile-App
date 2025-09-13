@@ -191,6 +191,43 @@ class AuthController with ChangeNotifier {
     }
     return false;
   }
+  
+  /// Update user profile (name and email)
+  Future<bool> updateUserProfile({
+    required String name,
+    required String email,
+  }) async {
+    if (_currentUser != null && _currentUser!.id != null) {
+      try {
+        // Check if email already exists for a different user
+        if (email != _currentUser!.email) {
+          final User? existingUser = await _databaseService.getUserByEmail(email);
+          if (existingUser != null && existingUser.id != _currentUser!.id) {
+            _errorMessage = 'A user with this email already exists';
+            notifyListeners();
+            return false;
+          }
+        }
+        
+        // Update user with new information
+        final User updatedUser = _currentUser!.copyWith(
+          name: name,
+          email: email,
+        );
+        await _databaseService.updateUser(updatedUser);
+        _currentUser = updatedUser;
+        notifyListeners();
+        return true;
+      } catch (e) {
+        _errorMessage = 'Failed to update profile: ${e.toString()}';
+        notifyListeners();
+        return false;
+      }
+    }
+    _errorMessage = 'User not authenticated';
+    notifyListeners();
+    return false;
+  }
 
   /// Try to auto login based on stored credentials
   Future<bool> tryAutoLogin() async {
