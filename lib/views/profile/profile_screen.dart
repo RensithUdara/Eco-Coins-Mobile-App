@@ -265,20 +265,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildProfileInfo(User user) {
     return Column(
       children: [
-        // Container with semi-transparent background for better text visibility
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 8,
-                spreadRadius: 1,
-              ),
-            ],
-          ),
+        // The name and email are displayed directly without a container background
+        // This matches the screenshot better
           child: Column(
             children: [
               // User name with animated fade-in
@@ -396,7 +384,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ],
-    );
+    )
   }
 
   /// Build a stat card with enhanced visual design
