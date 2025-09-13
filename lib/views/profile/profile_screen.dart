@@ -99,17 +99,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorConstants.background,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Profile'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
+          'Profile',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            shadows: [
+              Shadow(
+                offset: Offset(0, 1),
+                blurRadius: 3,
+                color: Color.fromRGBO(0, 0, 0, 0.3),
+              ),
+            ],
+          ),
+        ),
         actions: [
           _isEditing
               ? IconButton(
-                  icon: const Icon(Icons.close),
+                  icon: const Icon(Icons.close, color: Colors.white),
                   onPressed: _toggleEditMode,
                   tooltip: 'Cancel',
                 )
               : IconButton(
-                  icon: const Icon(Icons.edit),
+                  icon: const Icon(Icons.edit, color: Colors.white),
                   onPressed: _toggleEditMode,
                   tooltip: 'Edit Profile',
                 ),
@@ -122,28 +138,96 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return const Center(child: Text('User not found'));
           }
 
-          return _isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 20),
-                      // Profile Avatar
-                      CircleAvatar(
-                        radius: 60,
-                        backgroundColor: ColorConstants.primaryLight,
-                        child: Text(
-                          _getInitials(user.name),
-                          style: const TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+          return Stack(
+            children: [
+              // Header gradient background
+              Container(
+                height: 260,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      ColorConstants.primaryDark,
+                      ColorConstants.primary,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    // Decorative circles
+                    Positioned(
+                      top: -30,
+                      right: -30,
+                      child: Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withOpacity(0.1),
                         ),
                       ),
-                      const SizedBox(height: 24),
+                    ),
+                    Positioned(
+                      bottom: 30,
+                      left: -20,
+                      child: Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withOpacity(0.1),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Content
+              _isLoading
+                  ? const Center(child: CircularProgressIndicator(color: Colors.white))
+                  : SingleChildScrollView(
+                      padding: const EdgeInsets.only(top: 100),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Profile Avatar with decoration
+                          Center(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.white, width: 4),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    blurRadius: 10,
+                                    spreadRadius: 1,
+                                  ),
+                                ],
+                              ),
+                              child: Hero(
+                                tag: 'profile-avatar',
+                                child: CircleAvatar(
+                                  radius: 60,
+                                  backgroundColor: ColorConstants.secondaryLight,
+                                  child: Text(
+                                    _getInitials(user.name),
+                                    style: const TextStyle(
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 24),
 
                       // User information or edit form
                       _isEditing ? _buildEditForm() : _buildProfileInfo(user),
