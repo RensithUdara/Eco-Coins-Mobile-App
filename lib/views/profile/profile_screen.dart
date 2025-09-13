@@ -23,8 +23,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     final authController = Provider.of<AuthController>(context, listen: false);
-    _nameController = TextEditingController(text: authController.currentUser?.name ?? '');
-    _emailController = TextEditingController(text: authController.currentUser?.email ?? '');
+    _nameController =
+        TextEditingController(text: authController.currentUser?.name ?? '');
+    _emailController =
+        TextEditingController(text: authController.currentUser?.email ?? '');
   }
 
   @override
@@ -40,7 +42,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _isEditing = !_isEditing;
       if (!_isEditing) {
         // Reset fields if canceling edit
-        final authController = Provider.of<AuthController>(context, listen: false);
+        final authController =
+            Provider.of<AuthController>(context, listen: false);
         _nameController.text = authController.currentUser?.name ?? '';
         _emailController.text = authController.currentUser?.email ?? '';
       }
@@ -54,7 +57,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _isLoading = true;
       });
 
-      final authController = Provider.of<AuthController>(context, listen: false);
+      final authController =
+          Provider.of<AuthController>(context, listen: false);
       final success = await authController.updateUserProfile(
         name: _nameController.text,
         email: _emailController.text,
@@ -73,7 +77,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(authController.errorMessage ?? 'Failed to update profile'),
+              content: Text(
+                  authController.errorMessage ?? 'Failed to update profile'),
               backgroundColor: ColorConstants.error,
             ),
           );
@@ -139,12 +144,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       const SizedBox(height: 24),
-                      
+
                       // User information or edit form
                       _isEditing ? _buildEditForm() : _buildProfileInfo(user),
-                      
+
                       const SizedBox(height: 40),
-                      
+
                       // Account actions
                       _buildAccountActions(),
                     ],
@@ -189,9 +194,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           child: Column(
             children: [
-              _buildStatRow('Eco Coins Balance', '${user.coinsBalance}', Icons.monetization_on, ColorConstants.secondary),
+              _buildStatRow('Eco Coins Balance', '${user.coinsBalance}',
+                  Icons.monetization_on, ColorConstants.secondary),
               const Divider(height: 30),
-              _buildStatRow('Member Since', _formatDate(user.createdAt), Icons.calendar_today, ColorConstants.primary),
+              _buildStatRow('Member Since', _formatDate(user.createdAt),
+                  Icons.calendar_today, ColorConstants.primary),
             ],
           ),
         ),
@@ -200,7 +207,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   /// Build a row for user statistics
-  Widget _buildStatRow(String label, String value, IconData icon, Color iconColor) {
+  Widget _buildStatRow(
+      String label, String value, IconData icon, Color iconColor) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -248,7 +256,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             },
           ),
           const SizedBox(height: 16),
-          
+
           // Email field
           TextFormField(
             controller: _emailController,
@@ -262,14 +270,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               if (value == null || value.isEmpty) {
                 return 'Please enter your email';
               }
-              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                  .hasMatch(value)) {
                 return 'Please enter a valid email address';
               }
               return null;
             },
           ),
           const SizedBox(height: 24),
-          
+
           // Save button
           ElevatedButton.icon(
             onPressed: _saveProfile,
@@ -321,8 +330,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   /// Format date to readable string
   String _formatDate(DateTime date) {
     final months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
     ];
     return '${months[date.month - 1]} ${date.day}, ${date.year}';
   }
