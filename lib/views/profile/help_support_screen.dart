@@ -132,8 +132,8 @@ class HelpSupportScreen extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: [
             ColorConstants.primary,
-            ColorConstants.primary.withGreen(ColorConstants.primary.green - 15),
-            ColorConstants.primaryDark,
+            ColorConstants.primary.withGreen(ColorConstants.primary.green),
+            ColorConstants.primary,
           ],
         ),
         boxShadow: [
