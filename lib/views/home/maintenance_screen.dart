@@ -33,7 +33,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   DateTime _selectedDate = DateTime.now();
   dynamic _selectedTree;
   List<dynamic> _userTrees = [];
-  MaintenanceActivity _selectedActivity = MaintenanceActivity.watering;
+  final MaintenanceActivity _selectedActivity = MaintenanceActivity.watering;
 
   @override
   void initState() {
