@@ -52,14 +52,15 @@ class _AuthWrapperState extends State<AuthWrapper> {
 
     // Navigate based on auth state
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final authController = Provider.of<AuthController>(context, listen: false);
+      final authController =
+          Provider.of<AuthController>(context, listen: false);
       if (authController.state == AuthState.authenticated) {
         Navigator.pushReplacementNamed(context, AppConstants.dashboardRoute);
       } else {
         Navigator.pushReplacementNamed(context, AppConstants.loginRoute);
       }
     });
-    
+
     // Return a loading indicator while navigating
     return const Scaffold(
       body: Center(
