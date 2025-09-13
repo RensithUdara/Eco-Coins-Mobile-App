@@ -1173,9 +1173,9 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
           side: BorderSide(
-              color: _selectedImage != null 
-                ? ColorConstants.success.withOpacity(0.5)
-                : ColorConstants.primaryLight.withOpacity(0.3), 
+              color: _selectedImage != null
+                  ? ColorConstants.success.withOpacity(0.5)
+                  : ColorConstants.primaryLight.withOpacity(0.3),
               width: _selectedImage != null ? 2.0 : 1.0),
         ),
         child: Padding(
@@ -1188,14 +1188,18 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: _selectedImage != null 
-                        ? ColorConstants.success.withOpacity(0.1)
-                        : ColorConstants.primaryLight.withOpacity(0.1),
+                      color: _selectedImage != null
+                          ? ColorConstants.success.withOpacity(0.1)
+                          : ColorConstants.primaryLight.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
-                      _selectedImage != null ? Icons.check_circle : Icons.photo_camera,
-                      color: _selectedImage != null ? ColorConstants.success : ColorConstants.primary,
+                      _selectedImage != null
+                          ? Icons.check_circle
+                          : Icons.photo_camera,
+                      color: _selectedImage != null
+                          ? ColorConstants.success
+                          : ColorConstants.primary,
                       size: 24,
                     ),
                   ),
@@ -1210,7 +1214,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   ),
                   const Spacer(),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       color: _selectedImage != null
                           ? ColorConstants.success.withOpacity(0.1)
@@ -1226,7 +1231,9 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          _selectedImage != null ? Icons.check : Icons.info_outline,
+                          _selectedImage != null
+                              ? Icons.check
+                              : Icons.info_outline,
                           size: 14,
                           color: _selectedImage != null
                               ? ColorConstants.success
@@ -1267,7 +1274,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       ),
     );
   }
-  
+
   /// Build selected image preview
   Widget _buildSelectedImage() {
     return Stack(
@@ -1304,16 +1311,20 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                             backgroundColor: Colors.black.withOpacity(0.7),
                             elevation: 0,
                             leading: IconButton(
-                              icon: const Icon(Icons.close, color: Colors.white),
+                              icon:
+                                  const Icon(Icons.close, color: Colors.white),
                               onPressed: () => Navigator.pop(context),
                             ),
-                            title: const Text('Maintenance Photo', style: TextStyle(color: Colors.white)),
+                            title: const Text('Maintenance Photo',
+                                style: TextStyle(color: Colors.white)),
                             actions: [
                               IconButton(
-                                icon: const Icon(Icons.share, color: Colors.white),
+                                icon: const Icon(Icons.share,
+                                    color: Colors.white),
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  Helpers.showSnackBar(context, 'Share feature coming soon!');
+                                  Helpers.showSnackBar(
+                                      context, 'Share feature coming soon!');
                                 },
                               ),
                             ],
@@ -1365,7 +1376,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
               ],
             ),
             child: IconButton(
-              icon: const Icon(Icons.delete_outline, color: ColorConstants.error),
+              icon:
+                  const Icon(Icons.delete_outline, color: ColorConstants.error),
               onPressed: () {
                 // Add a confirmation dialog for better UX
                 showDialog(
@@ -1373,12 +1385,14 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   builder: (context) => AlertDialog(
                     title: const Row(
                       children: [
-                        Icon(Icons.warning_amber_rounded, color: ColorConstants.warning),
+                        Icon(Icons.warning_amber_rounded,
+                            color: ColorConstants.warning),
                         SizedBox(width: 8),
                         Text('Remove Photo?'),
                       ],
                     ),
-                    content: const Text('Are you sure you want to remove this photo?'),
+                    content: const Text(
+                        'Are you sure you want to remove this photo?'),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(context),
