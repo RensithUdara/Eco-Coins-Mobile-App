@@ -309,70 +309,177 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
   /// Build impact banner showing eco coins rewards
   Widget _buildImpactBanner() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [
             ColorConstants.secondary,
-            ColorConstants.secondaryLight,
+            Color(0xFFFFB74D),  // Lighter orange shade
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: ColorConstants.secondary.withOpacity(0.4),
             spreadRadius: 1,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  spreadRadius: 1,
-                  blurRadius: 3,
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              // Outer glow circle
+              Container(
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  shape: BoxShape.circle,
                 ),
-              ],
-            ),
-            child: Image.asset(
-              AssetPaths.coinIcon,
-              height: 40,
-              width: 40,
-              errorBuilder: (context, error, stackTrace) => const Icon(
-                  Icons.monetization_on,
-                  size: 40,
-                  color: Colors.amber),
-            ),
+              ),
+              // Inner circle with coin icon
+              Container(
+                width: 54,
+                height: 54,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: ClipOval(
+                  child: Image.asset(
+                    AssetPaths.coinIcon,
+                    height: 40,
+                    width: 40,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => const Icon(
+                      Icons.monetization_on,
+                      size: 36,
+                      color: Colors.amber,
+                    ),
+                  ),
+                ),
+              ),
+              // Small decorative circles
+              Positioned(
+                top: 5,
+                right: 5,
+                child: Container(
+                  width: 12,
+                  height: 12,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.6),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 8,
+                left: 5,
+                child: Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.6),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 16),
-          const Expanded(
+          const SizedBox(width: 20),
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Plant & Earn',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
+                Row(
+                  children: [
+                    const Text(
+                      'Plant & Earn',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                            offset: Offset(0, 1),
+                            blurRadius: 2,
+                            color: Color.fromRGBO(0, 0, 0, 0.3),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    // Animated sparkle
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Icon(
+                        Icons.auto_awesome,
+                        size: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 4),
-                Text(
-                  'Get ${CoinRewards.treePlanting} Eco Coins for planting a new tree!',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black87,
+                const SizedBox(height: 8),
+                const Row(
+                  children: [
+                    Text(
+                      '50',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                            offset: Offset(0, 1),
+                            blurRadius: 3,
+                            color: Color.fromRGBO(0, 0, 0, 0.3),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 6),
+                    Text(
+                      'Eco Coins',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Text(
+                    'for each verified tree',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
@@ -900,32 +1007,105 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
   /// Build important guidelines section
   Widget _buildImportantGuidelines() {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        color: ColorConstants.primary.withOpacity(0.1),
+        color: ColorConstants.primary.withOpacity(0.08),
         borderRadius: BorderRadius.circular(16.0),
+        border: Border.all(
+          color: ColorConstants.primary.withOpacity(0.2),
+          width: 1,
+        ),
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Important Guidelines',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: ColorConstants.primary,
-            ),
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: ColorConstants.primary.withOpacity(0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.lightbulb_outline,
+                  color: ColorConstants.primary,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Text(
+                'Important Guidelines',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: ColorConstants.primary,
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 8),
-          Text(
-            'Flowers and small shrubs are not eligible.',
-            style: TextStyle(
-              fontSize: 14,
-              color: ColorConstants.textPrimary,
-            ),
+          const SizedBox(height: 16),
+          _buildGuidelineItem(
+            icon: Icons.nature,
+            text: 'Plant must be a tree species, not flowers or shrubs.',
+          ),
+          const SizedBox(height: 10),
+          _buildGuidelineItem(
+            icon: Icons.photo_size_select_actual,
+            text: 'Photo must clearly show the newly planted tree.',
+          ),
+          const SizedBox(height: 10),
+          _buildGuidelineItem(
+            icon: Icons.calendar_today,
+            text: 'Tree must be planted within the past 30 days.',
+          ),
+          const SizedBox(height: 10),
+          _buildGuidelineItem(
+            icon: Icons.location_on,
+            text: 'Include accurate location information if available.',
           ),
         ],
       ),
+    );
+  }
+  
+  /// Build a single guideline item
+  Widget _buildGuidelineItem({required IconData icon, required String text}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset: const Offset(0, 1),
+              ),
+            ],
+          ),
+          child: Icon(
+            icon,
+            size: 16,
+            color: ColorConstants.primary,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            text,
+            style: const TextStyle(
+              fontSize: 14,
+              color: ColorConstants.textPrimary,
+              height: 1.3,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
