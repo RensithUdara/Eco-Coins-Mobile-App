@@ -314,7 +314,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
         gradient: const LinearGradient(
           colors: [
             ColorConstants.secondary,
-            Color(0xFFFFB74D),  // Lighter orange shade
+            Color(0xFFFFB74D), // Lighter orange shade
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -469,7 +469,8 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
                 ),
                 const SizedBox(height: 4),
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(20),
@@ -1068,7 +1069,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
       ),
     );
   }
-  
+
   /// Build a single guideline item
   Widget _buildGuidelineItem({required IconData icon, required String text}) {
     return Row(
