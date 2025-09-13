@@ -282,6 +282,16 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       return;
     }
 
+    // Additional null checks before submission
+    if (_selectedTree?.id == null) {
+      Helpers.showSnackBar(
+        context,
+        'Invalid tree selected. Please try again.',
+        isError: true,
+      );
+      return;
+    }
+
     final bool success = await maintenanceController.addMaintenance(
       userId: authController.currentUser!.id!,
       treeId: _selectedTree!.id!,
@@ -560,7 +570,9 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                                 ),
                               ),
                               Text(
-                                'Planted: ${DateFormat('MMM d, yyyy').format(tree.plantedDate)}',
+                                tree.plantedDate != null
+                                    ? 'Planted: ${DateFormat('MMM d, yyyy').format(tree.plantedDate)}'
+                                    : 'Planted: Unknown',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey[600],
