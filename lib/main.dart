@@ -64,7 +64,17 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => const SignupScreen(),
         '/dashboard': (context) => const DashboardScreen(),
         '/plant-tree': (context) => const PlantTreeScreen(),
-        '/maintain': (context) => const MaintenanceScreen(),
+      },
+      // Handle routes that require arguments
+      onGenerateRoute: (settings) {
+        if (settings.name == AppConstants.maintainRoute) {
+          // Handle '/maintain' route with arguments
+          final args = settings.arguments;
+          return MaterialPageRoute(
+            builder: (context) => MaintenanceScreen(tree: args),
+          );
+        }
+        return null;
       },
     );
   }
