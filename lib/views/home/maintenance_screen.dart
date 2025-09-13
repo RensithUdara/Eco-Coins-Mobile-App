@@ -889,7 +889,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
-          side: BorderSide(color: ColorConstants.primaryLight.withOpacity(0.2), width: 1),
+          side: BorderSide(
+              color: ColorConstants.primaryLight.withOpacity(0.2), width: 1),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -924,7 +925,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
               const SizedBox(height: 8),
               const Divider(),
               const SizedBox(height: 16),
-              
+
               // Notes field with improved styling
               Container(
                 decoration: BoxDecoration(
@@ -943,7 +944,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                             color: ColorConstants.primary.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(6),
                           ),
-                          child: const Icon(Icons.edit_note, color: ColorConstants.primary, size: 18),
+                          child: const Icon(Icons.edit_note,
+                              color: ColorConstants.primary, size: 18),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -956,11 +958,13 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                         ),
                         const Spacer(),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                             color: ColorConstants.info.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: ColorConstants.info.withOpacity(0.3)),
+                            border: Border.all(
+                                color: ColorConstants.info.withOpacity(0.3)),
                           ),
                           child: const Text(
                             'Required',
@@ -977,7 +981,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                     TextFormField(
                       controller: _notesController,
                       decoration: InputDecoration(
-                        hintText: 'Add notes about your maintenance activity...',
+                        hintText:
+                            'Add notes about your maintenance activity...',
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
@@ -986,12 +991,13 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: ColorConstants.primary, width: 2),
+                          borderSide: const BorderSide(
+                              color: ColorConstants.primary, width: 2),
                         ),
                         contentPadding: const EdgeInsets.all(16),
                         prefixIcon: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 12.0, horizontal: 8.0),
                           child: Icon(
                             Icons.description,
                             color: ColorConstants.primary,
@@ -1018,7 +1024,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 24),
 
               // Date field with improved styling
@@ -1039,7 +1045,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                             color: ColorConstants.primary.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(6),
                           ),
-                          child: const Icon(Icons.calendar_today, color: ColorConstants.primary, size: 18),
+                          child: const Icon(Icons.calendar_today,
+                              color: ColorConstants.primary, size: 18),
                         ),
                         const SizedBox(width: 8),
                         const Text(
@@ -1052,11 +1059,13 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                         ),
                         const Spacer(),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                             color: ColorConstants.success.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: ColorConstants.success.withOpacity(0.3)),
+                            border: Border.all(
+                                color: ColorConstants.success.withOpacity(0.3)),
                           ),
                           child: Row(
                             children: [
@@ -1084,11 +1093,14 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                       onTap: _selectDate,
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 16),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: ColorConstants.primaryLight.withOpacity(0.5)),
+                          border: Border.all(
+                              color:
+                                  ColorConstants.primaryLight.withOpacity(0.5)),
                         ),
                         child: Row(
                           children: [
@@ -1098,7 +1110,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                             ),
                             const SizedBox(width: 12),
                             Text(
-                              DateFormat('EEEE, MMMM d, yyyy').format(_selectedDate),
+                              DateFormat('EEEE, MMMM d, yyyy')
+                                  .format(_selectedDate),
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
