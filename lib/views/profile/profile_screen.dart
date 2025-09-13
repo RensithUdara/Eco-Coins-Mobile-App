@@ -252,10 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-        },
-      ),
-    );
-  }
+
 
   /// Build the profile information display
   Widget _buildProfileInfo(User user) {
