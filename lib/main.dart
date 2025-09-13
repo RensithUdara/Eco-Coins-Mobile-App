@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => const SignupScreen(),
         '/dashboard': (context) => const DashboardScreen(),
         '/plant-tree': (context) => const PlantTreeScreen(),
-        '/maintenance': (context) => const MaintenanceScreen(),
+        '/maintain': (context) => const MaintenanceScreen(),
       },
     );
   }
