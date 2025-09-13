@@ -107,42 +107,175 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
     );
   }
 
-  /// Builds the header section with privacy information
+  /// Builds the header section with privacy information and parallax effect
   Widget _buildHeader() {
     return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            ColorConstants.primary,
-            ColorConstants.primaryLight,
-          ],
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      height: 150,
+      width: double.infinity,
+      child: Stack(
         children: [
-          const Text(
-            'Your Privacy Matters',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+          // Animated background with parallax effect
+          Positioned.fill(
+            child: TweenAnimationBuilder<double>(
+              tween: Tween<double>(begin: 0.0, end: 1.0),
+              duration: const Duration(seconds: 1),
+              builder: (context, value, child) {
+                return Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        ColorConstants.primaryDark,
+                        ColorConstants.primary,
+                        ColorConstants.primaryLight,
+                      ],
+                      stops: [0.0, 0.5 + (0.2 * value), 1.0],
+                    ),
+                  ),
+                  child: Opacity(
+                    opacity: 0.15,
+                    child: CustomPaint(
+                      painter: BubblePatternPainter(
+                        animationValue: value,
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ),
-          const SizedBox(height: 8),
-          Text(
-            'Control how your information is used within the Eco Coins app.',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.9),
-              fontSize: 14,
+          
+          // Foreground content
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Animated icon
+                TweenAnimationBuilder<double>(
+                  tween: Tween<double>(begin: 0.0, end: 1.0),
+                  duration: const Duration(milliseconds: 600),
+                  builder: (context, value, child) {
+                    return Transform.scale(
+                      scale: value,
+                      child: child,
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.shield_outlined,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                ),
+                
+                const SizedBox(height: 12),
+                
+                // Title with fade-in effect
+                TweenAnimationBuilder<double>(
+                  tween: Tween<double>(begin: 0.0, end: 1.0),
+                  duration: const Duration(milliseconds: 800),
+                  curve: Curves.easeOut,
+                  builder: (context, value, child) {
+                    return Opacity(
+                      opacity: value,
+                      child: Transform.translate(
+                        offset: Offset(0, 20 * (1 - value)),
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Your Privacy Matters',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+                
+                const SizedBox(height: 8),
+                
+                // Subtitle with delay and fade-in
+                TweenAnimationBuilder<double>(
+                  tween: Tween<double>(begin: 0.0, end: 1.0),
+                  duration: const Duration(milliseconds: 1000),
+                  curve: Curves.easeOut,
+                  builder: (context, value, child) {
+                    return Opacity(
+                      opacity: value,
+                      child: Transform.translate(
+                        offset: Offset(0, 20 * (1 - value)),
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Control how your information is used within the Eco Coins app.',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.9),
+                      fontSize: 14,
+                      letterSpacing: 0.2,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
     );
+  }
+  
+  /// Custom painter for bubble pattern in header background
+  class BubblePatternPainter extends CustomPainter {
+    final double animationValue;
+    
+    BubblePatternPainter({required this.animationValue});
+    
+    @override
+    void paint(Canvas canvas, Size size) {
+      final paint = Paint()
+        ..color = Colors.white
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.0;
+      
+      final bubbleSizes = [10.0, 15.0, 8.0, 12.0, 7.0];
+      final positions = [
+        Offset(size.width * 0.1, size.height * 0.2),
+        Offset(size.width * 0.3, size.height * 0.7),
+        Offset(size.width * 0.5, size.height * 0.3),
+        Offset(size.width * 0.7, size.height * 0.6),
+        Offset(size.width * 0.9, size.height * 0.4),
+      ];
+      
+      for (int i = 0; i < bubbleSizes.length; i++) {
+        // Calculate dynamic radius with animation
+        final radius = bubbleSizes[i] * (0.8 + 0.2 * (i % 2 == 0 ? animationValue : 1 - animationValue));
+        
+        // Calculate position with slight movement
+        final offsetX = positions[i].dx + (i % 2 == 0 ? 5 : -5) * animationValue;
+        final offsetY = positions[i].dy + (i % 3 == 0 ? 3 : -3) * animationValue;
+        
+        canvas.drawCircle(Offset(offsetX, offsetY), radius, paint);
+      }
+    }
+    
+    @override
+    bool shouldRepaint(BubblePatternPainter oldDelegate) {
+      return oldDelegate.animationValue != animationValue;
+    }
+  }
   }
 
   /// Builds a category heading for settings
