@@ -579,8 +579,10 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                     Future.microtask(() {
                       if (mounted) {
                         setState(() {
-                          _selectedTree =
-                              _userTrees.firstWhere((tree) => tree.id == value);
+                          _selectedTree = _userTrees.firstWhere(
+                            (tree) => tree?.id == value,
+                            orElse: () => null,
+                          );
                         });
                       }
                     });
@@ -608,9 +610,9 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   /// Get tree icon based on species
   IconData _getTreeIcon(String species) {
     if (species.isEmpty) {
-      return Icons.forest;  // Default icon if species is empty
+      return Icons.forest; // Default icon if species is empty
     }
-    
+
     final speciesLower = species.toLowerCase();
     if (speciesLower.contains('oak')) {
       return Icons.park;
@@ -632,11 +634,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     if (tree == null) {
       return Container();
     }
-    
+
     // Safe access to properties with null checks
     final String species = tree.species ?? 'Unknown Species';
     final DateTime? plantedDate = tree.plantedDate;
-    
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -679,7 +681,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                         size: 12, color: ColorConstants.textSecondary),
                     const SizedBox(width: 4),
                     Text(
-                      plantedDate != null 
+                      plantedDate != null
                           ? 'Planted on: ${DateFormat('MMM d, yyyy').format(plantedDate)}'
                           : 'Planted on: Unknown',
                       style: const TextStyle(
