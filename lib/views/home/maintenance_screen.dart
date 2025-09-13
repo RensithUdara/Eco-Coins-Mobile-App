@@ -607,6 +607,10 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Get tree icon based on species
   IconData _getTreeIcon(String species) {
+    if (species.isEmpty) {
+      return Icons.forest;  // Default icon if species is empty
+    }
+    
     final speciesLower = species.toLowerCase();
     if (speciesLower.contains('oak')) {
       return Icons.park;
@@ -624,6 +628,15 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Build selected tree info card
   Widget _buildSelectedTreeInfo(dynamic tree) {
+    // If tree is null, return an empty container
+    if (tree == null) {
+      return Container();
+    }
+    
+    // Safe access to properties with null checks
+    final String species = tree.species ?? 'Unknown Species';
+    final DateTime? plantedDate = tree.plantedDate;
+    
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -642,7 +655,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
-              _getTreeIcon(tree.species),
+              _getTreeIcon(species),
               color: Colors.white,
               size: 30,
             ),
@@ -653,7 +666,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  tree.species,
+                  species,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -666,7 +679,9 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                         size: 12, color: ColorConstants.textSecondary),
                     const SizedBox(width: 4),
                     Text(
-                      'Planted on: ${DateFormat('MMM d, yyyy').format(tree.plantedDate)}',
+                      plantedDate != null 
+                          ? 'Planted on: ${DateFormat('MMM d, yyyy').format(plantedDate)}'
+                          : 'Planted on: Unknown',
                       style: const TextStyle(
                         fontSize: 12,
                         color: ColorConstants.textSecondary,
