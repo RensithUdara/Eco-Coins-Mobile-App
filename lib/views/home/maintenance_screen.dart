@@ -457,13 +457,42 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   /// Build photo upload card
   Widget _buildPhotoUploadCard() {
     return Card(
+      elevation: 4.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
+        side: BorderSide(
+            color: ColorConstants.primaryLight.withOpacity(0.5), width: 1.0),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              children: [
+                const Icon(Icons.photo_camera, color: ColorConstants.primary),
+                const SizedBox(width: 8),
+                const Text(
+                  'Photo Documentation',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: ColorConstants.textPrimary,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  _selectedImage != null ? '1 Photo' : 'No Photos',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: _selectedImage != null
+                        ? ColorConstants.success
+                        : ColorConstants.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
             _selectedImage != null
                 ? _buildSelectedImage()
                 : _buildImagePlaceholder(),
@@ -477,28 +506,80 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Build selected image preview
   Widget _buildSelectedImage() {
-    return Column(
+    return Stack(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12.0),
-          child: Image.file(
-            _selectedImage!,
-            height: 200,
-            width: double.infinity,
-            fit: BoxFit.cover,
+        // Image container with enhanced border and shadow
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12.0),
+            child: Image.file(
+              _selectedImage!,
+              height: 220,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
-        const SizedBox(height: 8),
-        TextButton.icon(
-          onPressed: () {
-            setState(() {
-              _selectedImage = null;
-            });
-          },
-          icon: const Icon(Icons.delete),
-          label: const Text('Remove Photo'),
-          style: TextButton.styleFrom(
-            foregroundColor: ColorConstants.error,
+        // Remove photo button with improved positioning and styling
+        Positioned(
+          top: 10,
+          right: 10,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.8),
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.delete, color: ColorConstants.error),
+              onPressed: () {
+                setState(() {
+                  _selectedImage = null;
+                });
+              },
+              tooltip: 'Remove Photo',
+              iconSize: 24,
+              constraints: const BoxConstraints(
+                minHeight: 40,
+                minWidth: 40,
+              ),
+            ),
+          ),
+        ),
+        // Success indicator
+        Positioned(
+          bottom: 10,
+          right: 10,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: ColorConstants.success.withOpacity(0.9),
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.check_circle, color: Colors.white, size: 16),
+                SizedBox(width: 4),
+                Text(
+                  'Ready',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
