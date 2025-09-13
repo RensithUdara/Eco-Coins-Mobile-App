@@ -460,7 +460,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       elevation: 4.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(color: ColorConstants.primaryLight.withOpacity(0.5), width: 1.0),
+        side: BorderSide(
+            color: ColorConstants.primaryLight.withOpacity(0.5), width: 1.0),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -484,8 +485,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   _selectedImage != null ? '1 Photo' : 'No Photos',
                   style: TextStyle(
                     fontSize: 12,
-                    color: _selectedImage != null 
-                        ? ColorConstants.success 
+                    color: _selectedImage != null
+                        ? ColorConstants.success
                         : ColorConstants.textSecondary,
                   ),
                 ),
