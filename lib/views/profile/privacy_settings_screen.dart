@@ -276,8 +276,6 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
       ),
     );
   }
-  }
-
   /// Builds a category heading for settings
   Widget _buildSettingsCategory(String title) {
     return Padding(
