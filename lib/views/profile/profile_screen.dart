@@ -149,7 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               // Header gradient background
               Container(
-                height: 300, // Increased height to match screenshot
+                height: 320, // Increased height to match screenshot
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
