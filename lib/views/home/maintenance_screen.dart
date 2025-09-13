@@ -665,7 +665,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),
-                side: BorderSide(color: ColorConstants.primaryLight.withOpacity(0.5)),
+                side: BorderSide(
+                    color: ColorConstants.primaryLight.withOpacity(0.5)),
               ),
               textStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
