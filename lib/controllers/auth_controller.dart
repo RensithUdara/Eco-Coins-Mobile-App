@@ -18,6 +18,11 @@ class AuthController with ChangeNotifier {
 
   AuthController(this._databaseService);
 
+  // Constants for SharedPreferences keys
+  static const String _keyEmail = 'user_email';
+  static const String _keyPassword = 'user_password';
+  static const String _keyRememberMe = 'remember_me';
+
   AuthState _state = AuthState.initial;
   User? _currentUser;
   String? _errorMessage;
@@ -82,7 +87,11 @@ class AuthController with ChangeNotifier {
   }
 
   /// Login a user
-  Future<bool> login({required String email, required String password}) async {
+  Future<bool> login({
+    required String email,
+    required String password,
+    bool rememberMe = false,
+  }) async {
     try {
       _state = AuthState.loading;
       notifyListeners();
@@ -101,8 +110,16 @@ class AuthController with ChangeNotifier {
       // Set current user and update state
       _currentUser = user;
       _state = AuthState.authenticated;
-      notifyListeners();
 
+      // Save credentials if remember me is checked
+      if (rememberMe) {
+        await _saveUserCredentials(email, password, rememberMe);
+      } else {
+        // Clear saved credentials if remember me is unchecked
+        await _clearUserCredentials();
+      }
+
+      notifyListeners();
       return true;
     } catch (e) {
       _state = AuthState.error;
@@ -112,10 +129,31 @@ class AuthController with ChangeNotifier {
     }
   }
 
+  /// Save user credentials to SharedPreferences
+  Future<void> _saveUserCredentials(
+      String email, String password, bool rememberMe) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_keyEmail, email);
+    await prefs.setString(_keyPassword, password);
+    await prefs.setBool(_keyRememberMe, rememberMe);
+  }
+
+  /// Clear saved user credentials
+  Future<void> _clearUserCredentials() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_keyEmail);
+    await prefs.remove(_keyPassword);
+    await prefs.remove(_keyRememberMe);
+  }
+
   /// Logout the current user
-  void logout() {
+  Future<void> logout() async {
     _currentUser = null;
     _state = AuthState.unauthenticated;
+
+    // Clear saved credentials
+    await _clearUserCredentials();
+
     notifyListeners();
   }
 
@@ -157,11 +195,28 @@ class AuthController with ChangeNotifier {
   /// Try to auto login based on stored credentials
   Future<bool> tryAutoLogin() async {
     try {
-      // In a real app, you would check local storage for credentials
-      // For now, we'll just return false
-      _state = AuthState.unauthenticated;
-      notifyListeners();
-      return false;
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      // Check if remember me was enabled
+      final bool rememberMe = prefs.getBool(_keyRememberMe) ?? false;
+      if (!rememberMe) {
+        _state = AuthState.unauthenticated;
+        notifyListeners();
+        return false;
+      }
+
+      // Get stored credentials
+      final String? email = prefs.getString(_keyEmail);
+      final String? password = prefs.getString(_keyPassword);
+
+      if (email == null || password == null) {
+        _state = AuthState.unauthenticated;
+        notifyListeners();
+        return false;
+      }
+
+      // Try to login with stored credentials
+      return await login(email: email, password: password, rememberMe: true);
     } catch (e) {
       _state = AuthState.unauthenticated;
       notifyListeners();
