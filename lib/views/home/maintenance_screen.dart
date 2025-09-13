@@ -72,7 +72,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
       if (widget.treeId != null) {
         _selectedTree = _userTrees.firstWhere(
-          (tree) => tree.id == widget.treeId,
+          (tree) => tree?.id == widget.treeId,
           orElse: () => _userTrees.isNotEmpty ? _userTrees.first : null,
         );
       } else if (_userTrees.isNotEmpty) {
