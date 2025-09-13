@@ -560,7 +560,9 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                                 ),
                               ),
                               Text(
-                                'Planted: ${DateFormat('MMM d, yyyy').format(tree.plantedDate)}',
+                                tree.plantedDate != null
+                                    ? 'Planted: ${DateFormat('MMM d, yyyy').format(tree.plantedDate)}'
+                                    : 'Planted: Unknown',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey[600],
