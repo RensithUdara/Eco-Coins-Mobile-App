@@ -17,7 +17,10 @@ class _AuthWrapperState extends State<AuthWrapper> {
   @override
   void initState() {
     super.initState();
-    _initializeAuth();
+    // Use a post-frame callback to ensure we're not initializing during build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeAuth();
+    });
   }
 
   Future<void> _initializeAuth() async {
@@ -39,6 +42,8 @@ class _AuthWrapperState extends State<AuthWrapper> {
     }
   }
 
+  bool _hasNavigated = false;
+
   @override
   Widget build(BuildContext context) {
     // Show loading indicator while initializing
@@ -50,16 +55,22 @@ class _AuthWrapperState extends State<AuthWrapper> {
       );
     }
 
-    // Navigate based on auth state
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final authController =
-          Provider.of<AuthController>(context, listen: false);
-      if (authController.state == AuthState.authenticated) {
-        Navigator.pushReplacementNamed(context, AppConstants.dashboardRoute);
-      } else {
-        Navigator.pushReplacementNamed(context, AppConstants.loginRoute);
-      }
-    });
+    // Navigate only once based on auth state
+    if (!_hasNavigated) {
+      _hasNavigated = true;
+      // Schedule navigation after this frame completes
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+
+        final authController =
+            Provider.of<AuthController>(context, listen: false);
+        if (authController.state == AuthState.authenticated) {
+          Navigator.pushReplacementNamed(context, AppConstants.dashboardRoute);
+        } else {
+          Navigator.pushReplacementNamed(context, AppConstants.loginRoute);
+        }
+      });
+    }
 
     // Return a loading indicator while navigating
     return const Scaffold(

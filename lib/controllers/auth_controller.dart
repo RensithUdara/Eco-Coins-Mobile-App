@@ -38,11 +38,10 @@ class AuthController with ChangeNotifier {
 
   /// Initialize authentication state
   Future<void> initialize() async {
-    // Set state to unauthenticated if it's not already
-    if (_state != AuthState.unauthenticated) {
-      _state = AuthState.unauthenticated;
-      notifyListeners();
-    }
+    // Set state to unauthenticated without notifying listeners
+    // This avoids triggering notifications during build
+    _state = AuthState.unauthenticated;
+    // We don't call notifyListeners() here to avoid issues during build
   }
 
   /// Register a new user

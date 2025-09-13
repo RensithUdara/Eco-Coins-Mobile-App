@@ -39,7 +39,10 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   void initState() {
     super.initState();
     _dateController.text = DateFormat('yyyy-MM-dd').format(_selectedDate);
-    _loadUserTrees();
+    // Use a post-frame callback to ensure we're not initializing during build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadUserTrees();
+    });
   }
 
   @override

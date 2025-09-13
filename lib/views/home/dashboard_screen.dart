@@ -23,7 +23,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    _loadData();
+    // Use a post-frame callback to ensure we're not initializing during build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadData();
+    });
   }
 
   /// Load user data, trees, and transactions
