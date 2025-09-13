@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'dart:io';
+
 import 'package:eco_coins_mobile_app/controllers/auth_controller.dart';
 import 'package:eco_coins_mobile_app/controllers/tree_controller.dart';
 import 'package:eco_coins_mobile_app/services/image_service.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:eco_coins_mobile_app/utils/helpers.dart';
 import 'package:eco_coins_mobile_app/views/widgets/custom_button.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 /// Screen for planting a new tree
 class PlantTreeScreen extends StatefulWidget {
@@ -22,7 +23,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
+
   final ImageService _imageService = ImageService();
   File? _selectedImage;
   DateTime _selectedDate = DateTime.now();
@@ -67,7 +68,8 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
-      firstDate: DateTime.now().subtract(const Duration(days: 30)), // Allow backdating up to 30 days
+      firstDate: DateTime.now()
+          .subtract(const Duration(days: 30)), // Allow backdating up to 30 days
       lastDate: DateTime.now(),
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
@@ -83,7 +85,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    
+
     if (_selectedImage == null) {
       Helpers.showSnackBar(
         context,
@@ -92,7 +94,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
       );
       return;
     }
-    
+
     if (!_termsAccepted) {
       Helpers.showSnackBar(
         context,
@@ -101,11 +103,12 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
       );
       return;
     }
-    
+
     final authController = Provider.of<AuthController>(context, listen: false);
     final treeController = Provider.of<TreeController>(context, listen: false);
-    
-    if (authController.currentUser == null || authController.currentUser!.id == null) {
+
+    if (authController.currentUser == null ||
+        authController.currentUser!.id == null) {
       Helpers.showSnackBar(
         context,
         'You must be logged in to plant a tree',
@@ -113,7 +116,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
       );
       return;
     }
-    
+
     final bool success = await treeController.addTree(
       userId: authController.currentUser!.id!,
       species: _speciesController.text.trim(),
@@ -121,11 +124,11 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
       plantedDate: _selectedDate,
       photoFile: _selectedImage!,
     );
-    
+
     if (success && mounted) {
       await authController.refreshUserData();
       Helpers.showSnackBar(context, 'Tree planted successfully!');
-      
+
       // Navigate back to dashboard
       Navigator.pop(context);
     } else if (mounted) {
@@ -142,11 +145,11 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
     return Scaffold(
       backgroundColor: ColorConstants.background,
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           children: [
-            const Icon(Icons.nature),
-            const SizedBox(width: 8),
-            const Text('Plant a Tree'),
+            Icon(Icons.nature),
+            SizedBox(width: 8),
+            Text('Plant a Tree'),
           ],
         ),
       ),
@@ -187,7 +190,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Tree Name/Species field
-            Text(
+            const Text(
               'Tree Name / Species',
               style: TextStyle(
                 fontSize: 16,
@@ -209,9 +212,9 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
               },
             ),
             const SizedBox(height: 16),
-            
+
             // Description field
-            Text(
+            const Text(
               'Description',
               style: TextStyle(
                 fontSize: 16,
@@ -234,9 +237,9 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
               },
             ),
             const SizedBox(height: 16),
-            
+
             // Date field
-            Text(
+            const Text(
               'Date',
               style: TextStyle(
                 fontSize: 16,
@@ -327,15 +330,15 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
         ),
         borderRadius: BorderRadius.circular(12.0),
       ),
-      child: Column(
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.camera_alt,
             size: 48,
             color: Colors.grey,
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Text(
             'Take a photo of your\nplanted tree',
             textAlign: TextAlign.center,
@@ -412,7 +415,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
         color: ColorConstants.primary.withOpacity(0.1),
         borderRadius: BorderRadius.circular(16.0),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -423,7 +426,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
               color: ColorConstants.primary,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Text(
             'Flowers and small shrubs are not eligible.',
             style: TextStyle(
@@ -440,7 +443,8 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
   Widget _buildSubmitButton() {
     return Consumer<TreeController>(
       builder: (context, treeController, _) {
-        final bool isLoading = treeController.state == TreeOperationState.loading;
+        final bool isLoading =
+            treeController.state == TreeOperationState.loading;
         return CustomButton(
           text: 'Upload Tree Photo',
           onPressed: _handleSubmit,
