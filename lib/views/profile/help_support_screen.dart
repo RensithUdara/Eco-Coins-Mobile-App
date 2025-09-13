@@ -583,7 +583,7 @@ class HelpSupportScreen extends StatelessWidget {
       const Color(0xFF2196F3), // Blue for chat
       const Color(0xFFFFA000), // Amber for forum
     ][icon.codePoint % 3];
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16.0),
       decoration: BoxDecoration(
@@ -645,9 +645,9 @@ class HelpSupportScreen extends StatelessWidget {
                     size: 22,
                   ),
                 ),
-                
+
                 const SizedBox(width: 16),
-                
+
                 // Title and subtitle with enhanced typography
                 Expanded(
                   child: Column(
@@ -655,7 +655,7 @@ class HelpSupportScreen extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
                           color: ColorConstants.textPrimary,
@@ -665,13 +665,13 @@ class HelpSupportScreen extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         subtitle,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           color: ColorConstants.textSecondary,
                           height: 1.2,
                         ),
                       ),
-                      
+
                       // Add a "tap to connect" hint
                       const SizedBox(height: 6),
                       Row(
@@ -695,7 +695,7 @@ class HelpSupportScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                
+
                 // Animated arrow icon
                 TweenAnimationBuilder<double>(
                   tween: Tween<double>(begin: 0.0, end: 1.0),
