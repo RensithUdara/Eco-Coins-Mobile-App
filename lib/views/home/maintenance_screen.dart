@@ -589,29 +589,57 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   /// Build image placeholder
   Widget _buildImagePlaceholder() {
     return Container(
-      height: 200,
+      height: 220,
       width: double.infinity,
       decoration: BoxDecoration(
+        color: Colors.grey[100],
         border: Border.all(
-          color: Colors.grey,
+          color: Colors.grey[300]!,
           style: BorderStyle.solid,
           width: 2,
         ),
         borderRadius: BorderRadius.circular(12.0),
       ),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.camera_alt,
-            size: 48,
-            color: Colors.grey,
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: ColorConstants.primaryLight.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.camera_alt,
+              size: 48,
+              color: ColorConstants.primary,
+            ),
           ),
-          SizedBox(height: 8),
-          Text(
-            'Take a photo of your\nmaintenance activity',
+          const SizedBox(height: 16),
+          const Text(
+            'Take a photo of your',
             textAlign: TextAlign.center,
             style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: ColorConstants.textPrimary,
+            ),
+          ),
+          const Text(
+            'maintenance activity',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: ColorConstants.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'This helps verify your tree care',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 14,
               color: ColorConstants.textSecondary,
             ),
           ),
