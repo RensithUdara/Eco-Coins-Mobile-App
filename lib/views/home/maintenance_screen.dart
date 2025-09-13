@@ -268,6 +268,17 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       return;
     }
 
+    // Safely capture the selected image to avoid null issues
+    final imageFile = _selectedImage;
+    if (imageFile == null) {
+      Helpers.showSnackBar(
+        context,
+        'Photo selection error. Please try again.',
+        isError: true,
+      );
+      return;
+    }
+
     final authController = Provider.of<AuthController>(context, listen: false);
     final maintenanceController =
         Provider.of<MaintenanceController>(context, listen: false);
@@ -298,7 +309,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       activity: _selectedActivity,
       notes: _notesController.text.trim(),
       date: _selectedDate,
-      photoFile: _selectedImage!,
+      photoFile: imageFile, // Using the safely captured image from above
     );
 
     if (success && mounted) {
