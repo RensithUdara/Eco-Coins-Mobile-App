@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:eco_coins_mobile_app/controllers/auth_controller.dart';
 import 'package:eco_coins_mobile_app/controllers/coin_controller.dart';
 import 'package:eco_coins_mobile_app/controllers/maintenance_controller.dart';
@@ -13,17 +11,19 @@ import 'package:eco_coins_mobile_app/views/home/dashboard_screen.dart';
 import 'package:eco_coins_mobile_app/views/home/maintenance_screen.dart';
 import 'package:eco_coins_mobile_app/views/home/plant_tree_screen.dart';
 import 'package:eco_coins_mobile_app/views/splash_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize services
   final DatabaseService databaseService = DatabaseService();
   await databaseService.initDatabase();
-  
+
   final NotificationService notificationService = NotificationService();
   await notificationService.initializeNotifications();
-  
+
   runApp(
     MultiProvider(
       providers: [
@@ -37,7 +37,8 @@ void main() async {
           create: (_) => CoinController(databaseService),
         ),
         ChangeNotifierProvider(
-          create: (_) => MaintenanceController(databaseService, notificationService),
+          create: (_) =>
+              MaintenanceController(databaseService, notificationService),
         ),
       ],
       child: const MyApp(),
