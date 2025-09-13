@@ -384,7 +384,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ],
-    );
+    )
   }
 
   /// Build a stat card with enhanced visual design
