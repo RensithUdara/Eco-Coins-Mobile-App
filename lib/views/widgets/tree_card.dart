@@ -82,13 +82,16 @@ class TreeCard extends StatelessWidget {
                         children: [
                           // ID badge
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 3),
                             decoration: BoxDecoration(
                               color: ColorConstants.primary.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
-                              tree.id != null ? 'ID: ${tree.id.toString().padLeft(3, '0')}' : '',
+                              tree.id != null
+                                  ? 'ID: ${tree.id.toString().padLeft(3, '0')}'
+                                  : '',
                               style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
@@ -167,7 +170,7 @@ class TreeCard extends StatelessWidget {
       ),
     );
   }
-  
+
   /// Get status icon based on maintenance status
   IconData _getStatusIcon() {
     if (statusColor == ColorConstants.success) {
