@@ -1,12 +1,11 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/data/latest.dart' as tz_data;
-import 'package:timezone/timezone.dart' as tz;
+// TEMPORARY MOCK IMPLEMENTATION
+// This is a placeholder notification service that doesn't actually use the
+// flutter_local_notifications package to avoid build issues.
+// We will implement this properly once the dependency issues are resolved.
 
-/// Service class for handling notifications
+/// Service class for handling notifications (currently mocked)
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
-  final FlutterLocalNotificationsPlugin _notificationsPlugin =
-      FlutterLocalNotificationsPlugin();
 
   factory NotificationService() {
     return _instance;
@@ -14,162 +13,67 @@ class NotificationService {
 
   NotificationService._internal();
 
-  /// Initialize notification service
+  /// Initialize notification service (mock implementation)
   Future<void> initializeNotifications() async {
-    // Initialize timezone
-    tz_data.initializeTimeZones();
-
-    // Android initialization settings
-    const AndroidInitializationSettings androidInitializationSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-
-    // iOS initialization settings
-    const IOSInitializationSettings iosInitializationSettings =
-        IOSInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    );
-
-    // Initialization settings for both platforms
-    const InitializationSettings initializationSettings =
-        InitializationSettings(
-      android: androidInitializationSettings,
-      iOS: iosInitializationSettings,
-    );
-
-    // Initialize plugin
-    await _notificationsPlugin.initialize(
-      initializationSettings,
-      onSelectNotification: _onSelectNotification,
-    );
+    print('Mock notification service initialized');
+    // Real implementation will be added later
   }
 
-  /// Handle notification selection
-  Future<void> _onSelectNotification(String? payload) async {
-    // Handle notification tap
-    if (payload != null) {
-      // Handle payload
-    }
-  }
-
-  /// Show immediate notification
+  /// Show immediate notification (mock implementation)
   Future<void> showNotification({
     required int id,
     required String title,
     required String body,
     String? payload,
   }) async {
-    const AndroidNotificationDetails androidDetails =
-        AndroidNotificationDetails(
-      'eco_coins_channel',
-      'Eco Coins Notifications',
-      channelDescription: 'Notifications for Eco Coins app',
-      importance: Importance.high,
-      priority: Priority.high,
-      showWhen: true,
-    );
-
-    const IOSNotificationDetails iosDetails = IOSNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true,
-    );
-
-    const NotificationDetails notificationDetails = NotificationDetails(
-      android: androidDetails,
-      iOS: iosDetails,
-    );
-
-    await _notificationsPlugin.show(
-      id,
-      title,
-      body,
-      notificationDetails,
-      payload: payload,
-    );
+    print('Mock notification: $title - $body');
+    // Real implementation will be added later
   }
 
-  /// Schedule a notification for tree maintenance
+  /// Schedule a notification for tree maintenance (mock implementation)
   Future<void> scheduleMaintenanceNotification({
     required int id,
     required String treeSpecies,
     required DateTime scheduledDate,
     required String maintenanceType,
   }) async {
-    const AndroidNotificationDetails androidDetails =
-        AndroidNotificationDetails(
-      'eco_coins_maintenance_channel',
-      'Maintenance Notifications',
-      channelDescription: 'Notifications for tree maintenance',
-      importance: Importance.high,
-      priority: Priority.high,
-      showWhen: true,
-    );
-
-    const IOSNotificationDetails iosDetails = IOSNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true,
-    );
-
-    const NotificationDetails notificationDetails = NotificationDetails(
-      android: androidDetails,
-      iOS: iosDetails,
-    );
-
-    await _notificationsPlugin.zonedSchedule(
-      id,
-      'Maintenance Reminder',
-      'Your $treeSpecies tree needs a $maintenanceType. Earn more EcoCoins!',
-      tz.TZDateTime.from(scheduledDate, tz.local),
-      notificationDetails,
-      androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      payload: 'maintenance_$id',
-    );
+    print(
+        'Mock scheduled notification for $treeSpecies: $maintenanceType on ${scheduledDate.toString()}');
+    // Real implementation will be added later
   }
 
-  /// Schedule reminders for upcoming maintenance
+  /// Schedule reminders for upcoming maintenance (mock implementation)
   Future<void> scheduleMaintenanceReminders({
     required int treeId,
     required String treeSpecies,
     required DateTime maintenanceDate,
     required String maintenanceType,
   }) async {
+    // Mock implementation just logs the scheduled notifications
+    print('Mock maintenance reminders for $treeSpecies scheduled');
+
     // 7 days before
-    await scheduleMaintenanceNotification(
-      id: treeId * 100 + 1,
-      treeSpecies: treeSpecies,
-      scheduledDate: maintenanceDate.subtract(const Duration(days: 7)),
-      maintenanceType: maintenanceType,
-    );
+    final sevenDaysBefore = maintenanceDate.subtract(const Duration(days: 7));
+    print('Reminder 1: $maintenanceType on $sevenDaysBefore');
 
     // 3 days before
-    await scheduleMaintenanceNotification(
-      id: treeId * 100 + 2,
-      treeSpecies: treeSpecies,
-      scheduledDate: maintenanceDate.subtract(const Duration(days: 3)),
-      maintenanceType: maintenanceType,
-    );
+    final threeDaysBefore = maintenanceDate.subtract(const Duration(days: 3));
+    print('Reminder 2: $maintenanceType on $threeDaysBefore');
 
     // 1 day before
-    await scheduleMaintenanceNotification(
-      id: treeId * 100 + 3,
-      treeSpecies: treeSpecies,
-      scheduledDate: maintenanceDate.subtract(const Duration(days: 1)),
-      maintenanceType: maintenanceType,
-    );
+    final oneDayBefore = maintenanceDate.subtract(const Duration(days: 1));
+    print('Reminder 3: $maintenanceType on $oneDayBefore');
   }
 
-  /// Cancel all notifications
+  /// Cancel all notifications (mock implementation)
   Future<void> cancelAllNotifications() async {
-    await _notificationsPlugin.cancelAll();
+    print('Mock cancellation of all notifications');
+    // Real implementation will be added later
   }
 
-  /// Cancel notification by id
+  /// Cancel notification by id (mock implementation)
   Future<void> cancelNotification(int id) async {
-    await _notificationsPlugin.cancel(id);
+    print('Mock cancellation of notification #$id');
+    // Real implementation will be added later
   }
 }
