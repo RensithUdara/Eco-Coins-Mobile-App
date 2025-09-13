@@ -325,7 +325,7 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.grey,
-          style: BorderStyle.dashed,
+          style: BorderStyle.solid,
           width: 2,
         ),
         borderRadius: BorderRadius.circular(12.0),
@@ -441,18 +441,12 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
 
   /// Build submit button
   Widget _buildSubmitButton() {
-    return Consumer<TreeController>(
-      builder: (context, treeController, _) {
-        final bool isLoading =
-            treeController.state == TreeOperationState.loading;
-        return CustomButton(
-          text: 'Upload Tree Photo',
-          onPressed: _handleSubmit,
-          type: ButtonType.primary,
-          isLoading: isLoading,
-          icon: Icons.file_upload,
-        );
-      },
+    return CustomButton(
+      text: 'Upload Tree Photo',
+      onPressed: _handleSubmit,
+      type: ButtonType.primary,
+      isLoading: false,
+      icon: Icons.file_upload,
     );
   }
 

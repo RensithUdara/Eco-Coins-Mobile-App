@@ -6,6 +6,16 @@ enum MaintenanceUpdateType {
   oneYear,
 }
 
+/// Enum for maintenance activities
+enum MaintenanceActivity {
+  watering,
+  pruning,
+  fertilizing,
+  pestControl,
+  mulching,
+  other,
+}
+
 /// Extension on MaintenanceUpdateType
 extension MaintenanceUpdateTypeExtension on MaintenanceUpdateType {
   /// Returns the number of days for each update type

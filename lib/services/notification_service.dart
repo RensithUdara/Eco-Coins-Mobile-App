@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
@@ -16,7 +15,7 @@ class NotificationService {
   NotificationService._internal();
 
   /// Initialize notification service
-  Future<void> init() async {
+  Future<void> initializeNotifications() async {
     // Initialize timezone
     tz_data.initializeTimeZones();
 

@@ -13,7 +13,9 @@ enum AuthState {
 
 /// Controller class for handling authentication
 class AuthController with ChangeNotifier {
-  final DatabaseService _databaseService = DatabaseService();
+  final DatabaseService _databaseService;
+
+  AuthController(this._databaseService);
 
   AuthState _state = AuthState.initial;
   User? _currentUser;
@@ -149,5 +151,20 @@ class AuthController with ChangeNotifier {
       }
     }
     return false;
+  }
+
+  /// Try to auto login based on stored credentials
+  Future<bool> tryAutoLogin() async {
+    try {
+      // In a real app, you would check local storage for credentials
+      // For now, we'll just return false
+      _state = AuthState.unauthenticated;
+      notifyListeners();
+      return false;
+    } catch (e) {
+      _state = AuthState.unauthenticated;
+      notifyListeners();
+      return false;
+    }
   }
 }

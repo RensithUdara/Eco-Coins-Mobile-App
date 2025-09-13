@@ -4,7 +4,6 @@ import 'package:eco_coins_mobile_app/controllers/auth_controller.dart';
 import 'package:eco_coins_mobile_app/controllers/maintenance_controller.dart';
 import 'package:eco_coins_mobile_app/controllers/tree_controller.dart';
 import 'package:eco_coins_mobile_app/models/maintenance_model.dart';
-import 'package:eco_coins_mobile_app/models/tree_model.dart';
 import 'package:eco_coins_mobile_app/services/image_service.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:eco_coins_mobile_app/utils/helpers.dart';
@@ -32,8 +31,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   final ImageService _imageService = ImageService();
   File? _selectedImage;
   DateTime _selectedDate = DateTime.now();
-  TreeModel? _selectedTree;
-  List<TreeModel> _userTrees = [];
+  dynamic _selectedTree;
+  List<dynamic> _userTrees = [];
   MaintenanceActivity _selectedActivity = MaintenanceActivity.watering;
 
   @override
@@ -73,7 +72,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
       if (widget.treeId != null) {
         _selectedTree = _userTrees.firstWhere(
-          (tree) => tree.id == widget.treeId,
+          (tree) => tree?.id == widget.treeId,
           orElse: () => _userTrees.isNotEmpty ? _userTrees.first : null,
         );
       } else if (_userTrees.isNotEmpty) {
@@ -574,18 +573,12 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Build submit button
   Widget _buildSubmitButton() {
-    return Consumer<MaintenanceController>(
-      builder: (context, maintenanceController, _) {
-        final bool isLoading =
-            maintenanceController.state == MaintenanceOperationState.loading;
-        return CustomButton(
-          text: 'Record Maintenance',
-          onPressed: _handleSubmit,
-          type: ButtonType.primary,
-          isLoading: isLoading,
-          icon: Icons.check_circle,
-        );
-      },
+    return CustomButton(
+      text: 'Record Maintenance',
+      onPressed: _handleSubmit,
+      type: ButtonType.primary,
+      isLoading: false,
+      icon: Icons.check_circle,
     );
   }
 }
