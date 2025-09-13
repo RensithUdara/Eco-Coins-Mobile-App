@@ -212,28 +212,182 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
             Text('Tree Maintenance'),
           ],
         ),
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                ColorConstants.primaryDark,
+                ColorConstants.primary,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.help_outline),
+            tooltip: 'Maintenance Guidelines',
+            onPressed: () {
+              // Show maintenance guidelines or help dialog
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Row(
+                    children: [
+                      Icon(Icons.lightbulb, color: ColorConstants.secondary),
+                      SizedBox(width: 8),
+                      Text('Maintenance Tips')
+                    ],
+                  ),
+                  content: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('• Take clear photos of your maintenance activity'),
+                      SizedBox(height: 8),
+                      Text('• Include detailed notes about what you did'),
+                      SizedBox(height: 8),
+                      Text('• Regular maintenance earns you more Eco Coins'),
+                      SizedBox(height: 8),
+                      Text('• Keep track of your tree\'s growth progress'),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Got it'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: _userTrees.isEmpty
           ? _buildNoTreesAvailable()
-          : SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildTreeSelectionCard(),
-                      const SizedBox(height: 16),
-                      _buildMaintenanceTypeCard(),
-                      const SizedBox(height: 16),
-                      _buildMaintenanceDetailsCard(),
-                      const SizedBox(height: 16),
-                      _buildPhotoUploadCard(),
-                      const SizedBox(height: 24),
-                      _buildSubmitButton(),
-                    ],
+          : Container(
+              decoration: BoxDecoration(
+                color: ColorConstants.background,
+                image: DecorationImage(
+                  image: const AssetImage('assets/images/leaf_pattern.png'),
+                  opacity: 0.05,
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    ColorConstants.primary.withOpacity(0.1),
+                    BlendMode.srcOver,
                   ),
+                ),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    // Header with summary
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            ColorConstants.primary.withOpacity(0.9),
+                            ColorConstants.primaryLight.withOpacity(0.8),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 24,
+                            backgroundColor: Colors.white.withOpacity(0.3),
+                            child: const Icon(
+                              Icons.spa,
+                              color: Colors.white,
+                              size: 24,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Tree Maintenance',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Text(
+                                  'Record care activities for your trees',
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.9),
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Row(
+                              children: [
+                                Icon(Icons.eco, color: Colors.white, size: 16),
+                                SizedBox(width: 4),
+                                Text(
+                                  '+30 coins',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Form content
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildTreeSelectionCard(),
+                            const SizedBox(height: 16),
+                            _buildMaintenanceTypeCard(),
+                            const SizedBox(height: 16),
+                            _buildMaintenanceDetailsCard(),
+                            const SizedBox(height: 16),
+                            _buildPhotoUploadCard(),
+                            const SizedBox(height: 24),
+                            _buildSubmitButton(),
+                            const SizedBox(height: 40),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
