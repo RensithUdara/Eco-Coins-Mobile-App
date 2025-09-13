@@ -1,21 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'dart:io';
+
 import 'package:eco_coins_mobile_app/controllers/auth_controller.dart';
 import 'package:eco_coins_mobile_app/controllers/maintenance_controller.dart';
 import 'package:eco_coins_mobile_app/controllers/tree_controller.dart';
-import 'package:eco_coins_mobile_app/models/tree_model.dart';
 import 'package:eco_coins_mobile_app/models/maintenance_model.dart';
+import 'package:eco_coins_mobile_app/models/tree_model.dart';
 import 'package:eco_coins_mobile_app/services/image_service.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:eco_coins_mobile_app/utils/helpers.dart';
 import 'package:eco_coins_mobile_app/views/widgets/custom_button.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 /// Screen for maintaining trees
 class MaintenanceScreen extends StatefulWidget {
   final int? treeId;
-  
+
   const MaintenanceScreen({this.treeId, super.key});
 
   @override
@@ -27,7 +28,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   final TextEditingController _notesController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
+
   final ImageService _imageService = ImageService();
   File? _selectedImage;
   DateTime _selectedDate = DateTime.now();
@@ -54,8 +55,9 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   Future<void> _loadUserTrees() async {
     final authController = Provider.of<AuthController>(context, listen: false);
     final treeController = Provider.of<TreeController>(context, listen: false);
-    
-    if (authController.currentUser == null || authController.currentUser!.id == null) {
+
+    if (authController.currentUser == null ||
+        authController.currentUser!.id == null) {
       Helpers.showSnackBar(
         context,
         'You must be logged in to maintain trees',
@@ -64,11 +66,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       Navigator.pop(context);
       return;
     }
-    
+
     await treeController.fetchUserTrees(authController.currentUser!.id!);
     setState(() {
       _userTrees = treeController.userTrees;
-      
+
       if (widget.treeId != null) {
         _selectedTree = _userTrees.firstWhere(
           (tree) => tree.id == widget.treeId,
@@ -105,7 +107,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
-      firstDate: DateTime.now().subtract(const Duration(days: 30)), // Allow backdating up to 30 days
+      firstDate: DateTime.now()
+          .subtract(const Duration(days: 30)), // Allow backdating up to 30 days
       lastDate: DateTime.now(),
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
@@ -141,7 +144,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    
+
     if (_selectedTree == null) {
       Helpers.showSnackBar(
         context,
@@ -150,7 +153,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       );
       return;
     }
-    
+
     if (_selectedImage == null) {
       Helpers.showSnackBar(
         context,
@@ -159,11 +162,13 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       );
       return;
     }
-    
+
     final authController = Provider.of<AuthController>(context, listen: false);
-    final maintenanceController = Provider.of<MaintenanceController>(context, listen: false);
-    
-    if (authController.currentUser == null || authController.currentUser!.id == null) {
+    final maintenanceController =
+        Provider.of<MaintenanceController>(context, listen: false);
+
+    if (authController.currentUser == null ||
+        authController.currentUser!.id == null) {
       Helpers.showSnackBar(
         context,
         'You must be logged in to record maintenance',
@@ -171,7 +176,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       );
       return;
     }
-    
+
     final bool success = await maintenanceController.addMaintenance(
       userId: authController.currentUser!.id!,
       treeId: _selectedTree!.id!,
@@ -180,11 +185,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       date: _selectedDate,
       photoFile: _selectedImage!,
     );
-    
+
     if (success && mounted) {
       await authController.refreshUserData();
       Helpers.showSnackBar(context, 'Maintenance recorded successfully!');
-      
+
       // Navigate back
       Navigator.pop(context);
     } else if (mounted) {
@@ -201,11 +206,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     return Scaffold(
       backgroundColor: ColorConstants.background,
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           children: [
-            const Icon(Icons.eco),
-            const SizedBox(width: 8),
-            const Text('Tree Maintenance'),
+            Icon(Icons.eco),
+            SizedBox(width: 8),
+            Text('Tree Maintenance'),
           ],
         ),
       ),
@@ -293,7 +298,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Select Tree',
               style: TextStyle(
                 fontSize: 16,
@@ -311,13 +316,15 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
               items: _userTrees.map((tree) {
                 return DropdownMenuItem<int>(
                   value: tree.id,
-                  child: Text('${tree.species} (Planted on: ${DateFormat('yyyy-MM-dd').format(tree.plantedDate)})'),
+                  child: Text(
+                      '${tree.species} (Planted on: ${DateFormat('yyyy-MM-dd').format(tree.plantedDate)})'),
                 );
               }).toList(),
               onChanged: (value) {
                 if (value != null) {
                   setState(() {
-                    _selectedTree = _userTrees.firstWhere((tree) => tree.id == value);
+                    _selectedTree =
+                        _userTrees.firstWhere((tree) => tree.id == value);
                   });
                 }
               },
@@ -345,7 +352,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Maintenance Type',
               style: TextStyle(
                 fontSize: 16,
@@ -365,7 +372,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   selectedColor: ColorConstants.primary,
                   backgroundColor: Colors.grey[200],
                   labelStyle: TextStyle(
-                    color: isSelected ? Colors.white : ColorConstants.textPrimary,
+                    color:
+                        isSelected ? Colors.white : ColorConstants.textPrimary,
                   ),
                   onSelected: (selected) {
                     if (selected) {
@@ -395,7 +403,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Notes field
-            Text(
+            const Text(
               'Notes',
               style: TextStyle(
                 fontSize: 16,
@@ -418,9 +426,9 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
               },
             ),
             const SizedBox(height: 16),
-            
+
             // Date field
-            Text(
+            const Text(
               'Date',
               style: TextStyle(
                 fontSize: 16,
@@ -511,15 +519,15 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         ),
         borderRadius: BorderRadius.circular(12.0),
       ),
-      child: Column(
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.camera_alt,
             size: 48,
             color: Colors.grey,
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Text(
             'Take a photo of your\nmaintenance activity',
             textAlign: TextAlign.center,
@@ -568,7 +576,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   Widget _buildSubmitButton() {
     return Consumer<MaintenanceController>(
       builder: (context, maintenanceController, _) {
-        final bool isLoading = maintenanceController.state == MaintenanceOperationState.loading;
+        final bool isLoading =
+            maintenanceController.state == MaintenanceOperationState.loading;
         return CustomButton(
           text: 'Record Maintenance',
           onPressed: _handleSubmit,
