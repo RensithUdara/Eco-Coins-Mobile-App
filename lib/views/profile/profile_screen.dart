@@ -2,6 +2,7 @@ import 'package:eco_coins_mobile_app/controllers/auth_controller.dart';
 import 'package:eco_coins_mobile_app/models/user_model.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 /// Profile screen for user to view and update their profile
@@ -97,6 +98,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Set status bar to transparent for immersive design
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ));
+    
     return Scaffold(
       backgroundColor: ColorConstants.background,
       extendBodyBehindAppBar: true,
@@ -190,55 +197,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               // Content
               _isLoading
-                  ? const Center(child: CircularProgressIndicator(color: Colors.white))
-                  : SingleChildScrollView(
-                      padding: const EdgeInsets.only(top: 100),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // Profile Avatar with decoration
-                          Center(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white, width: 4),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
-                                    blurRadius: 10,
-                                    spreadRadius: 1,
-                                  ),
-                                ],
-                              ),
-                              child: Hero(
-                                tag: 'profile-avatar',
-                                child: CircleAvatar(
-                                  radius: 60,
-                                  backgroundColor: ColorConstants.secondaryLight,
-                                  child: Text(
-                                    _getInitials(user.name),
-                                    style: const TextStyle(
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
+                ? const Center(child: CircularProgressIndicator(color: Colors.white))
+                : SingleChildScrollView(
+                    padding: const EdgeInsets.only(top: 100),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Profile Avatar with decoration
+                        Center(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 4),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 10,
+                                  spreadRadius: 1,
+                                ),
+                              ],
+                            ),
+                            child: Hero(
+                              tag: 'profile-avatar',
+                              child: CircleAvatar(
+                                radius: 60,
+                                backgroundColor: ColorConstants.secondaryLight,
+                                child: Text(
+                                  _getInitials(user.name),
+                                  style: const TextStyle(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 24),
+                        ),
+                        const SizedBox(height: 24),
 
-                      // User information or edit form
-                      _isEditing ? _buildEditForm() : _buildProfileInfo(user),
+                        // User information or edit form
+                        _isEditing ? _buildEditForm() : _buildProfileInfo(user),
 
-                      const SizedBox(height: 40),
+                        const SizedBox(height: 40),
 
-                      // Account actions
-                      _buildAccountActions(),
-                    ],
+                        // Account actions
+                        _buildAccountActions(),
+                      ],
+                    ),
                   ),
-                );
+            ],
+          );
+        },
+      ),
+    );
+  }
         },
       ),
     );
@@ -248,41 +261,97 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildProfileInfo(User user) {
     return Column(
       children: [
-        Text(
-          user.name,
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+        // User name with animated fade-in
+        TweenAnimationBuilder<double>(
+          tween: Tween<double>(begin: 0, end: 1),
+          duration: const Duration(milliseconds: 500),
+          builder: (context, value, child) {
+            return Opacity(
+              opacity: value,
+              child: child,
+            );
+          },
+          child: Text(
+            user.name,
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+          ),
         ),
         const SizedBox(height: 8),
-        Text(
-          user.email,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: ColorConstants.textSecondary,
-              ),
-        ),
-        const SizedBox(height: 24),
-        // Stats
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-          decoration: BoxDecoration(
-            color: ColorConstants.cardBackground,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 2),
-              ),
-            ],
+        
+        // User email with animated fade-in
+        TweenAnimationBuilder<double>(
+          tween: Tween<double>(begin: 0, end: 1),
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeOut,
+          builder: (context, value, child) {
+            return Opacity(
+              opacity: value,
+              child: child,
+            );
+          },
+          child: Text(
+            user.email,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Colors.white.withOpacity(0.9),
+                ),
           ),
+        ),
+        const SizedBox(height: 40),
+        
+        // Stats cards
+        Container(
+          width: double.infinity,
+          margin: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildStatRow('Eco Coins Balance', '${user.coinsBalance}',
-                  Icons.monetization_on, ColorConstants.secondary),
-              const Divider(height: 30),
-              _buildStatRow('Member Since', _formatDate(user.createdAt),
-                  Icons.calendar_today, ColorConstants.primary),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, bottom: 12.0),
+                child: Text(
+                  'Account Overview',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ),
+              
+              // Coins card
+              _buildStatCard(
+                title: 'Eco Coins Balance',
+                value: '${user.coinsBalance}',
+                icon: Icons.monetization_on,
+                iconBackground: ColorConstants.secondary,
+                description: 'Your current eco coins',
+              ),
+              const SizedBox(height: 16),
+              
+              // Member since card
+              _buildStatCard(
+                title: 'Member Since',
+                value: _formatDate(user.createdAt),
+                icon: Icons.calendar_today,
+                iconBackground: ColorConstants.primary,
+                description: 'Account creation date',
+              ),
+              
+              const SizedBox(height: 16),
+              
+              // Activity card - this could be connected to real data in the future
+              _buildStatCard(
+                title: 'Environmental Impact',
+                value: 'Positive',
+                icon: Icons.eco,
+                iconBackground: ColorConstants.primaryLight,
+                description: 'Your contribution to the environment',
+                gradient: const LinearGradient(
+                  colors: [ColorConstants.primaryLight, ColorConstants.primary],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
             ],
           ),
         ),
@@ -290,27 +359,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  /// Build a row for user statistics
-  Widget _buildStatRow(
-      String label, String value, IconData icon, Color iconColor) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+  /// Build a stat card with enhanced visual design
+  Widget _buildStatCard({
+    required String title,
+    required String value,
+    required IconData icon,
+    required Color iconBackground,
+    required String description,
+    LinearGradient? gradient,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: gradient == null ? ColorConstants.cardBackground : null,
+        gradient: gradient,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            spreadRadius: 0,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Row(
         children: [
-          Icon(icon, color: iconColor, size: 24),
-          const SizedBox(width: 16),
-          Text(
-            label,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: ColorConstants.textSecondary,
-                ),
+          // Icon with background
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: gradient == null ? iconBackground.withOpacity(0.1) : Colors.white.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              icon,
+              color: gradient == null ? iconBackground : Colors.white,
+              size: 28,
+            ),
           ),
-          const Spacer(),
-          Text(
-            value,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+          const SizedBox(width: 16),
+          
+          // Text content
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: gradient == null ? ColorConstants.textSecondary : Colors.white.withOpacity(0.9),
+                  ),
                 ),
+                const SizedBox(height: 4),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: gradient == null ? ColorConstants.textPrimary : Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  description,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: gradient == null ? ColorConstants.textLight : Colors.white.withOpacity(0.7),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -319,85 +440,350 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   /// Build the edit form
   Widget _buildEditForm() {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Name field
-          TextFormField(
-            controller: _nameController,
-            decoration: const InputDecoration(
-              labelText: 'Name',
-              prefixIcon: Icon(Icons.person),
-              border: OutlineInputBorder(),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your name';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 16),
-
-          // Email field
-          TextFormField(
-            controller: _emailController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              labelText: 'Email',
-              prefixIcon: Icon(Icons.email),
-              border: OutlineInputBorder(),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email';
-              }
-              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                  .hasMatch(value)) {
-                return 'Please enter a valid email address';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 24),
-
-          // Save button
-          ElevatedButton.icon(
-            onPressed: _saveProfile,
-            icon: const Icon(Icons.save),
-            label: const Text('Save Changes'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: ColorConstants.primary,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-            ),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
           ),
         ],
+      ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Edit Your Profile',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: ColorConstants.primary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            
+            // Name field
+            _buildAnimatedFormField(
+              label: 'Full Name',
+              controller: _nameController,
+              icon: Icons.person,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your name';
+                }
+                return null;
+              },
+              keyboardType: TextInputType.name,
+              hintText: 'Enter your full name',
+            ),
+            const SizedBox(height: 20),
+
+            // Email field
+            _buildAnimatedFormField(
+              label: 'Email Address',
+              controller: _emailController,
+              icon: Icons.email,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your email';
+                }
+                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                    .hasMatch(value)) {
+                  return 'Please enter a valid email address';
+                }
+                return null;
+              },
+              keyboardType: TextInputType.emailAddress,
+              hintText: 'Enter your email address',
+            ),
+            const SizedBox(height: 30),
+
+            // Save button
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              height: 56,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(28),
+                gradient: const LinearGradient(
+                  colors: [
+                    ColorConstants.primary,
+                    ColorConstants.primaryDark,
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: ColorConstants.primary.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: ElevatedButton.icon(
+                onPressed: _saveProfile,
+                icon: const Icon(Icons.save),
+                label: const Text(
+                  'Save Changes',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  foregroundColor: Colors.white,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(28),
+                  ),
+                  elevation: 0,
+                ),
+              ),
+            ),
+            
+            // Cancel link
+            TextButton(
+              onPressed: _toggleEditMode,
+              child: const Text('Cancel'),
+              style: TextButton.styleFrom(
+                foregroundColor: ColorConstants.textSecondary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  
+  /// Build animated form field with custom styling
+  Widget _buildAnimatedFormField({
+    required String label,
+    required TextEditingController controller,
+    required IconData icon,
+    required String? Function(String?) validator,
+    TextInputType keyboardType = TextInputType.text,
+    String? hintText,
+  }) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.grey.shade200,
+          width: 1,
+        ),
+      ),
+      child: TextFormField(
+        controller: controller,
+        keyboardType: keyboardType,
+        style: const TextStyle(fontSize: 16),
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hintText,
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          prefixIcon: Icon(icon, color: ColorConstants.primary),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 16.0,
+            horizontal: 16.0,
+          ),
+          labelStyle: TextStyle(
+            color: ColorConstants.textSecondary,
+            fontWeight: FontWeight.w500,
+          ),
+          errorStyle: const TextStyle(
+            color: ColorConstants.error,
+            fontSize: 12,
+          ),
+        ),
+        validator: validator,
       ),
     );
   }
 
   /// Build account actions section
   Widget _buildAccountActions() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const Divider(),
-        const SizedBox(height: 16),
-        // Sign out button
-        OutlinedButton.icon(
-          onPressed: _signOut,
-          icon: const Icon(Icons.logout, color: ColorConstants.error),
-          label: const Text('Sign Out'),
-          style: OutlinedButton.styleFrom(
-            foregroundColor: ColorConstants.error,
-            side: const BorderSide(color: ColorConstants.error),
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: 16),
+          
+          // Actions title
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, bottom: 16.0),
+            child: Text(
+              'Account Actions',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          
+          // Action buttons
+          _buildActionButton(
+            title: 'Privacy Settings',
+            icon: Icons.security,
+            iconColor: ColorConstants.info,
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Privacy settings will be available in a future update'),
+                  backgroundColor: ColorConstants.info,
+                ),
+              );
+            },
+          ),
+          
+          _buildActionButton(
+            title: 'Notification Preferences',
+            icon: Icons.notifications,
+            iconColor: ColorConstants.warning,
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Notification settings will be available in a future update'),
+                  backgroundColor: ColorConstants.warning,
+                ),
+              );
+            },
+          ),
+          
+          _buildActionButton(
+            title: 'Help & Support',
+            icon: Icons.help_outline,
+            iconColor: ColorConstants.primary,
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Support center will be available in a future update'),
+                  backgroundColor: ColorConstants.primary,
+                ),
+              );
+            },
+          ),
+          
+          const SizedBox(height: 16),
+          const Divider(),
+          const SizedBox(height: 16),
+          
+          // Sign out button with animation
+          TweenAnimationBuilder<double>(
+            tween: Tween<double>(begin: 0.8, end: 1.0),
+            duration: const Duration(milliseconds: 300),
+            builder: (context, value, child) {
+              return Transform.scale(
+                scale: value,
+                child: Container(
+                  height: 56,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(28),
+                    border: Border.all(color: ColorConstants.error.withOpacity(0.5)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: ColorConstants.error.withOpacity(0.1),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: _signOut,
+                      borderRadius: BorderRadius.circular(28),
+                      splashColor: ColorConstants.error.withOpacity(0.1),
+                      highlightColor: ColorConstants.error.withOpacity(0.05),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.logout,
+                              color: ColorConstants.error,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Sign Out',
+                              style: TextStyle(
+                                color: ColorConstants.error,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+  
+  /// Build action button with consistent styling
+  Widget _buildActionButton({
+    required String title,
+    required IconData icon,
+    required Color iconColor,
+    required VoidCallback onTap,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12.0),
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        elevation: 2,
+        shadowColor: Colors.black.withOpacity(0.05),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: iconColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(icon, color: iconColor),
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const Spacer(),
+                const Icon(
+                  Icons.chevron_right,
+                  color: ColorConstants.textLight,
+                ),
+              ],
+            ),
           ),
         ),
-      ],
+      ),
     );
   }
 
