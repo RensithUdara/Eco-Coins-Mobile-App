@@ -18,6 +18,8 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
+  bool _initialized = false;
+
   @override
   void initState() {
     super.initState();
@@ -34,25 +36,40 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Start animation
     _animationController.forward();
+  }
 
-    // Initialize auth controller and try auto login
-    final authController = Provider.of<AuthController>(context, listen: false);
-    authController.initialize();
-
-    // Try auto-login and navigate to the appropriate screen after a delay
-    Timer(const Duration(seconds: 3), () async {
-      // Try to auto-login with saved credentials
-      final bool autoLoginSuccess = await authController.tryAutoLogin();
-
-      if (mounted) {
-        if (autoLoginSuccess ||
-            authController.state == AuthState.authenticated) {
-          Navigator.pushReplacementNamed(context, AppConstants.dashboardRoute);
-        } else {
-          Navigator.pushReplacementNamed(context, AppConstants.loginRoute);
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    
+    // Initialize only once
+    if (!_initialized) {
+      _initialized = true;
+      
+      // Get the auth controller
+      final authController = Provider.of<AuthController>(context, listen: false);
+      
+      // Initialize after the build is complete
+      Future.microtask(() async {
+        await authController.initialize();
+        
+        // Try auto-login and navigate to the appropriate screen after a delay
+        await Future.delayed(const Duration(seconds: 3));
+        
+        // Try to auto-login with saved credentials
+        final bool autoLoginSuccess = await authController.tryAutoLogin();
+  
+        if (mounted) {
+          if (autoLoginSuccess ||
+              authController.state == AuthState.authenticated) {
+            Navigator.pushReplacementNamed(context, AppConstants.dashboardRoute);
+          } else {
+            Navigator.pushReplacementNamed(context, AppConstants.loginRoute);
+          }
         }
-      }
-    });
+      });
+    }
+  }
   }
 
   @override
