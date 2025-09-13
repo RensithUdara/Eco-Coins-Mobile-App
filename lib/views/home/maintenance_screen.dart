@@ -543,52 +543,33 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Build maintenance type card
   Widget _buildMaintenanceTypeCard() {
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(
-            color: ColorConstants.primaryLight.withOpacity(0.5), width: 1.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.tune, color: ColorConstants.primary),
-                const SizedBox(width: 8),
-                const Text(
-                  'Maintenance Type',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: ColorConstants.textPrimary,
-                  ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 8),
+          child: Row(
+            children: [
+              const Text(
+                'Maintenance Type',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: ColorConstants.textPrimary,
                 ),
-                const Spacer(),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: ColorConstants.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: ColorConstants.primary.withOpacity(0.3),
-                    ),
-                  ),
-                  child: Text(
-                    _getActivityName(_selectedActivity),
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: ColorConstants.primary,
-                    ),
-                  ),
+              ),
+              const Spacer(),
+              Text(
+                _getActivityName(_selectedActivity),
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: ColorConstants.primary,
+                  fontWeight: FontWeight.w500,
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
+        ),
             const SizedBox(height: 16),
             Container(
               padding: const EdgeInsets.all(16),
