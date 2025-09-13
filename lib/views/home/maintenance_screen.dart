@@ -138,6 +138,102 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     }
   }
 
+  /// Show help dialog
+  void _showHelpDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Row(
+          children: [
+            Icon(Icons.help_outline, color: ColorConstants.primary),
+            SizedBox(width: 8),
+            Text('Maintenance Help'),
+          ],
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildHelpItem(Icons.nature_people, 'Select Tree',
+                  'Choose which of your planted trees you want to maintain.'),
+              const Divider(),
+              _buildHelpItem(Icons.category, 'Maintenance Type',
+                  'Select what type of maintenance you performed on your tree.'),
+              const Divider(),
+              _buildHelpItem(Icons.edit_note, 'Notes',
+                  'Describe what you did to maintain your tree in detail.'),
+              const Divider(),
+              _buildHelpItem(Icons.calendar_today, 'Date',
+                  'Record when you performed the maintenance.'),
+              const Divider(),
+              _buildHelpItem(Icons.photo_camera, 'Photo',
+                  'Take a photo as evidence of your tree maintenance activity.'),
+              const SizedBox(height: 16),
+              const Text(
+                'Regular maintenance earns you Eco Coins!',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: ColorConstants.success,
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Got it!'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Build help item for dialog
+  Widget _buildHelpItem(IconData icon, String title, String description) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: ColorConstants.primaryLight.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, color: ColorConstants.primary, size: 24),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  description,
+                  style: const TextStyle(
+                    color: ColorConstants.textSecondary,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   /// Handle form submission
   Future<void> _handleSubmit() async {
     if (!_formKey.currentState!.validate()) {
@@ -236,7 +332,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
               onPressed: () {
                 // Show maintenance history
                 // You can implement this functionality later
-                Helpers.showSnackBar(context, 'Maintenance history coming soon!');
+                Helpers.showSnackBar(
+                    context, 'Maintenance history coming soon!');
               },
             ),
           ),
