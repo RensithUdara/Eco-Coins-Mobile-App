@@ -69,7 +69,7 @@ class Tree {
   int get ageInDays {
     return DateTime.now().difference(plantedDate).inDays;
   }
-  
+
   /// Calculate tree age in months
   double get ageInMonths {
     return ageInDays / 30;
