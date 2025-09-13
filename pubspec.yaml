@@ -57,7 +57,7 @@ dependencies:
   
   # Notifications
   flutter_local_notifications: ^9.9.1
-  timezone: ^0.9.4
+  timezone: ^0.8.0
 
 dev_dependencies:
   flutter_test:
