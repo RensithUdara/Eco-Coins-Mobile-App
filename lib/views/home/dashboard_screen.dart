@@ -121,7 +121,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
             ),
-            
+
             // Main content
             SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -139,7 +139,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     _buildActionButtons(),
                     _buildSectionTitle('Plantation History', Icons.nature),
                     _buildTreesList(),
-                    const SizedBox(height: 80), // Space for floating action button
+                    const SizedBox(
+                        height: 80), // Space for floating action button
                   ],
                 ),
               ),
@@ -150,7 +151,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       floatingActionButton: _buildFloatingActionButtons(),
     );
   }
-  
+
   /// Build section title
   Widget _buildSectionTitle(String title, IconData icon) {
     return Padding(
@@ -182,7 +183,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-  
+
   /// Build action buttons for quick access to features
   Widget _buildActionButtons() {
     return Container(
@@ -191,20 +192,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildActionButton(
-            'Plant Tree', 
-            Icons.eco, 
+            'Plant Tree',
+            Icons.eco,
             ColorConstants.primary,
             () => Navigator.pushNamed(context, AppConstants.plantTreeRoute),
           ),
           _buildActionButton(
-            'Maintenance', 
-            Icons.update, 
+            'Maintenance',
+            Icons.update,
             ColorConstants.secondary,
             () => Navigator.pushNamed(context, AppConstants.maintainRoute),
           ),
           _buildActionButton(
-            'Activity', 
-            Icons.history, 
+            'Activity',
+            Icons.history,
             ColorConstants.info,
             () => _showTransactionHistory(),
           ),
@@ -212,9 +213,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-  
+
   /// Build a single action button
-  Widget _buildActionButton(String label, IconData icon, Color color, VoidCallback onTap) {
+  Widget _buildActionButton(
+      String label, IconData icon, Color color, VoidCallback onTap) {
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
@@ -262,7 +264,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-  
+
   /// Show transaction history modal
   void _showTransactionHistory() {
     // Implement transaction history modal
@@ -280,13 +282,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
         final user = authController.currentUser;
         final now = DateTime.now();
         String greeting = 'Good morning';
-        
+
         if (now.hour >= 12 && now.hour < 17) {
           greeting = 'Good afternoon';
         } else if (now.hour >= 17) {
           greeting = 'Good evening';
         }
-        
+
         return Padding(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
           child: Column(
@@ -304,7 +306,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Row(
                 children: [
                   Text(
-                    '${user?.name ?? 'User'}',
+                    user?.name ?? 'User',
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
