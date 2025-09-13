@@ -260,7 +260,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                   color: ColorConstants.primary.withOpacity(0.2),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.nature_outlined,
                   size: 72,
                   color: ColorConstants.primaryDark,
@@ -474,7 +474,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       elevation: 4.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(color: ColorConstants.primaryLight.withOpacity(0.5), width: 1.0),
+        side: BorderSide(
+            color: ColorConstants.primaryLight.withOpacity(0.5), width: 1.0),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -495,7 +496,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 ),
                 const Spacer(),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
                     color: ColorConstants.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
@@ -527,7 +529,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 runSpacing: 12.0,
                 children: MaintenanceActivity.values.map((activity) {
                   final bool isSelected = _selectedActivity == activity;
-                  
+
                   // Get icon for each activity type
                   IconData activityIcon;
                   switch (activity) {
@@ -552,14 +554,15 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                     default:
                       activityIcon = Icons.eco;
                   }
-                  
+
                   return Container(
                     width: MediaQuery.of(context).size.width * 0.4 - 24,
                     margin: const EdgeInsets.only(bottom: 4),
                     child: ChoiceChip(
                       avatar: Icon(
                         activityIcon,
-                        color: isSelected ? Colors.white : ColorConstants.primary,
+                        color:
+                            isSelected ? Colors.white : ColorConstants.primary,
                         size: 18,
                       ),
                       label: Text(_getActivityName(activity)),
@@ -567,16 +570,19 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                       selectedColor: ColorConstants.primary,
                       backgroundColor: Colors.white,
                       side: BorderSide(
-                        color: isSelected 
-                            ? ColorConstants.primary 
+                        color: isSelected
+                            ? ColorConstants.primary
                             : Colors.grey[300]!,
                       ),
                       elevation: isSelected ? 2 : 0,
                       labelStyle: TextStyle(
-                        color: isSelected ? Colors.white : ColorConstants.textPrimary,
+                        color: isSelected
+                            ? Colors.white
+                            : ColorConstants.textPrimary,
                         fontWeight: FontWeight.bold,
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 12),
                       onSelected: (selected) {
                         if (selected) {
                           setState(() {
