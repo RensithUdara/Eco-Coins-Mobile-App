@@ -1,7 +1,5 @@
 import 'package:eco_coins_mobile_app/controllers/auth_controller.dart';
 import 'package:eco_coins_mobile_app/utils/constants.dart';
-import 'package:eco_coins_mobile_app/views/home/dashboard_screen.dart';
-import 'package:eco_coins_mobile_app/views/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
