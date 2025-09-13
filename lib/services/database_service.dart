@@ -1,10 +1,10 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
-import 'package:eco_coins_mobile_app/utils/constants.dart';
-import 'package:eco_coins_mobile_app/models/user_model.dart';
-import 'package:eco_coins_mobile_app/models/tree_model.dart';
-import 'package:eco_coins_mobile_app/models/maintenance_model.dart';
 import 'package:eco_coins_mobile_app/models/eco_coin_model.dart';
+import 'package:eco_coins_mobile_app/models/maintenance_model.dart';
+import 'package:eco_coins_mobile_app/models/tree_model.dart';
+import 'package:eco_coins_mobile_app/models/user_model.dart';
+import 'package:eco_coins_mobile_app/utils/constants.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 /// Service class for handling database operations
 class DatabaseService {
