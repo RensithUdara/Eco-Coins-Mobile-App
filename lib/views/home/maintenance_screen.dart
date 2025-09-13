@@ -203,26 +203,16 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorConstants.background,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Row(
-          children: [
-            Icon(Icons.eco),
-            SizedBox(width: 8),
-            Text('Tree Maintenance'),
-          ],
-        ),
+        backgroundColor: Colors.white,
+        foregroundColor: ColorConstants.textPrimary,
         elevation: 0,
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                ColorConstants.primaryDark,
-                ColorConstants.primary,
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+        title: const Text(
+          'Tree Maintenance',
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: ColorConstants.textPrimary,
           ),
         ),
         actions: [
@@ -268,84 +258,35 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       ),
       body: _userTrees.isEmpty
           ? _buildNoTreesAvailable()
-          : Container(
-              decoration: BoxDecoration(
-                color: ColorConstants.background,
-                image: DecorationImage(
-                  image: const AssetImage('assets/images/leaf_pattern.png'),
-                  opacity: 0.05,
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    ColorConstants.primary.withOpacity(0.1),
-                    BlendMode.srcOver,
-                  ),
-                ),
-              ),
+          : SafeArea(
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Header with summary
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 16),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            ColorConstants.primary.withOpacity(0.9),
-                            ColorConstants.primaryLight.withOpacity(0.8),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
+                    // Simple header
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       child: Row(
                         children: [
-                          CircleAvatar(
-                            radius: 24,
-                            backgroundColor: Colors.white.withOpacity(0.3),
-                            child: const Icon(
-                              Icons.spa,
-                              color: Colors.white,
-                              size: 24,
+                          const Icon(
+                            Icons.eco, 
+                            color: ColorConstants.primary, 
+                            size: 20
+                          ),
+                          const SizedBox(width: 8),
+                          const Text(
+                            'Record tree maintenance',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: ColorConstants.textSecondary,
                             ),
                           ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Tree Maintenance',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text(
-                                  'Record care activities for your trees',
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.9),
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          const Spacer(),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 6),
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(20),
+                              color: ColorConstants.primary.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
                             ),
                             child: const Row(
                               children: [
@@ -367,22 +308,22 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                     ),
                     // Form content
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Form(
                         key: _formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             _buildTreeSelectionCard(),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: 20),
                             _buildMaintenanceTypeCard(),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: 20),
                             _buildMaintenanceDetailsCard(),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: 20),
                             _buildPhotoUploadCard(),
-                            const SizedBox(height: 24),
+                            const SizedBox(height: 30),
                             _buildSubmitButton(),
-                            const SizedBox(height: 40),
+                            const SizedBox(height: 30),
                           ],
                         ),
                       ),
@@ -487,49 +428,32 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Build tree selection card
   Widget _buildTreeSelectionCard() {
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-        side: BorderSide(
-            color: ColorConstants.primaryLight.withOpacity(0.5), width: 1.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.forest, color: ColorConstants.primary),
-                const SizedBox(width: 8),
-                const Text(
-                  'Select Your Tree',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: ColorConstants.textPrimary,
-                  ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 8),
+          child: Row(
+            children: [
+              const Text(
+                'Select Tree',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: ColorConstants.textPrimary,
                 ),
-                const Spacer(),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: ColorConstants.secondaryLight.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    '${_userTrees.length} Trees',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: ColorConstants.secondaryLight,
-                    ),
-                  ),
+              ),
+              const Spacer(),
+              Text(
+                '${_userTrees.length} available',
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: ColorConstants.textSecondary,
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
+        ),
             const SizedBox(height: 16),
             DropdownButtonFormField<int>(
               decoration: InputDecoration(
