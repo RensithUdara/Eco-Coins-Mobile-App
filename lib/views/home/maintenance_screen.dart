@@ -682,51 +682,181 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     );
   }
 
+  /// Get icon for maintenance activity
+  IconData _getActivityIcon(MaintenanceActivity activity) {
+    switch (activity) {
+      case MaintenanceActivity.watering:
+        return Icons.water_drop;
+      case MaintenanceActivity.pruning:
+        return Icons.content_cut;
+      case MaintenanceActivity.fertilizing:
+        return Icons.compost;
+      case MaintenanceActivity.pestControl:
+        return Icons.bug_report;
+      case MaintenanceActivity.mulching:
+        return Icons.layers;
+      case MaintenanceActivity.other:
+        return Icons.more_horiz;
+      default:
+        return Icons.help_outline;
+    }
+  }
+
   /// Build maintenance type card
   Widget _buildMaintenanceTypeCard() {
-    return Card(
-      shape: RoundedRectangleBorder(
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Maintenance Type',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: ColorConstants.textPrimary,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 8.0,
-              runSpacing: 8.0,
-              children: MaintenanceActivity.values.map((activity) {
-                final bool isSelected = _selectedActivity == activity;
-                return ChoiceChip(
-                  label: Text(_getActivityName(activity)),
-                  selected: isSelected,
-                  selectedColor: ColorConstants.primary,
-                  backgroundColor: Colors.grey[200],
-                  labelStyle: TextStyle(
-                    color:
-                        isSelected ? Colors.white : ColorConstants.textPrimary,
+      child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+          side: BorderSide(color: ColorConstants.primaryLight.withOpacity(0.2), width: 1),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: ColorConstants.primaryLight.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.eco_outlined,
+                      color: ColorConstants.primary,
+                      size: 24,
+                    ),
                   ),
-                  onSelected: (selected) {
-                    if (selected) {
+                  const SizedBox(width: 12),
+                  const Text(
+                    'Maintenance Type',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: ColorConstants.textPrimary,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              const Divider(),
+              const SizedBox(height: 8),
+              const Text(
+                'What type of maintenance did you perform?',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: ColorConstants.textSecondary,
+                ),
+              ),
+              const SizedBox(height: 16),
+              GridView.count(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 3,
+                childAspectRatio: 1.0,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                children: MaintenanceActivity.values.map((activity) {
+                  final bool isSelected = _selectedActivity == activity;
+                  return InkWell(
+                    onTap: () {
                       setState(() {
                         _selectedActivity = activity;
                       });
-                    }
-                  },
-                );
-              }).toList(),
-            ),
-          ],
+                    },
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: isSelected 
+                          ? ColorConstants.primary.withOpacity(0.15)
+                          : Colors.grey[100],
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: isSelected 
+                            ? ColorConstants.primary
+                            : Colors.grey[300]!,
+                          width: isSelected ? 2 : 1,
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: isSelected 
+                                ? ColorConstants.primary 
+                                : ColorConstants.primaryLight.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              _getActivityIcon(activity),
+                              color: isSelected ? Colors.white : ColorConstants.primary,
+                              size: 24,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            _getActivityName(activity),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                              color: isSelected 
+                                ? ColorConstants.primary
+                                : ColorConstants.textPrimary,
+                              fontSize: 12,
+                            ),
+                          ),
+                          if (isSelected)
+                            const Padding(
+                              padding: EdgeInsets.only(top: 4),
+                              child: Icon(
+                                Icons.check_circle,
+                                color: ColorConstants.primary,
+                                size: 16,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 12),
+              if (_selectedActivity == MaintenanceActivity.other)
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Specify other maintenance activity...',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: ColorConstants.primary, width: 2),
+                    ),
+                    prefixIcon: const Icon(Icons.edit, color: ColorConstants.primary),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
