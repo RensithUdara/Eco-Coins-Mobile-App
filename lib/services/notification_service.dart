@@ -37,7 +37,8 @@ class NotificationService {
     required DateTime scheduledDate,
     required String maintenanceType,
   }) async {
-    print('Mock scheduled notification for $treeSpecies: $maintenanceType on ${scheduledDate.toString()}');
+    print(
+        'Mock scheduled notification for $treeSpecies: $maintenanceType on ${scheduledDate.toString()}');
     // Real implementation will be added later
   }
 
@@ -50,15 +51,15 @@ class NotificationService {
   }) async {
     // Mock implementation just logs the scheduled notifications
     print('Mock maintenance reminders for $treeSpecies scheduled');
-    
+
     // 7 days before
     final sevenDaysBefore = maintenanceDate.subtract(const Duration(days: 7));
     print('Reminder 1: $maintenanceType on $sevenDaysBefore');
-    
+
     // 3 days before
     final threeDaysBefore = maintenanceDate.subtract(const Duration(days: 3));
     print('Reminder 2: $maintenanceType on $threeDaysBefore');
-    
+
     // 1 day before
     final oneDayBefore = maintenanceDate.subtract(const Duration(days: 1));
     print('Reminder 3: $maintenanceType on $oneDayBefore');
