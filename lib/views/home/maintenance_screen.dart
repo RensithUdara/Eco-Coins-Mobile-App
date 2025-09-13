@@ -205,13 +205,52 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     return Scaffold(
       backgroundColor: ColorConstants.background,
       appBar: AppBar(
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [ColorConstants.primaryDark, ColorConstants.primary],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+        ),
         title: const Row(
           children: [
-            Icon(Icons.eco),
+            Icon(Icons.eco, color: Colors.white),
             SizedBox(width: 8),
-            Text('Tree Maintenance'),
+            Text(
+              'Tree Maintenance',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
+        actions: [
+          Tooltip(
+            message: 'Maintenance History',
+            child: IconButton(
+              icon: const Icon(Icons.history, color: Colors.white),
+              onPressed: () {
+                // Show maintenance history
+                // You can implement this functionality later
+                Helpers.showSnackBar(context, 'Maintenance history coming soon!');
+              },
+            ),
+          ),
+          Tooltip(
+            message: 'Help',
+            child: IconButton(
+              icon: const Icon(Icons.help_outline, color: Colors.white),
+              onPressed: () {
+                // Show help information
+                _showHelpDialog(context);
+              },
+            ),
+          ),
+        ],
       ),
       body: _userTrees.isEmpty
           ? _buildNoTreesAvailable()
