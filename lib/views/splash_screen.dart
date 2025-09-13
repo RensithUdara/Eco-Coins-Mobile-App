@@ -43,9 +43,10 @@ class _SplashScreenState extends State<SplashScreen>
     Timer(const Duration(seconds: 3), () async {
       // Try to auto-login with saved credentials
       final bool autoLoginSuccess = await authController.tryAutoLogin();
-      
+
       if (mounted) {
-        if (autoLoginSuccess || authController.state == AuthState.authenticated) {
+        if (autoLoginSuccess ||
+            authController.state == AuthState.authenticated) {
           Navigator.pushReplacementNamed(context, AppConstants.dashboardRoute);
         } else {
           Navigator.pushReplacementNamed(context, AppConstants.loginRoute);
