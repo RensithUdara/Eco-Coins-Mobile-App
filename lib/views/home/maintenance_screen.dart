@@ -573,18 +573,12 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   /// Build submit button
   Widget _buildSubmitButton() {
-    return Consumer<MaintenanceController>(
-      builder: (context, maintenanceController, _) {
-        final bool isLoading =
-            maintenanceController.state == MaintenanceOperationState.loading;
-        return CustomButton(
-          text: 'Record Maintenance',
-          onPressed: _handleSubmit,
-          type: ButtonType.primary,
-          isLoading: isLoading,
-          icon: Icons.check_circle,
-        );
-      },
+    return CustomButton(
+      text: 'Record Maintenance',
+      onPressed: _handleSubmit,
+      type: ButtonType.primary,
+      isLoading: false,
+      icon: Icons.check_circle,
     );
   }
 }
