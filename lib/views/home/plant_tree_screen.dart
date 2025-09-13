@@ -143,9 +143,10 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorConstants.background,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: ColorConstants.primary,
+        backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         title: Row(
           children: [
@@ -163,6 +164,13 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
+                shadows: [
+                  Shadow(
+                    offset: Offset(0, 1),
+                    blurRadius: 3,
+                    color: Color.fromRGBO(0, 0, 0, 0.3),
+                  ),
+                ],
               ),
             ),
           ],
@@ -170,52 +178,96 @@ class _PlantTreeScreenState extends State<PlantTreeScreen> {
       ),
       body: Stack(
         children: [
-          // Green curved background at top
+          // Animated gradient background at top
           Container(
-            height: 50,
+            height: 180,
             width: double.infinity,
             decoration: const BoxDecoration(
-              color: ColorConstants.primary,
+              gradient: LinearGradient(
+                colors: [
+                  ColorConstants.primaryDark,
+                  ColorConstants.primary,
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30),
               ),
             ),
+            child: Stack(
+              children: [
+                // Decorative circles
+                Positioned(
+                  top: -20,
+                  right: -20,
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withOpacity(0.1),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 20,
+                  left: -30,
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withOpacity(0.1),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
+
           // Content
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Impact Banner
-                    _buildImpactBanner(),
-                    const SizedBox(height: 20),
+          SafeArea(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Impact Banner
+                      _buildImpactBanner(),
+                      const SizedBox(height: 24),
 
-                    // Section Title
-                    _buildSectionTitle('Tree Details', Icons.eco),
-                    const SizedBox(height: 10),
-                    _buildTreeInfoCard(),
+                      // Tree Details Section
+                      _buildSectionTitle('Tree Details', Icons.eco),
+                      const SizedBox(height: 12),
+                      _buildTreeInfoCard(),
 
-                    const SizedBox(height: 20),
-                    _buildSectionTitle('Tree Photo', Icons.photo_camera),
-                    const SizedBox(height: 10),
-                    _buildPhotoUploadCard(),
+                      const SizedBox(height: 24),
 
-                    const SizedBox(height: 20),
-                    _buildSectionTitle('Guidelines & Terms', Icons.gavel),
-                    const SizedBox(height: 10),
-                    _buildImportantGuidelines(),
-                    const SizedBox(height: 16),
-                    _buildTermsAndConditions(),
+                      // Tree Photo Section
+                      _buildSectionTitle('Tree Photo', Icons.photo_camera),
+                      const SizedBox(height: 12),
+                      _buildPhotoUploadCard(),
 
-                    const SizedBox(height: 30),
-                    _buildSubmitButton(),
-                    const SizedBox(height: 20),
-                  ],
+                      const SizedBox(height: 24),
+
+                      // Guidelines Section
+                      _buildSectionTitle('Guidelines & Terms', Icons.gavel),
+                      const SizedBox(height: 12),
+                      _buildImportantGuidelines(),
+                      const SizedBox(height: 16),
+                      _buildTermsAndConditions(),
+
+                      const SizedBox(height: 36),
+                      _buildSubmitButton(),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
                 ),
               ),
             ),
