@@ -185,17 +185,21 @@ class TreeCard extends StatelessWidget {
   /// Build tree image widget
   Widget _buildTreeImage() {
     return Container(
-      width: 80,
-      height: 80,
+      width: 85,
+      height: 85,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: ColorConstants.primary.withOpacity(0.2),
-          width: 1,
-        ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: _getTreeImage(),
       ),
     );
@@ -232,16 +236,23 @@ class TreeCard extends StatelessWidget {
 
   /// Build update button widget
   Widget _buildUpdateButton() {
-    return ElevatedButton(
+    return ElevatedButton.icon(
       onPressed: onUpdate,
+      icon: const Icon(Icons.update, size: 18),
+      label: const Text('Update'),
       style: ElevatedButton.styleFrom(
         backgroundColor: statusColor,
         foregroundColor: _getButtonTextColor(),
+        elevation: 0,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        textStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
         ),
       ),
-      child: const Text('Update'),
     );
   }
 
@@ -256,24 +267,36 @@ class TreeCard extends StatelessWidget {
 
   /// Build coins row widget
   Widget _buildCoinsRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        const Icon(
-          Icons.monetization_on,
-          color: ColorConstants.secondary,
-          size: 20,
-        ),
-        const SizedBox(width: 4),
-        Text(
-          '${tree.coinsEarned}',
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: ColorConstants.textPrimary,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: ColorConstants.secondary.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            AssetPaths.coinIcon,
+            height: 18,
+            width: 18,
+            errorBuilder: (context, error, stackTrace) => const Icon(
+              Icons.monetization_on,
+              color: ColorConstants.secondary,
+              size: 18,
+            ),
           ),
-        ),
-      ],
+          const SizedBox(width: 6),
+          Text(
+            '${tree.coinsEarned}',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: ColorConstants.textPrimary,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
