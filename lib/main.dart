@@ -11,6 +11,7 @@ import 'package:eco_coins_mobile_app/views/auth/signup_screen.dart';
 import 'package:eco_coins_mobile_app/views/home/dashboard_screen.dart';
 import 'package:eco_coins_mobile_app/views/home/maintenance_screen.dart';
 import 'package:eco_coins_mobile_app/views/home/plant_tree_screen.dart';
+import 'package:eco_coins_mobile_app/views/profile/profile_screen.dart';
 import 'package:eco_coins_mobile_app/views/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => const SignupScreen(),
         '/dashboard': (context) => const DashboardScreen(),
         '/plant-tree': (context) => const PlantTreeScreen(),
+        '/profile': (context) => const ProfileScreen(),
       },
       // Handle routes that require arguments
       onGenerateRoute: (settings) {
