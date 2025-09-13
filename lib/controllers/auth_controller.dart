@@ -14,7 +14,7 @@ enum AuthState {
 /// Controller class for handling authentication
 class AuthController with ChangeNotifier {
   final DatabaseService _databaseService;
-  
+
   AuthController(this._databaseService);
 
   AuthState _state = AuthState.initial;
@@ -152,7 +152,7 @@ class AuthController with ChangeNotifier {
     }
     return false;
   }
-  
+
   /// Try to auto login based on stored credentials
   Future<bool> tryAutoLogin() async {
     try {
