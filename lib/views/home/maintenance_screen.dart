@@ -721,7 +721,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
-          side: BorderSide(color: ColorConstants.primaryLight.withOpacity(0.2), width: 1),
+          side: BorderSide(
+              color: ColorConstants.primaryLight.withOpacity(0.2), width: 1),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -782,14 +783,14 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                     borderRadius: BorderRadius.circular(12),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: isSelected 
-                          ? ColorConstants.primary.withOpacity(0.15)
-                          : Colors.grey[100],
+                        color: isSelected
+                            ? ColorConstants.primary.withOpacity(0.15)
+                            : Colors.grey[100],
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: isSelected 
-                            ? ColorConstants.primary
-                            : Colors.grey[300]!,
+                          color: isSelected
+                              ? ColorConstants.primary
+                              : Colors.grey[300]!,
                           width: isSelected ? 2 : 1,
                         ),
                       ),
@@ -799,14 +800,17 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: isSelected 
-                                ? ColorConstants.primary 
-                                : ColorConstants.primaryLight.withOpacity(0.1),
+                              color: isSelected
+                                  ? ColorConstants.primary
+                                  : ColorConstants.primaryLight
+                                      .withOpacity(0.1),
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
                               _getActivityIcon(activity),
-                              color: isSelected ? Colors.white : ColorConstants.primary,
+                              color: isSelected
+                                  ? Colors.white
+                                  : ColorConstants.primary,
                               size: 24,
                             ),
                           ),
@@ -815,10 +819,12 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                             _getActivityName(activity),
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                              color: isSelected 
-                                ? ColorConstants.primary
-                                : ColorConstants.textPrimary,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              color: isSelected
+                                  ? ColorConstants.primary
+                                  : ColorConstants.textPrimary,
                               fontSize: 12,
                             ),
                           ),
@@ -850,9 +856,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: ColorConstants.primary, width: 2),
+                      borderSide: const BorderSide(
+                          color: ColorConstants.primary, width: 2),
                     ),
-                    prefixIcon: const Icon(Icons.edit, color: ColorConstants.primary),
+                    prefixIcon:
+                        const Icon(Icons.edit, color: ColorConstants.primary),
                   ),
                 ),
             ],
