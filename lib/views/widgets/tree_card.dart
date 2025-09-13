@@ -26,90 +26,157 @@ class TreeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            spreadRadius: 0,
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-      elevation: 2,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16.0),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  _buildTreeImage(),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(18.0),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    // Tree image with status indicator
+                    Stack(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                tree.species,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                        _buildTreeImage(),
+                        // Status indicator
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              color: statusColor,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 2,
                               ),
                             ),
-                            Text(
-                              tree.id != null
-                                  ? 'ID: ${tree.id.toString().padLeft(3, '0')}'
-                                  : '',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: ColorConstants.textSecondary,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          Helpers.formatTreeAge(tree.ageInDays),
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          statusText,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: statusColor,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-              if (showUpdateButton) ...[
-                const SizedBox(height: 12),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // ID badge
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: ColorConstants.primary.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              tree.id != null ? 'ID: ${tree.id.toString().padLeft(3, '0')}' : '',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: ColorConstants.primary,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          // Species name
+                          Text(
+                            tree.species,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: ColorConstants.textPrimary,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 4),
+                          // Age and Status
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.calendar_today,
+                                size: 14,
+                                color: ColorConstants.textSecondary,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                Helpers.formatTreeAge(tree.ageInDays),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: ColorConstants.textSecondary,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Icon(
+                                _getStatusIcon(),
+                                size: 14,
+                                color: statusColor,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                statusText,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: statusColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                // Divider
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12.0),
+                  child: Divider(height: 1),
+                ),
+                // Bottom row with coins and update button
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildUpdateButton(),
+                    _buildCoinsRow(),
+                    if (showUpdateButton) _buildUpdateButton(),
                   ],
                 ),
               ],
-              const SizedBox(height: 8),
-              _buildCoinsRow(),
-            ],
+            ),
           ),
         ),
       ),
     );
+  }
+  
+  /// Get status icon based on maintenance status
+  IconData _getStatusIcon() {
+    if (statusColor == ColorConstants.success) {
+      return Icons.check_circle;
+    } else if (statusColor == ColorConstants.warning) {
+      return Icons.warning;
+    } else {
+      return Icons.error;
+    }
   }
 
   /// Build tree image widget
