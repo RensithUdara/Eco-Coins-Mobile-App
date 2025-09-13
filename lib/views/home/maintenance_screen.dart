@@ -1540,7 +1540,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     if (_selectedImage == null) {
       return _buildImagePlaceholder();
     }
-    
+
     return Stack(
       children: [
         // Image container with enhanced border and shadow
