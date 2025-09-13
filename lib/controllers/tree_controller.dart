@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:eco_coins_mobile_app/models/tree_model.dart';
-import 'package:eco_coins_mobile_app/models/maintenance_model.dart';
+
 import 'package:eco_coins_mobile_app/models/eco_coin_model.dart';
+import 'package:eco_coins_mobile_app/models/maintenance_model.dart';
+import 'package:eco_coins_mobile_app/models/tree_model.dart';
 import 'package:eco_coins_mobile_app/services/database_service.dart';
 import 'package:eco_coins_mobile_app/services/image_service.dart';
 import 'package:eco_coins_mobile_app/services/notification_service.dart';
-import 'package:eco_coins_mobile_app/utils/constants.dart';
 import 'package:eco_coins_mobile_app/utils/helpers.dart';
+import 'package:flutter/material.dart';
 
 /// State for tree operations
 enum TreeOperationState {
@@ -24,7 +24,7 @@ class TreeController with ChangeNotifier {
   final NotificationService _notificationService = NotificationService();
 
   List<Tree> _trees = [];
-  Map<int, List<Maintenance>> _maintenanceRecords = {};
+  final Map<int, List<Maintenance>> _maintenanceRecords = {};
   TreeOperationState _state = TreeOperationState.initial;
   String? _errorMessage;
 
@@ -50,7 +50,8 @@ class TreeController with ChangeNotifier {
       // Get maintenance records for each tree
       for (final Tree tree in _trees) {
         if (tree.id != null) {
-          _maintenanceRecords[tree.id!] = await _databaseService.getMaintenanceByTreeId(tree.id!);
+          _maintenanceRecords[tree.id!] =
+              await _databaseService.getMaintenanceByTreeId(tree.id!);
         }
       }
 
@@ -76,7 +77,8 @@ class TreeController with ChangeNotifier {
       notifyListeners();
 
       // Save image to app directory
-      final String photoPath = await _imageService.saveImageToAppDirectory(photoFile, 'tree');
+      final String photoPath =
+          await _imageService.saveImageToAppDirectory(photoFile, 'tree');
 
       // Calculate coins based on tree species
       final int coinsEarned = Helpers.getTreeBaseCoins(species);
@@ -155,7 +157,8 @@ class TreeController with ChangeNotifier {
       );
 
       // Save maintenance record
-      final int maintenanceId = await _databaseService.createMaintenance(maintenance);
+      final int maintenanceId =
+          await _databaseService.createMaintenance(maintenance);
 
       // Create transaction record
       final EcoCoinTransaction transaction = EcoCoinTransaction(
@@ -171,7 +174,8 @@ class TreeController with ChangeNotifier {
       await _databaseService.createTransaction(transaction);
 
       // Update user's coin balance
-      await _databaseService.updateUserCoinsBalance(tree.userId, updateType.coinsEarned);
+      await _databaseService.updateUserCoinsBalance(
+          tree.userId, updateType.coinsEarned);
 
       // Update tree coins earned
       final Tree updatedTree = tree.copyWith(
@@ -186,7 +190,8 @@ class TreeController with ChangeNotifier {
       }
 
       // Add maintenance record to list
-      final Maintenance newMaintenance = maintenance.copyWith(id: maintenanceId);
+      final Maintenance newMaintenance =
+          maintenance.copyWith(id: maintenanceId);
       if (_maintenanceRecords.containsKey(treeId)) {
         _maintenanceRecords[treeId]!.add(newMaintenance);
       } else {
@@ -214,7 +219,8 @@ class TreeController with ChangeNotifier {
           orElse: () => null,
         );
     if (tree != null) {
-      final List<Maintenance> maintenanceList = _maintenanceRecords[treeId] ?? [];
+      final List<Maintenance> maintenanceList =
+          _maintenanceRecords[treeId] ?? [];
       return Helpers.getMaintenanceStatus(tree, maintenanceList);
     }
     return MaintenanceStatus.upToDate;
@@ -227,7 +233,8 @@ class TreeController with ChangeNotifier {
           orElse: () => null,
         );
     if (tree != null) {
-      final List<Maintenance> maintenanceList = _maintenanceRecords[treeId] ?? [];
+      final List<Maintenance> maintenanceList =
+          _maintenanceRecords[treeId] ?? [];
       return Helpers.calculateNextMaintenanceDate(tree, maintenanceList);
     }
     return null;
@@ -258,9 +265,12 @@ class TreeController with ChangeNotifier {
   /// Schedule maintenance notifications for a tree
   void _scheduleMaintenanceNotifications(Tree tree) {
     if (tree.id != null) {
-      final List<Maintenance> maintenanceList = _maintenanceRecords[tree.id!] ?? [];
-      final DateTime? nextMaintenanceDate = Helpers.calculateNextMaintenanceDate(tree, maintenanceList);
-      final MaintenanceUpdateType? nextUpdateType = getNextMaintenanceType(tree.id!);
+      final List<Maintenance> maintenanceList =
+          _maintenanceRecords[tree.id!] ?? [];
+      final DateTime? nextMaintenanceDate =
+          Helpers.calculateNextMaintenanceDate(tree, maintenanceList);
+      final MaintenanceUpdateType? nextUpdateType =
+          getNextMaintenanceType(tree.id!);
 
       if (nextMaintenanceDate != null && nextUpdateType != null) {
         _notificationService.scheduleMaintenanceReminders(
