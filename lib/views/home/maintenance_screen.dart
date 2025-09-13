@@ -1554,6 +1554,9 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
       return _buildImagePlaceholder();
     }
 
+    // Safely capture the image file to avoid null issues later
+    final File imageFile = _selectedImage!;
+
     return Stack(
       children: [
         // Image container with enhanced border and shadow
