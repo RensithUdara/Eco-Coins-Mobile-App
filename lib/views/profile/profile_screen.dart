@@ -149,7 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               // Header gradient background
               Container(
-                height: 260,
+                height: 300, // Increased height to match screenshot
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -221,13 +221,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               tag: 'profile-avatar',
                               child: CircleAvatar(
                                 radius: 60,
-                                backgroundColor: ColorConstants.secondaryLight,
+                                backgroundColor: const Color(0xFFFFD700), // Golden yellow to match screenshot
                                 child: Text(
                                   _getInitials(user.name),
                                   style: const TextStyle(
-                                    fontSize: 40,
+                                    fontSize: 50, // Larger font size to match screenshot
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
+                                    letterSpacing: 1.5, // Add letter spacing for better readability
                                   ),
                                 ),
                               ),
@@ -258,42 +259,78 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildProfileInfo(User user) {
     return Column(
       children: [
-        // User name with animated fade-in
-        TweenAnimationBuilder<double>(
-          tween: Tween<double>(begin: 0, end: 1),
-          duration: const Duration(milliseconds: 500),
-          builder: (context, value, child) {
-            return Opacity(
-              opacity: value,
-              child: child,
-            );
-          },
-          child: Text(
-            user.name,
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+        // Container with semi-transparent background for better text visibility
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                spreadRadius: 1,
+              ),
+            ],
           ),
-        ),
-        const SizedBox(height: 8),
-        
-        // User email with animated fade-in
-        TweenAnimationBuilder<double>(
-          tween: Tween<double>(begin: 0, end: 1),
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeOut,
-          builder: (context, value, child) {
-            return Opacity(
-              opacity: value,
-              child: child,
-            );
-          },
-          child: Text(
-            user.email,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.white.withOpacity(0.9),
+          child: Column(
+            children: [
+              // User name with animated fade-in
+              TweenAnimationBuilder<double>(
+                tween: Tween<double>(begin: 0, end: 1),
+                duration: const Duration(milliseconds: 500),
+                builder: (context, value, child) {
+                  return Opacity(
+                    opacity: value,
+                    child: child,
+                  );
+                },
+                child: Text(
+                  user.name,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        shadows: const [
+                          Shadow(
+                            offset: Offset(0, 1),
+                            blurRadius: 3,
+                            color: Color.fromRGBO(0, 0, 0, 0.5),
+                          ),
+                        ],
+                      ),
+                  textAlign: TextAlign.center,
                 ),
+              ),
+              const SizedBox(height: 8),
+              
+              // User email with animated fade-in
+              TweenAnimationBuilder<double>(
+                tween: Tween<double>(begin: 0, end: 1),
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeOut,
+                builder: (context, value, child) {
+                  return Opacity(
+                    opacity: value,
+                    child: child,
+                  );
+                },
+                child: Text(
+                  user.email,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        shadows: const [
+                          Shadow(
+                            offset: Offset(0, 1),
+                            blurRadius: 2,
+                            color: Color.fromRGBO(0, 0, 0, 0.5),
+                          ),
+                        ],
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 40),
