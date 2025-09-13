@@ -1,7 +1,7 @@
+import 'package:eco_coins_mobile_app/models/maintenance_model.dart';
+import 'package:eco_coins_mobile_app/models/tree_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:eco_coins_mobile_app/models/tree_model.dart';
-import 'package:eco_coins_mobile_app/models/maintenance_model.dart';
 
 /// Helper functions used throughout the app
 class Helpers {
@@ -21,44 +21,51 @@ class Helpers {
   }
 
   /// Calculate the next maintenance date for a tree based on its age
-  static DateTime? calculateNextMaintenanceDate(Tree tree, List<Maintenance> maintenanceHistory) {
+  static DateTime? calculateNextMaintenanceDate(
+      Tree tree, List<Maintenance> maintenanceHistory) {
     final int treeAgeDays = tree.ageInDays;
-    
+
     // If tree is less than a month old, return 1-month update date
     if (treeAgeDays < MaintenanceUpdateType.oneMonth.days) {
-      return tree.plantedDate.add(Duration(days: MaintenanceUpdateType.oneMonth.days));
+      return tree.plantedDate
+          .add(Duration(days: MaintenanceUpdateType.oneMonth.days));
     }
-    
+
     // If tree is less than three months old, return 3-month update date
     if (treeAgeDays < MaintenanceUpdateType.threeMonths.days) {
-      return tree.plantedDate.add(Duration(days: MaintenanceUpdateType.threeMonths.days));
+      return tree.plantedDate
+          .add(Duration(days: MaintenanceUpdateType.threeMonths.days));
     }
-    
+
     // If tree is less than six months old, return 6-month update date
     if (treeAgeDays < MaintenanceUpdateType.sixMonths.days) {
-      return tree.plantedDate.add(Duration(days: MaintenanceUpdateType.sixMonths.days));
+      return tree.plantedDate
+          .add(Duration(days: MaintenanceUpdateType.sixMonths.days));
     }
-    
+
     // If tree is less than a year old, return 1-year update date
     if (treeAgeDays < MaintenanceUpdateType.oneYear.days) {
-      return tree.plantedDate.add(Duration(days: MaintenanceUpdateType.oneYear.days));
+      return tree.plantedDate
+          .add(Duration(days: MaintenanceUpdateType.oneYear.days));
     }
-    
+
     // For trees older than a year, calculate the next yearly update date
     final int yearsSincePlanting = (treeAgeDays / 365).floor();
     return tree.plantedDate.add(Duration(days: (yearsSincePlanting + 1) * 365));
   }
 
   /// Get the maintenance status for a tree
-  static MaintenanceStatus getMaintenanceStatus(Tree tree, List<Maintenance> maintenanceHistory) {
-    final DateTime? nextDate = calculateNextMaintenanceDate(tree, maintenanceHistory);
-    
+  static MaintenanceStatus getMaintenanceStatus(
+      Tree tree, List<Maintenance> maintenanceHistory) {
+    final DateTime? nextDate =
+        calculateNextMaintenanceDate(tree, maintenanceHistory);
+
     if (nextDate == null) {
       return MaintenanceStatus.upToDate;
     }
-    
+
     final int daysUntilNextUpdate = nextDate.difference(DateTime.now()).inDays;
-    
+
     if (daysUntilNextUpdate < 0) {
       return MaintenanceStatus.overdue;
     } else if (daysUntilNextUpdate <= 7) {
@@ -98,7 +105,8 @@ class Helpers {
   }
 
   /// Show a snackbar with a message
-  static void showSnackBar(BuildContext context, String message, {bool isError = false}) {
+  static void showSnackBar(BuildContext context, String message,
+      {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
