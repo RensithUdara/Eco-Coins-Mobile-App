@@ -1263,7 +1263,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 crossFadeState: _selectedImage != null
                     ? CrossFadeState.showFirst
                     : CrossFadeState.showSecond,
-                firstChild: _buildSelectedImage(),
+                firstChild: _buildEnhancedImagePreview(),
                 secondChild: _buildImagePlaceholder(),
               ),
               const SizedBox(height: 16),
@@ -1490,12 +1490,13 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     );
   }
 
-  /// Build selected image preview
-  Widget _buildSelectedImage() {
+  /// Build enhanced image preview
+  Widget _buildEnhancedImagePreview() {
     return Stack(
       children: [
         // Image container with enhanced border and shadow
         Container(
+          margin: const EdgeInsets.only(bottom: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12.0),
             boxShadow: [
@@ -1506,13 +1507,65 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
               ),
             ],
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12.0),
-            child: Image.file(
-              _selectedImage!,
-              height: 220,
-              width: double.infinity,
-              fit: BoxFit.cover,
+          child: Hero(
+            tag: 'maintenance_photo',
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  // Show full-screen image preview dialog
+                  showDialog(
+                    context: context,
+                    builder: (context) => Dialog(
+                      insetPadding: const EdgeInsets.all(16),
+                      backgroundColor: Colors.transparent,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AppBar(
+                            backgroundColor: Colors.black.withOpacity(0.7),
+                            elevation: 0,
+                            leading: IconButton(
+                              icon: const Icon(Icons.close, color: Colors.white),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                            title: const Text('Maintenance Photo', style: TextStyle(color: Colors.white)),
+                            actions: [
+                              IconButton(
+                                icon: const Icon(Icons.share, color: Colors.white),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Helpers.showSnackBar(context, 'Share feature coming soon!');
+                                },
+                              ),
+                            ],
+                          ),
+                          Flexible(
+                            child: InteractiveViewer(
+                              minScale: 0.5,
+                              maxScale: 4.0,
+                              child: Image.file(
+                                _selectedImage!,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                borderRadius: BorderRadius.circular(12.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: Image.file(
+                    _selectedImage!,
+                    height: 220,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
@@ -1522,15 +1575,53 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
           right: 10,
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withOpacity(0.9),
               shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 4,
+                  spreadRadius: 1,
+                  offset: const Offset(0, 1),
+                ),
+              ],
             ),
             child: IconButton(
-              icon: const Icon(Icons.delete, color: ColorConstants.error),
+              icon: const Icon(Icons.delete_outline, color: ColorConstants.error),
               onPressed: () {
-                setState(() {
-                  _selectedImage = null;
-                });
+                // Add a confirmation dialog for better UX
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Row(
+                      children: [
+                        Icon(Icons.warning_amber_rounded, color: ColorConstants.warning),
+                        SizedBox(width: 8),
+                        Text('Remove Photo?'),
+                      ],
+                    ),
+                    content: const Text('Are you sure you want to remove this photo?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Cancel'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _selectedImage = null;
+                          });
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorConstants.error,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: const Text('Remove'),
+                      ),
+                    ],
+                  ),
+                );
               },
               tooltip: 'Remove Photo',
               iconSize: 24,
@@ -1543,13 +1634,21 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         ),
         // Success indicator
         Positioned(
-          bottom: 10,
+          bottom: 16,
           right: 10,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               color: ColorConstants.success.withOpacity(0.9),
               borderRadius: BorderRadius.circular(30),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 4,
+                  spreadRadius: 1,
+                  offset: const Offset(0, 1),
+                ),
+              ],
             ),
             child: const Row(
               mainAxisSize: MainAxisSize.min,
@@ -1557,7 +1656,34 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 Icon(Icons.check_circle, color: Colors.white, size: 16),
                 SizedBox(width: 4),
                 Text(
-                  'Ready',
+                  'Photo Verified',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        // View full screen indicator
+        Positioned(
+          bottom: 16,
+          left: 10,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.6),
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.fullscreen, color: Colors.white, size: 16),
+                SizedBox(width: 4),
+                Text(
+                  'Tap to View',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
